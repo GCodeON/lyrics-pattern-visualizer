@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { FaHome, FaMusic } from "react-icons/fa";
 import './sidebar.scss';
 
@@ -35,14 +35,14 @@ class Sidebar extends React.Component  {
     render(){
         return (
             <div className="sidebar">
-                <div class="nav-title">
+                <div className="nav-title">
                     <p>Navigate</p>
                 </div>
-                <div class="search">
+                <div className="search">
                     <input value={this.state.searchQuery} onChange={this.changeHandler}></input>
                     <button onClick={this.searchHandler}>Search</button>
                 </div>
-                <nav class="links">
+                <nav className="links">
                     <li>
                         <FaHome/>
                          <Link to="/">Home</Link>

@@ -11,7 +11,7 @@ exports.search = (req, res, next) => {
 }
 
 exports.usersTop = (req, res, next) => {
-    Spotify.api(`/me/top/artist`)
+    Spotify.api(`/me/top/artists`)
     .then((data) => {
         // console.log('response', data);
         res.status(200).json(data); 
