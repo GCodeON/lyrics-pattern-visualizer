@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 //Pages
 import Home from './pages/home';
+import Artists from './pages/artists';
 import Songs from './pages/songs';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Dashboard>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route path="/artists" component={Artists} />
           <Route path="/songs" component={Songs} />
       </Switch>
       </Dashboard>

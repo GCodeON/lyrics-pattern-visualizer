@@ -1,4 +1,3 @@
-const e = require('express');
 const Spotify = require('../utils/SpotifyAPI');
 
 
@@ -10,13 +9,21 @@ exports.search = (req, res, next) => {
     })
 }
 
-exports.usersTop = (req, res, next) => {
+exports.topArtists = (req, res, next) => {
     Spotify.api(`/me/top/artists`)
     .then((data) => {
         // console.log('response', data);
         res.status(200).json(data); 
     })
 }
+exports.topTracks = (req, res, next) => {
+    Spotify.api(`/me/top/tracks`)
+    .then((data) => {
+        // console.log('response', data);
+        res.status(200).json(data); 
+    })
+}
+
 
 
 exports.currentlyPlaying = (req, res, next) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import { FaHome, FaMusic } from "react-icons/fa";
+import { FaHome, FaMusic, FaUserCircle } from "react-icons/fa";
 import './sidebar.scss';
 
 
@@ -46,6 +46,10 @@ class Sidebar extends React.Component  {
                     <li>
                         <FaHome/>
                          <Link to="/">Home</Link>
+                    </li>
+                    <li>
+                        <FaUserCircle />
+                        <Link to="/artists">Artists</Link> 
                     </li>
                     <li>
                         <FaMusic/>

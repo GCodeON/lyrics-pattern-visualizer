@@ -1,14 +1,14 @@
 import React from "react";
 import axios from 'axios';
 
-import './home.scss';
+import './artists.scss';
 
-class Home extends React.Component {
+class Artists extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            artists: null
+            artists : null
         }
     }
 
@@ -42,4 +42,4 @@ class Home extends React.Component {
     }
 }
 
-export default Home;
+export default Artists;
