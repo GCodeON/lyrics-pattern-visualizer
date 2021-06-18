@@ -1,5 +1,6 @@
 const Genius = require('../utils/GeniusAPI');
-
+const fetch = require('node-fetch');
+const { genius } = require('.');
 
 exports.search = (req, res, next) => {
     Genius.api(`/search?q=${req.query.q}`)
@@ -8,6 +9,18 @@ exports.search = (req, res, next) => {
         res.status(200).json(data); 
     })
 }
+
+exports.song = (req, res, next) => {
+    Genius.api(`/songs/${req.query.id}`)
+    .then((data) => {
+
+        Genius.getSongLyrics(data.response.song.url)
+        .then((lyrics) => {
+            res.status(200).json(lyrics); 
+        })
+    })
+}
+
 
 // exports.topArtists = (req, res, next) => {
 //     Spotify.api(`/me/top/artists`)
