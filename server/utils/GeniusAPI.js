@@ -1,11 +1,10 @@
-const querystring = require('querystring');
-const fetch = require('node-fetch');
+const fetch           = require('node-fetch');
+const cheerio         = require('cheerio');
+const puppeteerExtra  = require('puppeteer-extra');
+const puppeteer       = require('puppeteer');
+const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
 
-// const axios = require('axios');
-const cheerio = require('cheerio');
-const puppeteer = require('puppeteer');
-const iPhone = puppeteer.devices['iPhone 6'];
-
+puppeteerExtra.use(AdblockerPlugin());
 
 const basic = Buffer.from(`${process.env.GENIUS_CLIENT_ID}:${process.env.GENIUS_CLIENT_SECRET}`).toString('base64');
 const API = 'https://api.genius.com';
@@ -39,10 +38,10 @@ const connect = async (endpoint) => {
 
 const scrapeLyrics = async (geniusUrl) => {
 
-  const browser = await puppeteer.launch();
+  const browser = await puppeteerExtra.launch();
   const page = await browser.newPage();
 
-  await page.emulate(iPhone);
+  await page.emulate(puppeteer.devices['iPhone 6']);
   await page.goto(geniusUrl);
 
   const content = await page.content();
@@ -59,6 +58,6 @@ exports.api = async (endpoint)  => {
   return response.json();
 }
 
-exports.getSongLyrics = async (url) => {
+exports.getLyrics = async (url) => {
   return response = await scrapeLyrics(url);
 }

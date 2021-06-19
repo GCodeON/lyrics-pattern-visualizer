@@ -14,12 +14,12 @@ exports.song = (req, res, next) => {
     Genius.api(`/songs/${req.query.id}`)
     .then((data) => {
 
-        Genius.getSongLyrics(data.response.song.url)
+        Genius.getLyrics(data.response.song.url)
         .then((lyrics) => {
             res.status(200).json(lyrics); 
         })
         .catch(error => {
-           
+            res.status(400).json(error); 
         })
     })
 }

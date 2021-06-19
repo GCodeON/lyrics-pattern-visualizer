@@ -12,3 +12,8 @@ body {
     padding          : 0;
     color            : $primary;
 }
+
+.page {
+    max-height : 100vh;
+    overflow-y : scroll;
+}

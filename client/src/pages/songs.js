@@ -1,15 +1,15 @@
 import React from "react";
 import axios from 'axios';
 
-import './artists.scss';
+import './songs.scss';
 
 class Songs extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            tracks        : null,
-            lyrics        : null
+            tracks : null,
+            lyrics : null
         }
     }
 
