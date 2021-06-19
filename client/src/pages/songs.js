@@ -32,7 +32,7 @@ class Songs extends React.Component {
             
             axios.get(`/api/genius/song?id=${res.data.response.hits[0].result.id}`)
             .then((res) => {
-                console.log("get lyrics", res.data);
+                console.log("get lyrics", res);
                 this.setState({
                     lyrics : res.data
                 })
@@ -62,7 +62,7 @@ class Songs extends React.Component {
         let show;
 
         if(this.state.lyrics) {
-            show = <p>{this.state.lyrics}</p>
+            show = <div dangerouslySetInnerHTML={{ __html: this.state.lyrics.replace(/\n/g, '<br />') }} />
         }
 
         return show;
