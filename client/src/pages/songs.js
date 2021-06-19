@@ -8,8 +8,8 @@ class Songs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tracks : null,
-            searchResults: null
+            tracks        : null,
+            lyrics        : null
         }
     }
 
@@ -20,7 +20,6 @@ class Songs extends React.Component {
         .then((res) => {
             this.setState({
                 tracks : res.data.items
-
             })
             console.log('users top tracks', this.state.tracks);
         })
@@ -30,32 +29,53 @@ class Songs extends React.Component {
         console.log('on click track name', track);
         axios.get(`/api/genius/search?q=${track}`)
         .then((res) => {
-
-            console.log('search lyrics', res);
             
             axios.get(`/api/genius/song?id=${res.data.response.hits[0].result.id}`)
             .then((res) => {
                 console.log("get lyrics", res.data);
+                this.setState({
+                    lyrics : res.data
+                })
+
             })
         })
     }
 
+    trackList() {
 
-    render() {
+        let list;
         if (this.state.tracks) {
-            return (<div className="user-top-track"> {
+            list = 
+            <div className="tracks"> {
                 this.state.tracks.map((track, index) => (
-                    // <div className="track" key={index} style={{ backgroundImage:`url(${artist.images[0].url ? artist.images[0].url : ''})` }}>
-                    //     {/* <h3>{artist.name}</h3> */}
-                    // </div>
                     <p key={index} onClick={() => this.getLyrics(track.name)}>{track.name}</p>
-                ))
-            }
-            </div>)
+                ))}
+            </div>
         }
         else {
-            return <div>loading data</div>
+            list = <div>loading data</div>
         }
+        return list;
+    }
+
+    showLyrics() {
+        let show;
+
+        if(this.state.lyrics) {
+            show = <p>{this.state.lyrics}</p>
+        }
+
+        return show;
+    }
+
+
+    render() {
+
+        return(
+            <div>
+                { this.state.lyrics ? this.showLyrics() : this.trackList()}
+            </div>
+        )
     }
 }
 

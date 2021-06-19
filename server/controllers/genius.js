@@ -18,6 +18,9 @@ exports.song = (req, res, next) => {
         .then((lyrics) => {
             res.status(200).json(lyrics); 
         })
+        .catch(error => {
+           
+        })
     })
 }
 
