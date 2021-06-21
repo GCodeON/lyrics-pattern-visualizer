@@ -1,5 +1,5 @@
-const Genius = require('../utils/GeniusAPI');
-const fetch = require('node-fetch');
+const Genius     = require('../utils/GeniusAPI');
+const fetch      = require('node-fetch');
 const { genius } = require('.');
 
 exports.search = (req, res, next) => {
@@ -23,30 +23,3 @@ exports.song = (req, res, next) => {
         })
     })
 }
-
-
-// exports.topArtists = (req, res, next) => {
-//     Spotify.api(`/me/top/artists`)
-//     .then((data) => {
-//         // console.log('response', data);
-//         res.status(200).json(data); 
-//     })
-// }
-// exports.topTracks = (req, res, next) => {
-//     Spotify.api(`/me/top/tracks`)
-//     .then((data) => {
-//         // console.log('response', data);
-//         res.status(200).json(data); 
-//     })
-// }
-
-
-
-// exports.currentlyPlaying = (req, res, next) => {
-
-//     Spotify.api('/me/player/currently-playing')
-//     .then((data) => {
-//         // console.log('response', data);
-//         res.status(200).json(data); 
-//     })
-// }

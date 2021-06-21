@@ -9,7 +9,8 @@ class Songs extends React.Component {
         super(props);
         this.state = {
             tracks : null,
-            lyrics : null
+            lyrics : null,
+            loading: false
         }
     }
 
@@ -18,23 +19,24 @@ class Songs extends React.Component {
     componentDidMount() {
         axios.get(`/api/spotify/top-tracks`)
         .then((res) => {
-            this.setState({
-                tracks : res.data.items
-            })
+            this.setState({ tracks : res.data.items })
             console.log('users top tracks', this.state.tracks);
         })
     }
 
     getLyrics = (track) => {
-        console.log('on click track name', track);
+        console.log('on click track name', track)
         axios.get(`/api/genius/search?q=${track}`)
         .then((res) => {
             
+            this.setState({ loading : true });
+
             axios.get(`/api/genius/song?id=${res.data.response.hits[0].result.id}`)
             .then((res) => {
                 console.log("get lyrics", res);
                 this.setState({
-                    lyrics : res.data
+                    lyrics : res.data,
+                    loading: false
                 })
 
             })
@@ -42,7 +44,6 @@ class Songs extends React.Component {
     }
 
     trackList() {
-
         let list;
         if (this.state.tracks) {
             list = 
@@ -60,11 +61,9 @@ class Songs extends React.Component {
 
     showLyrics() {
         let show;
-
         if(this.state.lyrics) {
             show = <div dangerouslySetInnerHTML={{ __html: this.state.lyrics.replace(/\n/g, '<br />') }} />
         }
-
         return show;
     }
 
