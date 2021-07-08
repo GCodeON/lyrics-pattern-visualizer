@@ -1,6 +1,9 @@
 import React from "react";
 import axios from 'axios';
 
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css';
+
 import './songs.scss';
 
 class Songs extends React.Component {
@@ -62,17 +65,27 @@ class Songs extends React.Component {
     showLyrics() {
         let show;
         if(this.state.lyrics) {
-            show = <div dangerouslySetInnerHTML={{ __html: this.state.lyrics.replace(/\n/g, '<br />') }} />
+            show = <div>
+                        <div dangerouslySetInnerHTML={{ __html: this.state.lyrics.replace(/\n/g, '<br />') }} /> 
+                    </div>
         }
         return show;
     }
+
 
 
     render() {
 
         return(
             <div>
+                   
                 { this.state.lyrics ? this.showLyrics() : this.trackList()}
+                <SunEditor
+                    setOptions={{
+                        height: 200,
+                        defaultValue: 'test string',
+                        buttonList: [['hiliteColor', 'fontColor']] 
+                    }} />
             </div>
         )
     }
