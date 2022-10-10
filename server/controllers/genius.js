@@ -7,19 +7,24 @@ exports.search = (req, res, next) => {
     .then((data) => {
         // console.log('response', data);
         res.status(200).json(data); 
+    }).catch(error => {
+        res.status(400).json(error); 
     })
 }
 
 exports.song = (req, res, next) => {
     Genius.api(`/songs/${req.query.id}`)
     .then((data) => {
-
-        Genius.getLyrics(data.response.song.url)
-        .then((lyrics) => {
-            res.status(200).json(lyrics); 
-        })
-        .catch(error => {
-            res.status(400).json(error); 
-        })
+        let song = data.response.song;
+        if(song.url) {
+            Genius.getLyrics(`${song.url}?bagon=1`)
+            .then((lyrics) => {
+                console.log('get lyrics', lyrics);
+                res.status(200).json(lyrics); 
+            })
+            .catch(error => {
+                res.status(400).json(error); 
+            })
+        }
     })
 }

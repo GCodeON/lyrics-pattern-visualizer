@@ -19,7 +19,7 @@ const connect = async (endpoint) => {
 };
 
 const scrapeLyrics = async (geniusUrl) => {
-
+  console.log('genius url', geniusUrl);
   const browser = await puppeteerExtra.launch();
   const page = await browser.newPage();
 
@@ -27,10 +27,10 @@ const scrapeLyrics = async (geniusUrl) => {
   await page.goto(geniusUrl);
 
   const content = await page.content();
-
   const $ = cheerio.load(content);
   const lyrics = $('.lyrics').text();
 
+  console.log('scrape content', content, lyrics);
   return lyrics;
 }
 
