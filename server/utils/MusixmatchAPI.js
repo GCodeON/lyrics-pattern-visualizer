@@ -1,34 +1,11 @@
 const querystring = require('querystring');
 const fetch = require('node-fetch');
 
-const basic = Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
-const musixmatchAPI = 'https://api.musixmatch.com/ws/1.1/';
-const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
-
-const getAccessToken = async () => {
-  const response = await fetch(TOKEN_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${basic}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: querystring.stringify({
-      grant_type: 'refresh_token',
-      refresh_token: process.env.SPOTIFY_REFRESH_TOKEN
-    }),
-  });
-
-  return response.json();
-};
+const musixmatch_API_URL = 'https://api.musixmatch.com/ws/1.1/';
+const musixmatch_API_KEY = `&${process.env.MUSIXMATCH_API_KEY}`;
 
 const connect = async (endpoint) => {
-  const { access_token } = await getAccessToken();
-
-  return fetch(`${musixmatchAPI}${endpoint}`, {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
-  });
+  return fetch(`${musixmatch_API_URL}${endpoint}}${musixmatch_API_KEY}`);
 };
 
 exports.api = async (endpoint)  => {
