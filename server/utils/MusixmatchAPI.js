@@ -12,6 +12,5 @@ const connect = async (endpoint) => {
 
 exports.api = async (endpoint)  => {
   const response = await connect(endpoint);
-  console.log('musixmatch api call', response);
   return response.json();
 }

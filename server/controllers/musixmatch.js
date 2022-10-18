@@ -16,6 +16,7 @@ exports.trackLyrics = (req, res, next) => {
     console.log("lyrics query", req.query.q);
     Musixmatch.api(`track.search?q_track=${req.query.q}`)
     .then((data) => {
+        console.log('tracks', data.message.body.track_list);
         let track = data.message.body.track_list[0].track;
         console.log('searched track', track);
         if(track.has_lyrics) {

@@ -40,7 +40,7 @@ class Songs extends React.Component {
             if(res.data) {
 
                 this.setState({
-                    lyrics : res.data,
+                    lyrics : res.data.message.body.lyrics.lyrics_body,
                     loading: false
                 })
             }
@@ -100,12 +100,12 @@ class Songs extends React.Component {
             <div>
                    
                 { this.state.lyrics ? this.showLyrics() : this.trackList()}
-                <SunEditor
+                {/* <SunEditor
                     setOptions={{
                         height: 200,
                         defaultValue: 'test string',
                         buttonList: [['hiliteColor', 'fontColor']] 
-                    }} />
+                    }} /> */}
             </div>
         )
     }
