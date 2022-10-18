@@ -28,19 +28,23 @@ class Songs extends React.Component {
     }
 
     getLyrics = (track) => {
-        console.log('on click track name', track)
 
-        axios.get(`/api/musixmatch/track-lyrics?q=${track}`)
+        let spotifyTrack = track;
+        let trackName = spotifyTrack.name.replace(/&/g, 'and');
+
+        console.log('on click track name', spotifyTrack, trackName)
+
+        axios.get(`/api/musixmatch/track-lyrics?q=${trackName}`)
         .then((res) => {
             
             this.setState({ loading : true });
 
             console.log('musixmatch search', res);
+            let lyrics = res.data.message.body.lyrics
 
-            if(res.data) {
-
+            if(lyrics) {
                 this.setState({
-                    lyrics : res.data.message.body.lyrics.lyrics_body,
+                    lyrics : lyrics.lyrics_body,
                     loading: false
                 })
             }
@@ -72,7 +76,7 @@ class Songs extends React.Component {
             list = 
             <div className="tracks"> {
                 this.state.tracks.map((track, index) => (
-                    <p key={index} onClick={() => this.getLyrics(track.name)}>{track.name}</p>
+                    <p key={index} onClick={() => this.getLyrics(track)}>{track.name}</p>
                 ))}
             </div>
         }
