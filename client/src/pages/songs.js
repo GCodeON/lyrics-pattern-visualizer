@@ -29,21 +29,41 @@ class Songs extends React.Component {
 
     getLyrics = (track) => {
         console.log('on click track name', track)
-        axios.get(`/api/genius/search?q=${track}`)
+
+        axios.get(`/api/musixmatch/track-lyrics?q=${track}`)
         .then((res) => {
             
             this.setState({ loading : true });
 
-            axios.get(`/api/genius/song?id=${res.data.response.hits[0].result.id}`)
-            .then((res) => {
-                console.log("get lyrics", res);
+            console.log('musixmatch search', res);
+
+            if(res.data) {
+
                 this.setState({
                     lyrics : res.data,
                     loading: false
                 })
+            }
 
-            })
         })
+
+
+        // Genius API
+        // axios.get(`/api/genius/search?q=${track}`)
+        // .then((res) => {
+            
+        //     this.setState({ loading : true });
+
+        //     axios.get(`/api/genius/song?id=${res.data.response.hits[0].result.id}`)
+        //     .then((res) => {
+        //         console.log("get lyrics", res);
+        //         this.setState({
+        //             lyrics : res.data,
+        //             loading: false
+        //         })
+
+        //     })
+        // })
     }
 
     trackList() {

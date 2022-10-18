@@ -12,20 +12,20 @@ exports.search = (req, res, next) => {
     })
 }
 
-exports.song = (req, res, next) => {
-    Musixmatch.api(`/q_track_artist=${req.query.q}`)
+exports.trackLyrics = (req, res, next) => {
+    Musixmatch.api(`track.search? q_track=${req.query.q}`)
     .then((data) => {
         console.log('get song lyrics', data);
-        let song = data.response.song;
-        // if(song.url) {
-        //     Genius.getLyrics(`${song.url}?bagon=1`)
-        //     .then((lyrics) => {
-        //         console.log('get lyrics', lyrics);
-        //         res.status(200).json(lyrics); 
-        //     })
-        //     .catch(error => {
-        //         res.status(400).json(error); 
-        //     })
-        // }
+        let track = data.body;
+        if(track.id) {
+            Musixmatch.api(`track.lyrics.get?track_id=${track_id}`)
+            .then((lyrics) => {
+                console.log('get lyrics', lyrics);
+                res.status(200).json(lyrics); 
+            })
+            .catch(error => {
+                res.status(400).json(error); 
+            })
+        }
     })
 }
