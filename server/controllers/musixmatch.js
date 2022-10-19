@@ -13,8 +13,8 @@ exports.search = (req, res, next) => {
 }
 
 exports.trackLyrics = (req, res, next) => {
-    console.log("lyrics query", req.query.q);
-    Musixmatch.api(`track.search?q_track=${encodeURI(req.query.q)}`)
+    console.log("lyrics query", req.query.track);
+    Musixmatch.api(`track.search?q_track=${encodeURI(req.query.track)}&q_artist=${encodeURI(req.query.artist)}`)
     .then((data) => {
         console.log('tracks', data.message.body.track_list);
         let tracks = data.message.body.track_list;

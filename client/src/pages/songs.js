@@ -30,11 +30,14 @@ class Songs extends React.Component {
     getLyrics = (track) => {
 
         let spotifyTrack = track;
-        let trackName = spotifyTrack.name.replace(/&/g, 'and');
+        let cleanTrack = spotifyTrack.name.replace(/&/g, 'and');
+        let splitTrack = cleanTrack.split('(');
 
-        console.log('on click track name', spotifyTrack, trackName)
+        let trackName = splitTrack[0];
 
-        axios.get(`/api/musixmatch/track-lyrics?q=${trackName}`)
+        console.log('on click track name', spotifyTrack);
+
+        axios.get(`/api/musixmatch/track-lyrics?track=${trackName}&artist=${spotifyTrack.artists[0].name}`)
         .then((res) => {
             
             this.setState({ loading : true });
