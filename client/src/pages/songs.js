@@ -93,7 +93,14 @@ class Songs extends React.Component {
         let show;
         if(this.state.lyrics) {
             show = <div>
-                        <div dangerouslySetInnerHTML={{ __html: this.state.lyrics.replace(/\n/g, '<br />') }} /> 
+                        {/* <div dangerouslySetInnerHTML={{ __html: this.state.lyrics.replace(/\n/g, '<br />') }} />  */}
+                        <SunEditor
+                            setContents={ this.state.lyrics.replace(/\n/g, '<br />')}
+                            setOptions={{
+                                height: 200,
+                                defaultValue: 'test string',
+                                buttonList: [['hiliteColor', 'fontColor']] 
+                            }} />
                     </div>
         }
         return show;
@@ -107,12 +114,6 @@ class Songs extends React.Component {
             <div>
                    
                 { this.state.lyrics ? this.showLyrics() : this.trackList()}
-                {/* <SunEditor
-                    setOptions={{
-                        height: 200,
-                        defaultValue: 'test string',
-                        buttonList: [['hiliteColor', 'fontColor']] 
-                    }} /> */}
             </div>
         )
     }
