@@ -32,7 +32,6 @@ class Songs extends React.Component {
         let spotifyTrack = track;
         let cleanTrack = spotifyTrack.name.replace(/&/g, 'and');
         let splitTrack = cleanTrack.split('(');
-
         let trackName = splitTrack[0];
 
         console.log('on click track name', spotifyTrack);
@@ -41,9 +40,9 @@ class Songs extends React.Component {
         .then((res) => {
             
             this.setState({ loading : true });
-
             console.log('musixmatch search', res);
-            let lyrics = res.data.message.body.lyrics
+
+            let lyrics = res.data.message.body.lyrics;
 
             if(lyrics) {
                 this.setState({
