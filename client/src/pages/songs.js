@@ -16,6 +16,7 @@ class Songs extends React.Component {
             activeTrack : null,
             splitTrack  : null,
             trackName   : null,
+            trackArtist : null,
             loading     : false
         }
     }
@@ -36,10 +37,12 @@ class Songs extends React.Component {
         let cleanTrack  = activeTrack.name.replace(/&/g, 'and');
         let splitTrack  = cleanTrack.split('(');
         let trackName = splitTrack[0];
+        let trackArtist = activeTrack.artists[0].name;
+        let trackFeature = splitTrack[1] ?  splitTrack[1] : '';
 
         console.log('on click track name', activeTrack);
 
-        axios.get(`/api/musixmatch/track-lyrics?track=${trackName}&artist=${activeTrack.artists[0].name}`)
+        axios.get(`/api/musixmatch/track-lyrics?track=${trackName}&artist=${trackArtist}`)
         .then((res) => {
             
             this.setState({ loading : true });
@@ -49,14 +52,16 @@ class Songs extends React.Component {
 
             if(lyrics) {
                 this.setState({
-                    lyrics      : lyrics.lyrics_body,
-                    activeTrack : activeTrack,
-                    cleanTrack  : cleanTrack,
-                    splitTrack  : splitTrack,
-                    trackName   : trackName,
-                    loading     : false
+                    lyrics       : lyrics.lyrics_body,
+                    activeTrack  : activeTrack,
+                    cleanTrack   : cleanTrack,
+                    splitTrack   : splitTrack,
+                    trackName    : trackName,
+                    trackArtist  : trackArtist,
+                    trackFeature : trackFeature,
+                    loading      : false
                 })
-            }
+            } 
 
         })
 
