@@ -11,9 +11,12 @@ class Songs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tracks : null,
-            lyrics : null,
-            loading: false
+            tracks      : null,
+            lyrics      : null,
+            activeTrack : null,
+            splitTrack  : null,
+            trackName   : null,
+            loading     : false
         }
     }
 
@@ -29,14 +32,14 @@ class Songs extends React.Component {
 
     getLyrics = (track) => {
 
-        let spotifyTrack = track;
-        let cleanTrack = spotifyTrack.name.replace(/&/g, 'and');
-        let splitTrack = cleanTrack.split('(');
+        let activeTrack = track;
+        let cleanTrack  = activeTrack.name.replace(/&/g, 'and');
+        let splitTrack  = cleanTrack.split('(');
         let trackName = splitTrack[0];
 
-        console.log('on click track name', spotifyTrack);
+        console.log('on click track name', activeTrack);
 
-        axios.get(`/api/musixmatch/track-lyrics?track=${trackName}&artist=${spotifyTrack.artists[0].name}`)
+        axios.get(`/api/musixmatch/track-lyrics?track=${trackName}&artist=${activeTrack.artists[0].name}`)
         .then((res) => {
             
             this.setState({ loading : true });
@@ -46,8 +49,12 @@ class Songs extends React.Component {
 
             if(lyrics) {
                 this.setState({
-                    lyrics : lyrics.lyrics_body,
-                    loading: false
+                    lyrics      : lyrics.lyrics_body,
+                    activeTrack : activeTrack,
+                    cleanTrack  : cleanTrack,
+                    splitTrack  : splitTrack,
+                    trackName   : trackName,
+                    loading     : false
                 })
             }
 
