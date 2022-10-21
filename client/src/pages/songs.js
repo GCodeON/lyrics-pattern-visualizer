@@ -103,15 +103,21 @@ class Songs extends React.Component {
     showLyrics() {
         let show;
         if(this.state.lyrics) {
-            show = <div>
+            show = <div className="lyrics">
                         {/* <div dangerouslySetInnerHTML={{ __html: this.state.lyrics.replace(/\n/g, '<br />') }} />  */}
-                        <SunEditor
-                            setContents={ this.state.lyrics.replace(/\n/g, '<br />')}
-                            setOptions={{
-                                height: 200,
-                                defaultValue: 'test string',
-                                buttonList: [['hiliteColor', 'fontColor']] 
-                            }} />
+                        <div className="song-info">
+                            <h1>{ this.state.trackName }</h1>
+                            <h3>{ this.state.trackArtist }</h3>
+                        </div>
+                        <div className="editor-wrapper">  
+                            <SunEditor
+                                setContents={ this.state.lyrics.replace(/\n/g, '<br />')}
+                                setOptions={{
+                                    height: 200,
+                                    defaultValue: 'test string',
+                                    buttonList: [['hiliteColor', 'fontColor']] 
+                                }} />
+                        </div>
                     </div>
         }
         return show;
