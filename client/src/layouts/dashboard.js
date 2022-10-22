@@ -1,3 +1,5 @@
+import { Outlet } from "react-router-dom";
+
 import Sidebar from '../components/sidebar';
 import './dashboard.scss';
 
@@ -7,7 +9,8 @@ function Dashboard(props) {
     return (
         <div className={classes}>
             <Sidebar></Sidebar>
-            <div className="page">{props.children}</div>
+            <Outlet />
+            {/* <div className="page">{props.children}</div> */}
         </div>
     )
 }

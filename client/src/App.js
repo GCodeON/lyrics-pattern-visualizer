@@ -1,5 +1,6 @@
+import { Routes, Route } from 'react-router-dom';
+
 import Dashboard from './layouts/dashboard';
-import { Route, Switch } from 'react-router-dom';
 
 //Pages
 import Home from './pages/home';
@@ -8,15 +9,13 @@ import Songs from './pages/songs';
 
 function App() {
   return (
-    <div className="App">
-      <Dashboard>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/artists" component={Artists} />
-          <Route path="/songs" component={Songs} />
-      </Switch>
-      </Dashboard>
-    </div>
+      <Routes>
+        <Route path="/" element={<Dashboard />}>
+          <Route index  element={<Home />} />
+          <Route path="/artists" element={<Artists />} />
+          <Route path="/songs" element={<Songs />} />
+        </Route>
+      </Routes>
   );
 }
 
