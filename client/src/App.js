@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 
 import Dashboard from './layouts/dashboard';
+import './App.scss';
 
-//Pages
 import Home from './pages/home';
 import Artists from './pages/artists';
 import Songs from './pages/songs';

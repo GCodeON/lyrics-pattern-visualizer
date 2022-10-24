@@ -64,24 +64,6 @@ class Songs extends React.Component {
             } 
 
         })
-
-
-        // Genius API
-        // axios.get(`/api/genius/search?q=${track}`)
-        // .then((res) => {
-            
-        //     this.setState({ loading : true });
-
-        //     axios.get(`/api/genius/song?id=${res.data.response.hits[0].result.id}`)
-        //     .then((res) => {
-        //         console.log("get lyrics", res);
-        //         this.setState({
-        //             lyrics : res.data,
-        //             loading: false
-        //         })
-
-        //     })
-        // })
     }
 
     trackList() {
