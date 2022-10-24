@@ -6,6 +6,9 @@
     height          : 300px;
     justify-content : space-evenly;
 
+    .title {
+        font-size: 36px;
+    }
 
     li {
         list-style-type : none;
@@ -13,6 +16,16 @@
     a {
         color           : white;
         text-decoration : none;
+        padding         : 7px;
+        font-size       : 20px;
+    }
+    .search {
+        display               : grid;
+        gap                   : 10px;
+        grid-template-columns : 1fr 20%;
+        input {
+            background: none;
+        }
     }
 
 }

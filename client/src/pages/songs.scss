@@ -1,10 +1,22 @@
-.user-top-tracks {
-    display               : grid;
-    grid-gap              : 10px;
-    grid-template-columns : repeat(auto-fill, minmax(300px, 1fr) ) ;
+.songs {
     .tracks {
-        min-height      : 300px;
-        background-size : cover;
-        background-position: center top;
+        min-height          : 300px;
+        background-size     : cover;
+        background-position : center top;
+    
+        .track-name {
+            text-transform : capitalize;
+        }
+    }
+    .track {
+        .info {
+            .title {
+                text-transform: capitalize;
+            }
+        }
+    }
+
+    .lyrics {
+        
     }
 }

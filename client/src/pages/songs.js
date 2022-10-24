@@ -72,7 +72,7 @@ class Songs extends React.Component {
             list = 
             <div className="tracks"> {
                 this.state.tracks.map((track, index) => (
-                    <p key={index} onClick={() => this.getLyrics(track)}>{track.name}</p>
+                    <p className="track-name" key={index} onClick={() => this.getLyrics(track)}>{track.name}</p>
                 ))}
             </div>
         }
@@ -85,10 +85,10 @@ class Songs extends React.Component {
     showLyrics() {
         let show;
         if(this.state.lyrics) {
-            show = <div className="lyrics">
+            show = <div className="track">
                         {/* <div dangerouslySetInnerHTML={{ __html: this.state.lyrics.replace(/\n/g, '<br />') }} />  */}
-                        <div className="song-info">
-                            <h1>{ this.state.trackName }</h1>
+                        <div className="info">
+                            <h1 className="title">{ this.state.trackName }</h1>
                             <h3>{ this.state.trackArtist }</h3>
                         </div>
                         <div className="editor-wrapper">  
@@ -110,8 +110,7 @@ class Songs extends React.Component {
     render() {
 
         return(
-            <div>
-                   
+            <div className="songs">
                 { this.state.lyrics ? this.showLyrics() : this.trackList()}
             </div>
         )

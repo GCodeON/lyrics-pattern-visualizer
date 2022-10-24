@@ -9,7 +9,10 @@ body {
     font-family      : 'Exo', 'Jura';
 }
 
+p {
+    margin: 0;
+}
+
 .page {
-    max-height : 100vh;
     overflow-y : scroll;
 }

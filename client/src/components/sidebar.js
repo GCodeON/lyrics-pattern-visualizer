@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import { FaHome, FaMusic, FaUserCircle } from "react-icons/fa";
+import { FaHome, FaMusic, FaUserCircle, FaSearch } from "react-icons/fa";
 import './sidebar.scss';
 
 
@@ -35,12 +35,12 @@ class Sidebar extends React.Component  {
     render(){
         return (
             <div className="sidebar">
-                <div className="nav-title">
-                    <p>Navigate</p>
+                <div className="title">
+                    <p>DECODED</p>
                 </div>
                 <div className="search">
                     <input value={this.state.searchQuery} onChange={this.changeHandler}></input>
-                    <button onClick={this.searchHandler}>Search</button>
+                    <FaSearch onClick={this.searchHandler} />
                 </div>
                 <nav className="links">
                     <li>
