@@ -7,15 +7,28 @@
     
         .track-name {
             text-transform : capitalize;
+            cursor         : pointer;
         }
     }
     .track {
+        display               : grid;
+        grid-template-columns : 50% 1fr 1fr;
         .info {
             padding : 0 0 0.5em;
             .title, .artist {
                 text-transform : capitalize;
                 margin         : 0;
             }
+        }
+
+        .analysis-type {
+            display         : flex;
+            flex-direction  : column;
+            align-items     : center;
+            text-align      : center;
+            height          : 50vh;
+            justify-content : center;
+            font-size       : 22px;
         }
     }
 

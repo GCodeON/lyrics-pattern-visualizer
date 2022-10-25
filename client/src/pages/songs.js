@@ -86,12 +86,12 @@ class Songs extends React.Component {
         let show;
         if(this.state.lyrics) {
             show = <div className="track">
-                        {/* <div dangerouslySetInnerHTML={{ __html: this.state.lyrics.replace(/\n/g, '<br />') }} />  */}
-                        <div className="info">
-                            <h1 className="title">{ this.state.trackName }</h1>
-                            <h3 className="artist">{ this.state.trackArtist }</h3>
-                        </div>
                         <div className="editor-wrapper">  
+                            {/* <div dangerouslySetInnerHTML={{ __html: this.state.lyrics.replace(/\n/g, '<br />') }} />  */}
+                            <div className="info">
+                                <h1 className="title">{ this.state.trackName }</h1>
+                                <h3 className="artist">{ this.state.trackArtist }</h3>
+                            </div>
                             <SunEditor
                                 setContents={ this.state.lyrics.replace(/\n/g, '<br>')}
                                 setOptions={{
@@ -100,6 +100,35 @@ class Songs extends React.Component {
                                     buttonList: [['hiliteColor', 'fontColor']] 
                                 }} />
                         </div>
+                        <div className="analysis-type">
+                            <h2>Rhyme Scheme</h2>
+
+                            <div className="complexity">
+                                <h2>9.7</h2>
+                                <h4>Complexity</h4>
+                            </div>
+                            
+                            <div className="unique">
+                                <h2>56</h2>
+                                <h4>Unique Rhymes</h4>
+                            </div>
+
+                            <div className="averages">
+                                <div className="rhyme">
+                                    <h2>3</h2>
+                                    <h4>Syllables per Rhyme</h4>
+                                </div>
+                                <div className="bar">
+                                    <h2>9</h2>
+                                    <h4>Syllables per Bar</h4>
+                                </div>
+                                <div className="bar">
+                                    <h2>6</h2>
+                                    <h4>Rhymes per Bar</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="analysis-options"></div>
                     </div>
         }
         return show;
