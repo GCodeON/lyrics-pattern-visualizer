@@ -36,7 +36,7 @@ class Sidebar extends React.Component  {
         return (
             <div className="sidebar">
                 <div className="title">
-                    <p>DECODED</p>
+                    <h4>DECODED</h4>
                 </div>
                 <div className="search">
                     <input value={this.state.searchQuery} onChange={this.changeHandler}></input>

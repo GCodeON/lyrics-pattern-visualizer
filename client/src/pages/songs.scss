@@ -1,4 +1,5 @@
 .songs {
+    margin : 1em 2em;
     .tracks {
         min-height          : 300px;
         background-size     : cover;
@@ -10,13 +11,22 @@
     }
     .track {
         .info {
-            .title {
-                text-transform: capitalize;
+            padding : 0 0 0.5em;
+            .title, .artist {
+                text-transform : capitalize;
+                margin         : 0;
             }
         }
     }
 
     .lyrics {
         
+    }
+
+    .sun-editor-editable {
+        p {
+            margin    : 0;
+            font-size : 20px;
+        }
     }
 }

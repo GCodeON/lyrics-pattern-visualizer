@@ -89,11 +89,11 @@ class Songs extends React.Component {
                         {/* <div dangerouslySetInnerHTML={{ __html: this.state.lyrics.replace(/\n/g, '<br />') }} />  */}
                         <div className="info">
                             <h1 className="title">{ this.state.trackName }</h1>
-                            <h3>{ this.state.trackArtist }</h3>
+                            <h3 className="artist">{ this.state.trackArtist }</h3>
                         </div>
                         <div className="editor-wrapper">  
                             <SunEditor
-                                setContents={ this.state.lyrics.replace(/\n/g, '<br />')}
+                                setContents={ this.state.lyrics.replace(/\n/g, '<br>')}
                                 setOptions={{
                                     height: 200,
                                     defaultValue: 'test string',
