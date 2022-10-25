@@ -19,14 +19,26 @@
         }
     }
 
-    .lyrics {
-        
-    }
-
     .sun-editor-editable {
         p {
             margin    : 0;
             font-size : 20px;
+            color     : white;
         }
+    }
+    .sun-editor {
+        .se-toolbar, .se-wrapper-wysiwyg  {
+            background-color : black;
+        }
+        .se-tooltip {
+            background : #ffe5e5;
+            outline: none;
+        }
+    }
+    .sun-editor .se-resizing-bar {
+        display: none;
+    }
+    .lyrics {
+        
     }
 }
