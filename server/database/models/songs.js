@@ -2,11 +2,10 @@ const mongoose = require('mongoose');
 
 const SongSchema = new mongoose.Schema({
     title: {
-        type     : String,
-        required : true
+        type : String
     },
     artist: {
-        type : Object,
+        type : String,
     },
     lyrics: {
         type : String
