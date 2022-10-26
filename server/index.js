@@ -17,9 +17,9 @@ app.use('/api/musixmatch', routes.musixmatch);
 
 app.listen(PORT, () => {
     db.connectToServer((err) => {
+        console.log(`The Server is running at: http://localhost:${PORT}/`);
         if (err) console.error(err);
     });
-    console.log(`The Server is running at: http://localhost:${PORT}/`);
 });
 
 module.exports = app;
