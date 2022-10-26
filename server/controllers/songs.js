@@ -1,4 +1,4 @@
-const songModel = require('../database/models/songs')
+const songModel = require('../database/models/song')
 
 exports.all = async (req, res, next) => {
     console.log('songs api req', req.body);
