@@ -1,7 +1,7 @@
 import React from "react";
 import axios from 'axios';
 
-import './home.scss';
+import './index.scss';
 
 class Home extends React.Component {
 

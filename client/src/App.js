@@ -3,9 +3,9 @@ import { Routes, Route } from 'react-router-dom';
 import Dashboard from './layouts/dashboard';
 import './App.scss';
 
-import Home from './pages/home';
-import Artists from './pages/artists';
-import Songs from './pages/songs';
+import Home from './pages/index';
+import Artists from './pages/artists/artists';
+import Songs from './pages/songs/songs';
 
 function App() {
   return (

@@ -6,10 +6,14 @@ import 'suneditor/dist/css/suneditor.min.css';
 
 import './songs.scss';
 
+import RhymeScheme from '../../components/rhymeScheme'
+
 class Songs extends React.Component {
 
     constructor(props) {
         super(props);
+        this.handleChange = this.handleChange.bind(this)
+        this.handleInput = this.handleInput.bind(this)
         this.state = {
             tracks      : null,
             lyrics      : null,
@@ -82,6 +86,14 @@ class Songs extends React.Component {
         return list;
     }
 
+    handleChange(content) {
+        console.log('editor changed', content)
+    }
+
+    handleInput(content) {
+        console.log('input changed', content)
+    }
+
     showLyrics() {
         let show;
         if(this.state.lyrics) {
@@ -93,40 +105,15 @@ class Songs extends React.Component {
                                 <h3 className="artist">{ this.state.trackArtist }</h3>
                             </div>
                             <SunEditor
+                                onChange={ this.handleChange }
                                 setContents={ this.state.lyrics.replace(/\n/g, '<br>')}
                                 setOptions={{
                                     height: 200,
-                                    defaultValue: 'test string',
                                     buttonList: [['hiliteColor', 'fontColor']] 
                                 }} />
                         </div>
                         <div className="analysis-type">
-                            <h2>Rhyme Scheme</h2>
-
-                            <div className="complexity">
-                                <h2>9.7</h2>
-                                <h4>Complexity</h4>
-                            </div>
-                            
-                            <div className="unique">
-                                <h2>56</h2>
-                                <h4>Unique Rhymes</h4>
-                            </div>
-
-                            <div className="averages">
-                                <div className="rhyme">
-                                    <h2>3</h2>
-                                    <h4>Syllables per Rhyme</h4>
-                                </div>
-                                <div className="bar">
-                                    <h2>9</h2>
-                                    <h4>Syllables per Bar</h4>
-                                </div>
-                                <div className="bar">
-                                    <h2>6</h2>
-                                    <h4>Rhymes per Bar</h4>
-                                </div>
-                            </div>
+                            <RhymeScheme />
                         </div>
                         <div className="analysis-options"></div>
                     </div>
