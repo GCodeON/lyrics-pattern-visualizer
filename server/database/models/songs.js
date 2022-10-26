@@ -2,14 +2,14 @@ import mongoose from 'mongoose';
 
 const SongSchema = new mongoose.Schema({
     title: {
-        type: String,
-        required: true
+        type     : String,
+        required : true
     },
     artist: {
-        type: Object,
+        type : Object,
     },
     lyrics: {
-        type: String
+        type : String
     }
 })
 
