@@ -1,11 +1,5 @@
 import React from 'react';
-import axios from 'axios';
-
 import './styles.scss';
-
-
-import { Link } from 'react-router-dom'
-
 class RhymeScheme extends React.Component  {
 
     constructor(props){
