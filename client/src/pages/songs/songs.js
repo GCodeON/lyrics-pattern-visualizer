@@ -46,20 +46,21 @@ class Songs extends React.Component {
 
     }
 
-    findorCreate(track) {
+    findOrAdd(track, callback, exists ) {
+        this.setState({ loading : true });
         axios.get(`/api/songs/${this.state.activeTrack.id}`)
         .then(res => {
             console.log('find response', res);
             if(res.data === 'track does not exist yet') {
-                this.addNew();
+               callback()
             } else {
-                this.showExisting(res.data);
+               exists()
             }
+            this.setState({ loading : false });
         })
     }
 
-    getLyrics = (track) => {
-
+    setActive(track){
         let activeTrack = track;
         let cleanTrack  = activeTrack.name.replace(/&/g, 'and');
         let splitTrack  = cleanTrack.split('(');
@@ -67,9 +68,21 @@ class Songs extends React.Component {
         let trackArtist = activeTrack.artists[0].name;
         let trackFeature = splitTrack[1] ?  splitTrack[1] : '';
 
-        console.log('on click track name', activeTrack);
+        this.setState({
+            activeTrack  : activeTrack,
+            cleanTrack   : cleanTrack,
+            splitTrack   : splitTrack,
+            trackName    : trackName,
+            trackArtist  : trackArtist,
+            trackFeature : trackFeature
+        })
+    }
 
-        axios.get(`/api/musixmatch/track-lyrics?track=${trackName}&artist=${trackArtist}`)
+    getLyrics = (track) => {
+
+        this.setActive(track);
+
+        axios.get(`/api/musixmatch/track-lyrics?track=${this.state.trackName}&artist=${this.state.trackArtist}`)
         .then((res) => {
             
             this.setState({ loading : true });
@@ -80,12 +93,6 @@ class Songs extends React.Component {
             if(lyrics) {
                 this.setState({
                     lyrics       : lyrics.lyrics_body,
-                    activeTrack  : activeTrack,
-                    cleanTrack   : cleanTrack,
-                    splitTrack   : splitTrack,
-                    trackName    : trackName,
-                    trackArtist  : trackArtist,
-                    trackFeature : trackFeature,
                     loading      : false
                 })
             } 
@@ -93,33 +100,13 @@ class Songs extends React.Component {
         })
     }
 
-    trackList() {
-        let list;
-        if (this.state.tracks) {
-            list = 
-            <div className="tracks"> {
-                this.state.tracks.map((track, index) => (
-                    <p className="track-name" key={index} onClick={() => this.getLyrics(track)}>{track.name}</p>
-                ))}
-            </div>
-        }
-        else {
-            list = <div>loading data</div>
-        }
-        return list;
-    }
-
     handleChange(content) {
-        console.log('editor changed', content)
-
         let songData = {
             title   : this.state.trackName,
             artist  : this.state.trackArtist,
             spotify : this.state.activeTrack.id,
             lyrics  : content
         }
-
-        console.log('spotifyID', this.state.activeTrack.id );
         axios.get(`/api/songs/${this.state.activeTrack.id}`)
         .then(res => {
             console.log('find response', res);
@@ -149,7 +136,24 @@ class Songs extends React.Component {
        
     }
 
-    showLyrics() {
+    trackList() {
+        let list;
+        if (this.state.tracks) {
+            list = 
+            <div className="tracks"> {
+                this.state.tracks.map((track, index) => (
+                    <p className="track-name" key={index} onClick={() => this.getLyrics(track)}>{track.name}</p>
+                ))}
+            </div>
+        }
+        else {
+            list = <div>loading data</div>
+        }
+        return list;
+    }
+
+
+    displayLyrics() {
         let show;
         if(this.state.lyrics) {
             show = <div className="track">
@@ -182,7 +186,7 @@ class Songs extends React.Component {
 
         return(
             <div className="songs">
-                { this.state.lyrics ? this.showLyrics() : this.trackList()}
+                { this.state.lyrics ? this.displayLyrics() : this.trackList()}
             </div>
         )
     }
