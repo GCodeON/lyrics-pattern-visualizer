@@ -13,7 +13,6 @@ class Songs extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this)
-        this.handleInput = this.handleInput.bind(this)
         this.state = {
             tracks      : null,
             lyrics      : null,
@@ -88,10 +87,41 @@ class Songs extends React.Component {
 
     handleChange(content) {
         console.log('editor changed', content)
-    }
 
-    handleInput(content) {
-        console.log('input changed', content)
+        let songData = {
+            title     : this.state.trackName,
+            artist    : this.state.trackArtist,
+            spotifyid : this.state.activeTrack.id,
+            lyrics    : content
+        }
+
+        console.log('spotifyID', this.state.activeTrack.id );
+        axios.get(`/api/songs/${this.state.activeTrack.id}`)
+        .then(res => {
+            console.log('find response', res);
+            if(res) {
+                if(res.data == 'track does not exist yet') {
+
+                    console.log('add new song', res);
+                    axios.post(`/api/songs/`, songData)
+                    .then((res) => {
+                        console.log('song annotations saved', res);
+                    })   
+   
+
+
+                } else {
+                    console.log('existing track updated')
+                    axios.post(`/api/songs/${this.state.activeTrack.id}`, songData)
+                    .then((res) => {
+                        console.log('song annotations updated', res);
+                    }) 
+                }
+            }
+
+        })
+
+       
     }
 
     showLyrics() {

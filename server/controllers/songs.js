@@ -11,12 +11,32 @@ exports.all = async (req, res, next) => {
     }
 }
 
+exports.find = async (req, res, next) => {
+
+    console.log('check if spotify id exists', req.params.id);
+    try {
+
+        await songModel.findOne({ spotify: req.params.id})
+        .then(song => {
+            console.log('song found', song)
+            if(song) {
+                res.status(200).json(song);
+            } else {
+                res.status(200).json('track does not exist yet');
+            }
+        }) 
+    } catch(error) {
+        res.status(400).json(error); 
+    }
+}
+
 exports.add = async (req, res, next) => {
 
     const song = new songModel({
-        title  : req.body.title ?  req.body.title   : 'test title',
-        artist : req.body.artist ?  req.body.artist : 'test artist',
-        lyrics : req.body.lyrics ?  req.body.lyrics : 'lyrics',
+        spotify : req.body.spotifyid,
+        title     : req.body.title,
+        artist    : req.body.artist,
+        lyrics    : req.body.lyrics
     })
     try {
         await song.save();
@@ -28,24 +48,24 @@ exports.add = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
-    console.log("song id", req)
-    let id = req.params.id ? req.params.id : '63594cda7fa0722368b4227e';
+    console.log("song id", req.params.id);
+
+    let songId =  req.params.id;
 
     let updateSong = {
-        title: req.body.title ? req.body.title : 'postman',
-        artist: req.body.artist ?  req.body.artist : 'postman',
-        lyrics: req.body.lyrics ?  req.body.lyrics : 'postman'
+        title     : req.body.title,
+        artist    : req.body.artist,
+        lyrics    : req.body.lyrics
     }
-    console.log('updated song', updateSong);
+    
     try {
-        await songModel.findByIdAndUpdate(id, updateSong);
-        console.log('existing song found', song);
+        await songModel.findById(songId, updateSong);
         await songModel.save(updateSong);
-        console.log('song saved sucessfully', song);
+        console.log('song updated sucessfully', song);
 
         res.status(200).json(song); 
     } catch (error) {
-        console.log
+
         res.status(500).send(error);
     }
 }
