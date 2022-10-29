@@ -20,7 +20,8 @@ class Songs extends React.Component {
             splitTrack  : null,
             trackName   : null,
             trackArtist : null,
-            loading     : false
+            loading     : false,
+            savedTrack  : null
         }
     }
 
@@ -46,17 +47,21 @@ class Songs extends React.Component {
 
     }
 
-    findOrAdd(track, callback, exists ) {
-        this.setState({ loading : true });
-        axios.get(`/api/songs/${this.state.activeTrack.id}`)
+    findOrAdd(track, callback) {
+        // this.setState({ loading : true });
+        axios.get(`/api/songs/${track.id}`)
         .then(res => {
-            console.log('find response', res);
+            // this.setState({ savedTrack : res.data })
+            console.log('found track', res);
             if(res.data === 'track does not exist yet') {
-               callback()
+               callback();
             } else {
-               exists()
+                console.log('res', res);
+                this.setState({ savedTrack : res.data })
+
+                this.setLyrics(track);
             }
-            this.setState({ loading : false });
+            // this.setState({ loading : false });
         })
     }
 
@@ -78,11 +83,9 @@ class Songs extends React.Component {
         })
     }
 
-    getLyrics = (track) => {
-
-        this.setActive(track);
-
-        axios.get(`/api/musixmatch/track-lyrics?track=${this.state.trackName}&artist=${this.state.trackArtist}`)
+    fetchLyrics(track) {
+        console.log('fetch called', track)
+        axios.get(`/api/musixmatch/track-lyrics?track=${track.trackName}&artist=${track.trackArtist}`)
         .then((res) => {
             
             this.setState({ loading : true });
@@ -99,14 +102,30 @@ class Songs extends React.Component {
 
         })
     }
+    setLyrics(spotifyTrack) {
+        console.log('saved track', spotifyTrack, this.state.savedTrack)
+        this.setActive(spotifyTrack);
+        let savedLyrics =  this.state.savedTrack.lyrics 
+        this.setState({ lyrics: savedLyrics })
+    }
+
+    getLyrics = (track) => {
+
+        this.setActive(track);
+
+        this.findOrAdd(track, this.fetchLyrics(track));
+
+    }
 
     handleChange(content) {
         let songData = {
-            title   : this.state.trackName,
-            artist  : this.state.trackArtist,
-            spotify : this.state.activeTrack.id,
+            // title   : this.state.trackName,
+            // artist  : this.state.trackArtist,
+            // spotify : this.state.activeTrack.id,
             lyrics  : content
         }
+
+        
         axios.get(`/api/songs/${this.state.activeTrack.id}`)
         .then(res => {
             console.log('find response', res);
