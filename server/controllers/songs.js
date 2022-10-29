@@ -14,6 +14,7 @@ exports.all = async (req, res, next) => {
 exports.find = async (req, res, next) => {
 
     console.log('check if spotify id exists', req.params.id);
+
     try {
 
         await songModel.findOne({ spotify: req.params.id})
@@ -32,12 +33,8 @@ exports.find = async (req, res, next) => {
 
 exports.add = async (req, res, next) => {
 
-    const song = new songModel({
-        spotify : req.body.spotifyid,
-        title     : req.body.title,
-        artist    : req.body.artist,
-        lyrics    : req.body.lyrics
-    })
+    const song = new songModel(req.body);
+
     try {
         await song.save();
         console.log('songs post successful', song);
@@ -59,10 +56,13 @@ exports.update = async (req, res, next) => {
     }
     
     try {
-        await songModel.findById(songId, updateSong);
-        await songModel.save(updateSong);
-        console.log('song updated sucessfully', song);
 
+        let song = await songModel.findOne({ spotify: songId})
+        console.log('song found sucessfully', song);
+
+        song.save(updateSong)
+        console.log('song updated sucessfully', song);
+        
         res.status(200).json(song); 
     } catch (error) {
 

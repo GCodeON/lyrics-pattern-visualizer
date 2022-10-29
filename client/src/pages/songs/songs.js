@@ -89,10 +89,10 @@ class Songs extends React.Component {
         console.log('editor changed', content)
 
         let songData = {
-            title     : this.state.trackName,
-            artist    : this.state.trackArtist,
-            spotifyid : this.state.activeTrack.id,
-            lyrics    : content
+            title   : this.state.trackName,
+            artist  : this.state.trackArtist,
+            spotify : this.state.activeTrack.id,
+            lyrics  : content
         }
 
         console.log('spotifyID', this.state.activeTrack.id );
@@ -111,8 +111,11 @@ class Songs extends React.Component {
 
 
                 } else {
-                    console.log('existing track updated')
-                    axios.post(`/api/songs/${this.state.activeTrack.id}`, songData)
+                    let existingSong = res.data;
+                    console.log('existing track updated', existingSong);
+                    existingSong.lyrics = songData.lyrics;
+                    console.log('lyrics updted', existingSong);
+                    axios.post(`/api/songs/${this.state.activeTrack.id}`, existingSong)
                     .then((res) => {
                         console.log('song annotations updated', res);
                     }) 
