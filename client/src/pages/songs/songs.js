@@ -34,6 +34,30 @@ class Songs extends React.Component {
         })
     }
 
+    addNew(song) {
+        axios.post(`/api/songs/`, song)
+        .then((res) => {
+            console.log('song annotations saved', res);
+        })   
+    }
+
+    showExisting(song) { 
+        console.log('show existing track updated', song);
+
+    }
+
+    findorCreate(track) {
+        axios.get(`/api/songs/${this.state.activeTrack.id}`)
+        .then(res => {
+            console.log('find response', res);
+            if(res.data === 'track does not exist yet') {
+                this.addNew();
+            } else {
+                this.showExisting(res.data);
+            }
+        })
+    }
+
     getLyrics = (track) => {
 
         let activeTrack = track;
@@ -100,16 +124,14 @@ class Songs extends React.Component {
         .then(res => {
             console.log('find response', res);
             if(res) {
-                if(res.data == 'track does not exist yet') {
+                if(res.data === 'track does not exist yet') {
 
                     console.log('add new song', res);
                     axios.post(`/api/songs/`, songData)
                     .then((res) => {
                         console.log('song annotations saved', res);
                     })   
-   
-
-
+                    
                 } else {
                     let existingSong = res.data;
                     console.log('existing track updated', existingSong);
