@@ -1,13 +1,11 @@
 const songModel = require('../database/models/song');
 const { song } = require('./genius');
 
-const { ObjectId } = require('mongodb');
-
 exports.all = async (req, res, next) => {
 
     const songs = await songModel.find({})
     try {
-        console.log('all song records', songs);
+        // console.log('all song records', songs);
         res.status(200).json(songs); 
     } catch(error) {
         res.status(400).json(error); 
@@ -16,13 +14,13 @@ exports.all = async (req, res, next) => {
 
 exports.find = async (req, res, next) => {
 
-    console.log('check if spotify id exists', req.params.id);
+    // console.log('check if spotify id exists', req.params.id);
 
     try {
 
         await songModel.findOne({ spotify: req.params.id})
         .then(song => {
-            console.log('song found', song)
+            // console.log('song found', song)
             if(song) {
                 res.status(200).json(song);
             } else {
@@ -40,7 +38,7 @@ exports.add = async (req, res, next) => {
 
     try {
         await song.save();
-        console.log('songs post successful', song);
+        // console.log('songs post successful', song);
         res.status(200).json(song); 
     } catch(error) {
         res.status(400).json(error); 
@@ -60,12 +58,12 @@ exports.update = async (req, res, next) => {
     // console.log('updated lyrics', updateSong, updateSong.lyrics);
     
     try {
-        console.log('inside try to update lyrics', updateSong.lyrics);
+        // console.log('inside try to update lyrics', updateSong.lyrics);
         let song = await songModel.findOne({ spotify: songId})
         // console.log('song found sucessfully', song);
 
         song.updateOne(updateSong)
-        console.log('song updated sucessfully', song);
+        // console.log('song updated sucessfully', song);
         
         res.status(200).json(song); 
     } catch (error) {
