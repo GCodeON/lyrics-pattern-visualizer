@@ -6,9 +6,8 @@ import 'suneditor/dist/css/suneditor.min.css';
 
 import { db } from '../../utils/firebase-config';
 
-import './songs.scss';
-
 import RhymeScheme from '../../components/rhymeScheme'
+import './songs.scss';
 
 class Songs extends React.Component {
 
