@@ -1,4 +1,7 @@
-const songModel = require('../database/models/song')
+const songModel = require('../database/models/song');
+const { song } = require('./genius');
+
+const { ObjectId } = require('mongodb');
 
 exports.all = async (req, res, next) => {
 
@@ -45,22 +48,23 @@ exports.add = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
-    console.log("song id", req.params.id);
+    let songId =  (req.params.id).trim();
 
-    let songId =  req.params.id;
-
+    
     let updateSong = {
         title     : req.body.title,
         artist    : req.body.artist,
         lyrics    : req.body.lyrics
     }
+
+    console.log('updated lyrics', updateSong, updateSong.lyrics);
     
     try {
 
         let song = await songModel.findOne({ spotify: songId})
-        console.log('song found sucessfully', song);
+        // console.log('song found sucessfully', song);
 
-        song.save(updateSong)
+        song.update(updateSong)
         console.log('song updated sucessfully', song);
         
         res.status(200).json(song); 

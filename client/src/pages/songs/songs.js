@@ -67,29 +67,46 @@ class Songs extends React.Component {
         let trackArtist = activeTrack.artists[0].name;
         let trackFeature = splitTrack[1] ?  splitTrack[1] : '';
 
+        this.setState({
+            activeTrack  : activeTrack,
+            cleanTrack   : cleanTrack,
+            splitTrack   : splitTrack,
+            trackName    : trackName,
+            trackArtist  : trackArtist,
+            trackFeature : trackFeature,
+        })
+
         console.log('on click track name', activeTrack);
+        axios.get(`/api/songs/${activeTrack.id}`)
+        .then(res => {
+            if(res) {
+                if(res.data === 'track does not exist yet') {
 
-        axios.get(`/api/musixmatch/track-lyrics?track=${trackName}&artist=${trackArtist}`)
-        .then((res) => {
+                    axios.get(`/api/musixmatch/track-lyrics?track=${trackName}&artist=${trackArtist}`)
+                    .then((res) => {
+                        
+                        this.setState({ loading : true });
+                        console.log('musixmatch search', res);
             
-            this.setState({ loading : true });
-            console.log('musixmatch search', res);
-
-            let lyrics = res.data.message.body.lyrics;
-
-            if(lyrics) {
-                this.setState({
-                    lyrics       : lyrics.lyrics_body,
-                    activeTrack  : activeTrack,
-                    cleanTrack   : cleanTrack,
-                    splitTrack   : splitTrack,
-                    trackName    : trackName,
-                    trackArtist  : trackArtist,
-                    trackFeature : trackFeature,
-                    loading      : false
-                })
-            } 
-
+                        let lyrics = res.data.message.body.lyrics;
+            
+                        if(lyrics) {
+                            this.setState({
+                                lyrics       : lyrics.lyrics_body,
+                                loading      : false
+                            })
+                        } 
+            
+                    })
+                    
+                } else {
+                    console.log('song already exists', res.data);
+                    this.setState({
+                        lyrics       :  res.data.lyrics,
+                        loading      : false
+                    })
+                }
+            }
         })
     }
 
@@ -134,12 +151,16 @@ class Songs extends React.Component {
                     
                 } else {
                     let existingSong = res.data;
-                    console.log('existing track updated', existingSong);
-                    existingSong.lyrics = songData.lyrics;
-                    console.log('lyrics updted', existingSong);
+                    console.log('existing track updated', content);
+                    existingSong.lyrics = content;
+                    console.log('lyrics updted', existingSong.lyrics);
                     axios.post(`/api/songs/${this.state.activeTrack.id}`, existingSong)
                     .then((res) => {
                         console.log('song annotations updated', res);
+                        this.setState({
+                            lyrics       :  res.data.lyrics,
+                            loading      : false
+                        })
                     }) 
                 }
             }
@@ -149,7 +170,7 @@ class Songs extends React.Component {
        
     }
 
-    showLyrics() {
+    displayLyrics() {
         let show;
         if(this.state.lyrics) {
             show = <div className="track">
@@ -182,7 +203,7 @@ class Songs extends React.Component {
 
         return(
             <div className="songs">
-                { this.state.lyrics ? this.showLyrics() : this.trackList()}
+                { this.state.lyrics ? this.displayLyrics() : this.trackList()}
             </div>
         )
     }
