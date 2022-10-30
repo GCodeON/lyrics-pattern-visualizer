@@ -6,6 +6,8 @@ import 'suneditor/dist/css/suneditor.min.css';
 
 import { db } from '../../utils/firebase-config';
 
+import { collection, getDocs, addDoc, updateDoc } from  "firebase/firestore";
+
 import RhymeScheme from '../../components/rhymeScheme'
 import './songs.scss';
 
@@ -21,15 +23,15 @@ class Songs extends React.Component {
             splitTrack  : null,
             trackName   : null,
             trackArtist : null,
-            loading     : false
+            loading     : false,
         }
     }
 
     classes=`${this.props.className ? this.props.className : ''}`;
-
     componentDidMount() {
 
-        console.log('firebase', db)
+        this.getSongs();
+        
         
         // console.log('firebase', firebase);
         axios.get(`/api/spotify/top-tracks`)
@@ -39,11 +41,25 @@ class Songs extends React.Component {
         })
     }
 
-    addNew(song) {
-        axios.post(`/api/songs/`, song)
-        .then((res) => {
-            console.log('song annotations saved', res);
-        })   
+    getSongs = async () => {
+        const songCollection = collection(db, "songs");
+        console.log('firebase', db);
+        const data = await getDocs(songCollection)
+        console.log('firebase get docs', data.docs);
+    }
+
+    addNew = async (song) => {
+        const songCollection = collection(db, "songs");
+        console.log('firebase', db);
+
+        const songAdded = await addDoc(songCollection, song);
+
+        console.log('firebase add', songAdded);
+      
+        // axios.post(`/api/songs/`, song)
+        // .then((res) => {
+        //     console.log('song annotations saved', res);
+        // })   
     }
 
     showExisting(song) { 
@@ -86,6 +102,8 @@ class Songs extends React.Component {
         .then(res => {
             if(res) {
                 if(res.data === 'track does not exist yet') {
+
+                    this.addNew();
 
                     axios.get(`/api/musixmatch/track-lyrics?track=${trackName}&artist=${trackArtist}`)
                     .then((res) => {
@@ -147,6 +165,8 @@ class Songs extends React.Component {
             // console.log('find response', res);
             if(res) {
                 if(res.data === 'track does not exist yet') {
+
+                    this.addNew(songData);
 
                     // console.log('add new song', res);
                     axios.post(`/api/songs/`, songData)
