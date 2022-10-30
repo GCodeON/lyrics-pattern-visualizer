@@ -57,14 +57,14 @@ exports.update = async (req, res, next) => {
         lyrics    : req.body.lyrics
     }
 
-    console.log('updated lyrics', updateSong, updateSong.lyrics);
+    // console.log('updated lyrics', updateSong, updateSong.lyrics);
     
     try {
-
+        console.log('inside try to update lyrics', updateSong.lyrics);
         let song = await songModel.findOne({ spotify: songId})
         // console.log('song found sucessfully', song);
 
-        song.update(updateSong)
+        song.updateOne(updateSong)
         console.log('song updated sucessfully', song);
         
         res.status(200).json(song); 

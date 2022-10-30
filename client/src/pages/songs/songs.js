@@ -182,7 +182,7 @@ class Songs extends React.Component {
                             </div>
                             <SunEditor
                                 onChange={ this.handleChange }
-                                setContents={ this.state.lyrics.replace(/\n/g, '<br>')}
+                                setContents={ this.state.lyrics}
                                 setOptions={{
                                     height: 200,
                                     buttonList: [['hiliteColor', 'fontColor']] 
