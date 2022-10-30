@@ -4,6 +4,8 @@ import axios from 'axios';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 
+import { db } from '../../utils/firebase-config';
+
 import './songs.scss';
 
 import RhymeScheme from '../../components/rhymeScheme'
@@ -27,6 +29,10 @@ class Songs extends React.Component {
     classes=`${this.props.className ? this.props.className : ''}`;
 
     componentDidMount() {
+
+        console.log('firebase', db)
+        
+        // console.log('firebase', firebase);
         axios.get(`/api/spotify/top-tracks`)
         .then((res) => {
             this.setState({ tracks : res.data.items })
@@ -76,7 +82,7 @@ class Songs extends React.Component {
             trackFeature : trackFeature,
         })
 
-        console.log('on click track name', activeTrack);
+        // console.log('on click track name', activeTrack);
         axios.get(`/api/songs/${activeTrack.id}`)
         .then(res => {
             if(res) {
@@ -86,7 +92,7 @@ class Songs extends React.Component {
                     .then((res) => {
                         
                         this.setState({ loading : true });
-                        console.log('musixmatch search', res);
+                        // console.log('musixmatch search', res);
             
                         let lyrics = res.data.message.body.lyrics;
             
@@ -100,10 +106,10 @@ class Songs extends React.Component {
                     })
                     
                 } else {
-                    console.log('song already exists', res.data);
+                    // console.log('song already exists', res.data);
                     this.setState({
-                        lyrics       :  res.data.lyrics,
-                        loading      : false
+                        lyrics  : res.data.lyrics,
+                        loading : false
                     })
                 }
             }
@@ -127,7 +133,7 @@ class Songs extends React.Component {
     }
 
     handleChange(content) {
-        console.log('editor changed', content)
+        // console.log('editor changed', content)
 
         let songData = {
             title   : this.state.trackName,
@@ -136,27 +142,27 @@ class Songs extends React.Component {
             lyrics  : content
         }
 
-        console.log('spotifyID', this.state.activeTrack.id );
+        // console.log('spotifyID', this.state.activeTrack.id );
         axios.get(`/api/songs/${this.state.activeTrack.id}`)
         .then(res => {
-            console.log('find response', res);
+            // console.log('find response', res);
             if(res) {
                 if(res.data === 'track does not exist yet') {
 
-                    console.log('add new song', res);
+                    // console.log('add new song', res);
                     axios.post(`/api/songs/`, songData)
                     .then((res) => {
-                        console.log('song annotations saved', res);
+                        // console.log('song annotations saved', res);
                     })   
                     
                 } else {
                     let existingSong = res.data;
-                    console.log('existing track updated', content);
+                    // console.log('existing track updated', content);
                     existingSong.lyrics = content;
-                    console.log('lyrics updted', existingSong.lyrics);
+                    // console.log('lyrics updted', existingSong.lyrics);
                     axios.post(`/api/songs/${this.state.activeTrack.id}`, existingSong)
                     .then((res) => {
-                        console.log('song annotations updated', res);
+                        // console.log('song annotations updated', res);
                         this.setState({
                             lyrics       :  res.data.lyrics,
                             loading      : false
@@ -182,7 +188,7 @@ class Songs extends React.Component {
                             </div>
                             <SunEditor
                                 onChange={ this.handleChange }
-                                setContents={ this.state.lyrics}
+                                setContents={ this.state.lyrics.replace(/\n/g, '<br />')}
                                 setOptions={{
                                     height: 200,
                                     buttonList: [['hiliteColor', 'fontColor']] 
