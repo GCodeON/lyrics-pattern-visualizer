@@ -32,7 +32,6 @@ class Songs extends React.Component {
 
         this.getSongs();
         
-        
         // console.log('firebase', firebase);
         axios.get(`/api/spotify/top-tracks`)
         .then((res) => {
@@ -55,6 +54,7 @@ class Songs extends React.Component {
         const songAdded = await addDoc(songCollection, song);
 
         console.log('firebase add', songAdded);
+        
       
         // axios.post(`/api/songs/`, song)
         // .then((res) => {
@@ -103,7 +103,7 @@ class Songs extends React.Component {
             if(res) {
                 if(res.data === 'track does not exist yet') {
 
-                    this.addNew();
+               
 
                     axios.get(`/api/musixmatch/track-lyrics?track=${trackName}&artist=${trackArtist}`)
                     .then((res) => {
@@ -118,6 +118,16 @@ class Songs extends React.Component {
                                 lyrics       : lyrics.lyrics_body,
                                 loading      : false
                             })
+
+                            let songData = {
+                                title   : this.state.trackName,
+                                artist  : this.state.trackArtist,
+                                spotify : this.state.activeTrack.id,
+                                lyrics  : this.state.lyrics
+                            }
+                    
+
+                            this.addNew(songData);
                         } 
             
                     })
