@@ -6,7 +6,7 @@ import 'suneditor/dist/css/suneditor.min.css';
 
 import { db } from '../../utils/firebase-config';
 
-import { collection, getDocs, addDoc, updateDoc } from  "firebase/firestore";
+import { collection, getDocs, getDoc, addDoc, setDoc, updateDoc, doc } from  "firebase/firestore";
 
 import RhymeScheme from '../../components/rhymeScheme'
 import './songs.scss';
@@ -30,7 +30,7 @@ class Songs extends React.Component {
     classes=`${this.props.className ? this.props.className : ''}`;
     componentDidMount() {
 
-        this.getSongs();
+        // this.getSongs();
         
         // console.log('firebase', firebase);
         axios.get(`/api/spotify/top-tracks`)
@@ -42,18 +42,26 @@ class Songs extends React.Component {
 
     getSongs = async () => {
         const songCollection = collection(db, "songs");
-        console.log('firebase', db);
+        // console.log('firebase', db);
         const data = await getDocs(songCollection)
         console.log('firebase get docs', data.docs);
     }
 
-    addNew = async (song) => {
-        const songCollection = collection(db, "songs");
-        console.log('firebase', db);
+    setSong = async (spotifyID, song) => {
+        const songSet = await setDoc(doc(db, 'songs', spotifyID), song);
 
-        const songAdded = await addDoc(songCollection, song);
+        console.log('set custom', songSet);
+    }
 
-        console.log('firebase add', songAdded);
+    addSong = async (data) => {
+
+        this.setSong(data.spotify, data)
+        // const songCollection = collection(db, "songs");
+        // // console.log('firebase', db);
+
+        // const songAdded = await addDoc(songCollection, song);
+
+        // console.log('firebase add', songAdded);
         
       
         // axios.post(`/api/songs/`, song)
@@ -62,21 +70,43 @@ class Songs extends React.Component {
         // })   
     }
 
+    updateTrack = async (song) => {
+        const updateSong = doc(db, 'songs', song.spotify);
+
+        await updateDoc(updateSong, song);
+    }
+
     showExisting(song) { 
         console.log('show existing track updated', song);
 
     }
 
-    findorCreate(track) {
-        axios.get(`/api/songs/${this.state.activeTrack.id}`)
-        .then(res => {
-            console.log('find response', res);
-            if(res.data === 'track does not exist yet') {
-                this.addNew();
-            } else {
-                this.showExisting(res.data);
-            }
-        })
+    getDocument = async (coll, id) => {
+        const snap = await getDoc(doc(db, coll, id))
+        if (snap.exists())
+          return snap.data()
+        else
+          return Promise.reject(Error(`No such document: ${coll}.${id}`))
+      }
+      
+
+    findorCreate = async (track, data) => {
+        console.log(data.spotify);
+
+        const findSong = doc(db, "songs", data.spotify);
+
+        const song = await getDoc(findSong)
+
+        console.log('firebase get', song);
+
+        if(song.exists()) {
+            console.log('firebase: song found', song.data());
+            this.updateTrack(data)
+        } else {
+            console.log('firebase: song not found');
+            this.setSong(track.id, data);
+        }
+        
     }
 
     getLyrics = (track) => {
@@ -127,14 +157,15 @@ class Songs extends React.Component {
                             }
                     
 
-                            this.addNew(songData);
+                            // this.addNew(songData);
+                            this.findorCreate(track,songData)
                         } 
             
                     })
                     
                 } else {
                     // console.log('song already exists', res.data);
-                    this.setState({
+                    this.setState({ 
                         lyrics  : res.data.lyrics,
                         loading : false
                     })
@@ -169,38 +200,41 @@ class Songs extends React.Component {
             lyrics  : content
         }
 
+        this.findorCreate(this.state.activeTrack, songData);
+
+        
         // console.log('spotifyID', this.state.activeTrack.id );
-        axios.get(`/api/songs/${this.state.activeTrack.id}`)
-        .then(res => {
-            // console.log('find response', res);
-            if(res) {
-                if(res.data === 'track does not exist yet') {
+        // axios.get(`/api/songs/${this.state.activeTrack.id}`)
+        // .then(res => {
+        //     // console.log('find response', res);
+        //     if(res) {
+        //         if(res.data === 'track does not exist yet') {
 
-                    this.addNew(songData);
+        //             this.addNew(songData);
 
-                    // console.log('add new song', res);
-                    axios.post(`/api/songs/`, songData)
-                    .then((res) => {
-                        // console.log('song annotations saved', res);
-                    })   
+        //             // console.log('add new song', res);
+        //             axios.post(`/api/songs/`, songData)
+        //             .then((res) => {
+        //                 // console.log('song annotations saved', res);
+        //             })   
                     
-                } else {
-                    let existingSong = res.data;
-                    // console.log('existing track updated', content);
-                    existingSong.lyrics = content;
-                    // console.log('lyrics updted', existingSong.lyrics);
-                    axios.post(`/api/songs/${this.state.activeTrack.id}`, existingSong)
-                    .then((res) => {
-                        // console.log('song annotations updated', res);
-                        this.setState({
-                            lyrics       :  res.data.lyrics,
-                            loading      : false
-                        })
-                    }) 
-                }
-            }
+        //         } else {
+        //             let existingSong = res.data;
+        //             // console.log('existing track updated', content);
+        //             existingSong.lyrics = content;
+        //             // console.log('lyrics updted', existingSong.lyrics);
+        //             axios.post(`/api/songs/${this.state.activeTrack.id}`, existingSong)
+        //             .then((res) => {
+        //                 // console.log('song annotations updated', res);
+        //                 this.setState({
+        //                     lyrics       :  res.data.lyrics,
+        //                     loading      : false
+        //                 })
+        //             }) 
+        //         }
+        //     }
 
-        })
+        // })
 
        
     }
