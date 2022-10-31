@@ -63,12 +63,7 @@ class Songs extends React.Component {
 
         const updatedSong = await updateDoc(updateSong, song);
 
-        console.log('updatedSong', updateSong)
-
-    }
-
-    showExisting(song) { 
-        console.log('show existing track updated', song);
+        console.log('updatedSong', updatedSong)
 
     }
 
@@ -128,7 +123,6 @@ class Songs extends React.Component {
         .then((res) => {
             
             this.setState({ loading : true });
-            // console.log('musixmatch search', res);
 
             let lyrics = res.data.message.body.lyrics;
 
