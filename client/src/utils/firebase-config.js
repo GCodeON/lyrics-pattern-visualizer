@@ -1,9 +1,6 @@
-// import firebase from "firebase/app";
-// import "firebase/firestore";
-
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, getDocs } from  "firebase/firestore";
+import { getFirestore } from  "firebase/firestore";
 
 const firebaseConfig = {
     apiKey            : process.env. REACT_APP_FIREBASE_API_KEY,
@@ -16,13 +13,9 @@ const firebaseConfig = {
     measurementId     : "G-SWR209Q8G7"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 export const db = getFirestore();
 
-// export const songs = collection(db, 'songs');
-
-// export function getDocs(songs);
 
