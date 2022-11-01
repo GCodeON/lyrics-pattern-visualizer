@@ -47,7 +47,6 @@ class Songs extends React.Component {
         })
     }
 
-
     setActive(track) {
         let activeTrack = track;
         let cleanTrack  = activeTrack.name.replace(/&/g, 'and');
@@ -73,11 +72,12 @@ class Songs extends React.Component {
     }
 
     setSong = async (spotifyID, song) => {
-        const songSet = await setDoc(doc(db, 'songs', spotifyID), song)
+        // const songSet = await setDoc(doc(db, 'songs', spotifyID), song)
 
-      if(songSet) {
-        console.log('songSet', songSet);
-      }
+        setDoc(doc(db, 'songs', spotifyID), song)
+        .then((song) => {
+            console.log('song set', song);
+        })
     }
 
     updateTrack = async (song) => {
@@ -85,10 +85,10 @@ class Songs extends React.Component {
 
         const update = await updateDoc(updateSong, song);
 
-        console.log('record updated on change', this.state.lyrics);
+        console.log('record updated on change', song.lyrics);
 
         this.setState({
-            lyrics : this.state.lyrics
+            lyrics : song.lyrics
         })
         
     }
@@ -109,13 +109,13 @@ class Songs extends React.Component {
             // console.log('firebase: song found', song.data());
 
             if(type === 'change') {
-                data.lyrics = savedSong.lyrics;
-                console.log( )
+                // data.lyrics = savedSong.lyrics;
+                console.log('change detected', savedSong.lyrics);
                 this.updateTrack(data);
                 
-                this.setState({
-                    lyrics : savedSong.lyrics
-                })
+                // this.setState({
+                //     lyrics : savedSong.lyrics
+                // })
             } else {
              
                 this.setState({
