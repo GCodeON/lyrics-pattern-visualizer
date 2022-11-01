@@ -46,7 +46,8 @@ class Songs extends React.Component {
     componentDidMount() {
         let { id } = this.props.params;
         console.log('props', id);
-        this.getSongs();
+        this.findorCreate(id);
+        // this.getSongs();
         
         // axios.get(`/api/spotify/top-tracks`)
         // .then((res) => {
@@ -105,40 +106,28 @@ class Songs extends React.Component {
         
     }
 
-    findorCreate = async (track, data, type) => {
+    findorCreate = async (id) => {
 
-        const findSong = doc(db, "songs", data.spotify);
+        const findSong = doc(db, "songs", id);
 
         const song = await getDoc(findSong)
-
-        // console.log('firebase get', song.data());
  
        const savedSong = song.data();
 
 
 
         if(song.exists()) {
-            // console.log('firebase: song found', song.data());
 
-            if(type == 'change') {
-                console.log('change type', this.state.content, this.state.getLyrics, this.state.savedLyrics );
-
-                // data.lyrics = savedSong.lyrics;
-                this.updateTrack(data);
-                
-                // this.setState({
-                //     lyrics : savedSong.lyrics
-                // })
-            } 
-
-            if(type == 'get') {
-                console.log('get type', this.state.content, this.state.getLyrics, this.state.savedLyrics );
-                this.setState({lyrics:  this.state.getLyrics})
-            }
+            console.log('track found', savedSong);
+                      
+            this.setState({
+                trackName   : savedSong.title,
+                trackArtist : savedSong.artist,
+                lyrics : savedSong.lyrics
+            })
 
         } else {
             console.log('firebase: song not found');
-            this.setSong(track.id, data);
         }
         
     }
