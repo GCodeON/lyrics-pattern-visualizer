@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import React from "react";
 import axios from 'axios';
 
@@ -194,12 +195,14 @@ class Songs extends React.Component {
             list = 
             <div className="tracks"> {
                 this.state.tracks.map((track, index) => (
-                    <p className="track-name" 
-                        key={index} 
-                        onClick={(click) => this.getLyrics(track)}
-                        >
-                        {track.name}
-                    </p>
+                    <Link to={`/songs/${track.id}`}>
+                        <p className="track-name" 
+                            key={index} 
+                            // onClick={(click) => this.getLyrics(track)}
+                            >
+                            {track.name}
+                        </p>
+                    </Link>
                 ))}
             </div>
         }

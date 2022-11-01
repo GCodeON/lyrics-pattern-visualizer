@@ -1,10 +1,11 @@
+import { useParams } from "react-router-dom";
 import React from "react";
 import axios from 'axios';
 
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 
-import { db } from '../../utils/firebase-config';
+import { db } from '../../../utils/firebase-config';
 
 import { 
     collection, 
@@ -15,9 +16,12 @@ import {
     doc
 } from  "firebase/firestore";
 
-import RhymeScheme from '../../components/rhymeScheme'
-import './songs.scss';
+import RhymeScheme from '../../../components/rhymeScheme'
+import './styles.scss';
 
+function withParams(Component) {
+    return props => <Component {...props} params={useParams()} />;
+}
 class Songs extends React.Component {
 
     constructor(props) {
@@ -40,14 +44,15 @@ class Songs extends React.Component {
 
     classes=`${this.props.className ? this.props.className : ''}`;
     componentDidMount() {
-
+        let { id } = this.props.params;
+        console.log('props', id);
         this.getSongs();
         
-        axios.get(`/api/spotify/top-tracks`)
-        .then((res) => {
-            this.setState({ tracks : res.data.items })
-            console.log('users top tracks', this.state.tracks);
-        })
+        // axios.get(`/api/spotify/top-tracks`)
+        // .then((res) => {
+        //     this.setState({ tracks : res.data.items })
+        //     console.log('users top tracks', this.state.tracks);
+        // })
     }
 
     setActive(track) {
@@ -245,7 +250,6 @@ class Songs extends React.Component {
 
 
     render() {
-
         return(
             <div className="songs">
                 { this.state.lyrics ? this.displayLyrics() : this.trackList()}
@@ -254,4 +258,4 @@ class Songs extends React.Component {
     }
 }
 
-export default Songs;
+export default withParams(Songs);
