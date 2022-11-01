@@ -34,7 +34,7 @@ class Songs extends React.Component {
             trackName   : null,
             trackArtist : null,
             loading     : false,
-            edit        : true
+            edit        : false
         }
     }
 
@@ -91,7 +91,7 @@ class Songs extends React.Component {
             console.log('record updated on change', update);
 
             this.setState({
-                lyrics : this.state.lyrics
+                lyrics : this.getLyrics
             })
         } catch {
             console.log('Updated unsucessful');
@@ -196,7 +196,7 @@ class Songs extends React.Component {
                 this.state.tracks.map((track, index) => (
                     <p className="track-name" 
                         key={index} 
-                        onClick={(click) => this.getLyrics(track)}
+                        onClick={() => this.getLyrics(track)}
                         >
                         {track.name}
                     </p>
