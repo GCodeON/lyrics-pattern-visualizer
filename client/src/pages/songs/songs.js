@@ -40,63 +40,12 @@ class Songs extends React.Component {
             this.setState({ tracks : res.data.items })
             console.log('users top tracks', this.state.tracks);
         })
-    }
-
-    setActive(track) {
-        let activeTrack = track;
-        let cleanTrack  = activeTrack.name.replace(/&/g, 'and');
-        let splitTrack  = cleanTrack.split('(');
-        let trackName = splitTrack[0];
-        let trackArtist = activeTrack.artists[0].name;
-        let trackFeature = splitTrack[1] ?  splitTrack[1] : '';
-
-        this.setState({
-            activeTrack  : activeTrack,
-            cleanTrack   : cleanTrack,
-            splitTrack   : splitTrack,
-            trackName    : trackName,
-            trackArtist  : trackArtist,
-            trackFeature : trackFeature,
-        })
-    }
-
+    }    
+    
     getSongs = async () => {
         const songCollection = collection(db, "songs");
         const data = await getDocs(songCollection)
         console.log('firebase get docs', data.docs);
-    }
-
-    getLyrics = (track) => {
-
-        this.setActive(track);
-        
-        axios.get(`/api/musixmatch/track-lyrics?track=${this.state.trackName}&artist=${this.state.trackArtist}`)
-        .then((res) => {
-            
-            this.setState({ loading : true });
-
-            let lyrics = res.data.message.body.lyrics;
-
-            if(lyrics) {
-                this.setState({
-                    getLyrics : lyrics.lyrics_body,
-                    loading   : false
-                })
-
-                let songData = {
-                    title   : this.state.trackName,
-                    artist  : this.state.trackArtist,
-                    spotify : this.state.activeTrack.id,
-                    lyrics  : this.state.getlyrics
-                }
-        
-                this.findorCreate(track, songData, 'get');
-
-            } else {
-                return 'lyrics not found';
-            }
-
-        })
     }
 
     trackList() {

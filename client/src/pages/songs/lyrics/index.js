@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from "react-router-dom";
+import axios from 'axios';
+
 import { 
     collection, 
     getDocs, 
@@ -44,6 +46,7 @@ const Lyrics = () => {
 
         } else {
             console.log('firebase: song not found');
+            // setDoc(song)
         }
     }
 
@@ -65,6 +68,58 @@ const Lyrics = () => {
     }
     function toggleEdit() {
         setEdit(!edit);
+    }
+
+
+    function setActive(track) {
+        let activeTrack = track;
+        let cleanTrack  = activeTrack.name.replace(/&/g, 'and');
+        let splitTrack  = cleanTrack.split('(');
+        let trackName = splitTrack[0];
+        let trackArtist = activeTrack.artists[0].name;
+        let trackFeature = splitTrack[1] ?  splitTrack[1] : '';
+
+        this.setState({
+            activeTrack  : activeTrack,
+            cleanTrack   : cleanTrack,
+            splitTrack   : splitTrack,
+            trackName    : trackName,
+            trackArtist  : trackArtist,
+            trackFeature : trackFeature,
+        })
+    }
+
+    function getLyrics (track) {
+
+        this.setActive(track);
+        
+        axios.get(`/api/musixmatch/track-lyrics?track=${this.state.trackName}&artist=${this.state.trackArtist}`)
+        .then((res) => {
+            
+            this.setState({ loading : true });
+
+            let lyrics = res.data.message.body.lyrics;
+
+            if(lyrics) {
+                this.setState({
+                    getLyrics : lyrics.lyrics_body,
+                    loading   : false
+                })
+
+                let songData = {
+                    title   : this.state.trackName,
+                    artist  : this.state.trackArtist,
+                    spotify : this.state.activeTrack.id,
+                    lyrics  : this.state.getlyrics
+                }
+        
+                this.findorCreate(track, songData, 'get');
+
+            } else {
+                return 'lyrics not found';
+            }
+
+        })
     }
 
     function displayLyrics() {
@@ -119,7 +174,7 @@ const Lyrics = () => {
         updateTrack(savedSong);
     }
     return (
-        <div className="songs">
+        <div className="lyrics">
             { savedSong ? displayLyrics() : loading() }
         </div>
     );
