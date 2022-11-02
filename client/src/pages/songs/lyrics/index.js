@@ -22,6 +22,7 @@ const Lyrics = () => {
 
     const [savedSong, setSavedSong] = useState({})
     const [edit, setEdit] = useState(true)
+    const [lyrics, setLyrics] = useState(true)
 
     const { id }              = useParams();
     const location            = useLocation();
@@ -44,6 +45,23 @@ const Lyrics = () => {
         } else {
             console.log('firebase: song not found');
         }
+    }
+
+    async function updateTrack (song) {
+        const updateSong = doc(db, 'songs', song.spotify);
+        
+        try {
+            const update = await updateDoc(updateSong, song);
+            console.log('record updated on change', update);
+        } catch {
+            console.log('Updated unsucessful');
+        }
+    }
+    async function setSong (spotifyID, song) {
+        setDoc(doc(db, 'songs', spotifyID), song)
+        .then((song) => {
+            console.log('song set', song);
+        })
     }
 
     function displayLyrics() {
@@ -92,6 +110,9 @@ const Lyrics = () => {
     }
     function handleChange(updatedContent) {
         console.log('handle update', updatedContent );
+        savedSong.lyrics = updatedContent;
+
+        updateTrack(savedSong);
     }
     return (
         <div className="songs">

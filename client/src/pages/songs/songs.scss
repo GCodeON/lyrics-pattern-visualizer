@@ -10,6 +10,10 @@
             cursor         : pointer;
         }
     }
+    .link {
+        color           : white;
+        text-decoration : none;
+    }
     .track {
         display               : grid;
         grid-template-columns : 50% 1fr;
