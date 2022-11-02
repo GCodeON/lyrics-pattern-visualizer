@@ -13,7 +13,7 @@ import { db } from '../../../utils/firebase-config';
 
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
-
+import { FaEdit } from "react-icons/fa";
 
 import RhymeScheme from '../../../components/rhymeScheme'
 import './styles.scss';
@@ -21,7 +21,7 @@ import './styles.scss';
 const Lyrics = () => {
 
     const [savedSong, setSavedSong] = useState({})
-    const [edit, setEdit] = useState(true)
+    const [edit, setEdit] = useState(false)
     const [lyrics, setLyrics] = useState(true)
 
     const { id }              = useParams();
@@ -63,6 +63,9 @@ const Lyrics = () => {
             console.log('song set', song);
         })
     }
+    function toggleEdit() {
+        setEdit(!edit);
+    }
 
     function displayLyrics() {
         let show;
@@ -76,6 +79,7 @@ const Lyrics = () => {
                                 <h3 className="artist">
                                     { savedSong.artist }
                                 </h3>
+                                <button onClick={() => toggleEdit() }>  <FaEdit/></button>
                             </div>
 
                             { !edit  && (
