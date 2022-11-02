@@ -195,14 +195,21 @@ class Songs extends React.Component {
             list = 
             <div className="tracks"> {
                 this.state.tracks.map((track, index) => (
-                    <Link to={`/songs/${track.id}`}>
-                        <p className="track-name" 
-                            key={index} 
-                            // onClick={(click) => this.getLyrics(track)}
-                            >
-                            {track.name}
-                        </p>
-                    </Link>
+
+                    <Link 
+                        className="link"
+                        to={`/songs/${track.id}`} 
+                        state={{ data: track }} 
+                        >
+                    <p 
+                        className="track-name" 
+                        key={index}
+                        >
+                        {track.name}
+                    </p>
+                </Link>
+
+
                 ))}
             </div>
         }
@@ -218,21 +225,29 @@ class Songs extends React.Component {
             show = <div className="track">
                         <div className="editor-wrapper">  
                             <div className="info">
-                                <h1 className="title">{ this.state.trackName }</h1>
-                                <h3 className="artist">{ this.state.trackArtist }</h3>
+                                <h1 className="title">
+                                    { this.state.trackName }
+                                </h1>
+                                <h3 className="artist">
+                                    { this.state.trackArtist }
+                                </h3>
                             </div>
 
                             { !this.state.edit  && (
-                                <div className="lyrics" dangerouslySetInnerHTML={{ __html: this.state.lyrics.replace(/\n/g, '<br />') }} /> 
+                                <div className="lyrics" 
+                                    dangerouslySetInnerHTML={
+                                        { __html: this.state.lyrics.replace(/\n/g, '<br />') }
+                                    } 
+                                /> 
                             )}
 
                             { this.state.edit  && (
                                 <SunEditor
-                                    onChange={ this.handleChange }
-                                    setContents={ this.state.lyrics.replace(/\n/g, '<br />')}
-                                    setOptions={{
-                                        height: 200,
-                                        buttonList: [['hiliteColor', 'fontColor']] 
+                                    onChange    = { this.handleChange }
+                                    setContents = { this.state.lyrics.replace(/\n/g, '<br />')}
+                                    setOptions  = {{
+                                        height     : 200,
+                                        buttonList : [['hiliteColor', 'fontColor']]
                                     }} />
                             )}
                         </div>
