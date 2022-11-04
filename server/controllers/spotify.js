@@ -35,11 +35,39 @@ exports.currentlyPlaying = (req, res, next) => {
     })
 }
 
-exports.trackBySongId = (req, res, next) => {
+exports.BySongId = (req, res, next) => {
 
     Spotify.api(`/tracks/${req.params.id}`)
     .then((data) => {
         // console.log('response', data);
         res.status(200).json(data); 
+    })
+}
+
+exports.ByArtistId = (req, res, next) => {
+
+    Spotify.api(`/artists/${req.params.id}`)
+    .then((data) => {
+        console.log('response', data);
+        res.status(200).json(data); 
+
+    })
+}
+
+
+exports.artistAlbums = (req, res, next) => {
+
+    Spotify.api(`/artists/${req.params.id}/albums`)
+    .then((data) => {
+        console.log('albums', data);
+
+        function getUniqueListBy(arr, key) {
+            return [...new Map(arr.map(item => [item[key], item])).values()]
+        }
+
+        let uniqueAlbums = getUniqueListBy(data.items, 'name');
+        console.log('unique', uniqueAlbums)
+        res.status(200).json(uniqueAlbums); 
+        
     })
 }

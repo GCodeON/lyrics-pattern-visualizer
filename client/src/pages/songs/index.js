@@ -9,7 +9,7 @@ import {
     getDocs
 } from  "firebase/firestore";
 
-import './songs.scss';
+import './styles.scss';
 
 class Songs extends React.Component {
 
@@ -43,24 +43,23 @@ class Songs extends React.Component {
         let list;
         if (this.state.tracks) {
             list = 
-            <div className="tracks"> {
-                this.state.tracks.map((track, index) => (
-
-                    <Link 
-                        key={index}
-                        className="link"
-                        to={`/songs/${track.id}`} 
-                        state={{ song: track }} 
-                        >
-                    <p 
-                        className="track-name" 
-                        >
-                        {track.name}
-                    </p>
-                </Link>
-
-
-                ))}
+            <div className="tracks"> 
+                {
+                    this.state.tracks.map((track, index) => (
+                        <Link 
+                            key={index}
+                            className="link"
+                            to={`/songs/${track.id}`} 
+                            state={{ song: track }} 
+                            >
+                            <p 
+                                className="track-name" 
+                                >
+                                {track.name}
+                            </p>
+                        </Link>
+                    ))
+                }
             </div>
         }
         else {

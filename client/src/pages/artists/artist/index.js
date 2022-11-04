@@ -1,0 +1,66 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, useLocation, Link } from "react-router-dom";
+import axios from 'axios';
+
+import './styles.scss';
+
+const Artist = () => {
+    const { id }   = useParams();
+    const location = useLocation();
+    const [artist, setArtist] = useState({});
+    const [albums, setAlbums] = useState([]);
+    // let albums = [];
+
+    useEffect(() => {
+        axios.get(`/api/spotify/artist/${id}`)
+        .then((spotifyArtist) => {
+            setArtist(spotifyArtist.data);
+        })  
+    }, []);
+
+    useEffect(() => {
+        axios.get(`/api/spotify/artist/albums/${id}`)
+        .then((res) => {
+            console.log('res albums', res.data);
+            setAlbums(res.data);
+        });
+
+    }, [artist]);
+
+    useEffect(() => {
+      console.log('albums', albums)
+    }, [albums]);
+
+
+
+    const albumList = () => {
+        let list;
+        if (albums) { 
+            list =
+            <ul>
+                {albums.map((item,index) => (
+                    <li key={index}>
+                        <p>{ item.name }</p>
+                    </li>
+                ))}
+            </ul>
+        }
+        return list;
+    }
+
+
+    return (
+        <>
+            {  artist && (
+            <div className='artist'>
+                <h1>{ artist.name }</h1>
+                <div className='albums'>
+                    { albumList() }
+                </div>
+            </div>
+            )}
+        </>
+      );
+}
+
+export default Artist;
