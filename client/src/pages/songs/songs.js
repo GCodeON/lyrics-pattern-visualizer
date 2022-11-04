@@ -17,16 +17,7 @@ class Songs extends React.Component {
         super(props);
         this.state = {
             tracks      : null,
-            getLyrics   : null,
-            savedLyrics : null,
-            lyrics      : null,
-            content     : null,
-            activeTrack : null,
-            splitTrack  : null,
-            trackName   : null,
-            trackArtist : null,
-            loading     : false,
-            edit        : true
+            loading     : false
         }
     }
 
@@ -56,13 +47,13 @@ class Songs extends React.Component {
                 this.state.tracks.map((track, index) => (
 
                     <Link 
+                        key={index}
                         className="link"
                         to={`/songs/${track.id}`} 
-                        state={{ data: track }} 
+                        state={{ song: track }} 
                         >
                     <p 
                         className="track-name" 
-                        key={index}
                         >
                         {track.name}
                     </p>

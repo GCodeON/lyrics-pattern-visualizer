@@ -3,13 +3,11 @@ import { useParams, useLocation } from "react-router-dom";
 import axios from 'axios';
 
 import { 
-    collection, 
-    getDocs, 
     getDoc, 
     setDoc, 
     updateDoc, 
     doc
-} from  "firebase/firestore";
+} from "firebase/firestore";
 
 import { db } from '../../../utils/firebase-config';
 
@@ -21,17 +19,43 @@ import RhymeScheme from '../../../components/rhymeScheme'
 import './styles.scss';
 
 const Lyrics = () => {
-
     const [savedSong, setSavedSong] = useState({})
-    const [edit, setEdit] = useState(false)
-    const [lyrics, setLyrics] = useState(true)
+    const [edit, setEdit]           = useState(false)
+    const [loading, setLoading]     = useState(false)
 
-    const { id }              = useParams();
-    const location            = useLocation();
+    const { id }   = useParams();
+    const location = useLocation();
+
+    let updatedSong, songInfo = {};
 
     useEffect(() => {
         findorCreate(id);
     }, []);
+
+    function toggleEdit() {
+        setEdit(!edit);
+    }
+
+    function setActive(track) {
+        
+        let activeTrack = track;
+        let cleanTrack  = activeTrack.name.replace(/&/g, 'and');
+        let splitTrack  = cleanTrack.split('(');
+        let trackName    = splitTrack[0];
+        let trackArtist  = activeTrack.artists[0].name;
+        let trackFeature = splitTrack[1] ?  splitTrack[1] : '';
+
+        const activeSong = {
+            activeTrack  : activeTrack,
+            cleanTrack   : cleanTrack,
+            splitTrack   : splitTrack,
+            trackName    : trackName,
+            trackArtist  : trackArtist,
+            trackFeature : trackFeature
+        }
+
+        songInfo = {...activeSong}
+    }
 
     async function findorCreate(id) {
         const findSong = doc(db, "songs", id);
@@ -42,11 +66,20 @@ const Lyrics = () => {
 
         if(song.exists()) {
             console.log('song exists', savedData);
-            setSavedSong(savedData)
+            setSavedSong({...savedData})
 
         } else {
-            console.log('firebase: song not found');
-            // setDoc(song)
+            setLoading(true);
+            if(location.state.song) {
+                console.log('firebase: song not found', location.state.song);
+                setActive(location.state.song);
+                getLyrics(songInfo);
+            } else {
+                axios.get(`/api/spotify/track/${id}`)
+                .then((res) => {
+                   console.log('spotify track fallback api', res);
+                })
+            }
         }
     }
 
@@ -60,61 +93,36 @@ const Lyrics = () => {
             console.log('Updated unsucessful');
         }
     }
-    async function setSong (spotifyID, song) {
+    function saveSong (spotifyID, song) {
+        console.log('song data', song);
         setDoc(doc(db, 'songs', spotifyID), song)
-        .then((song) => {
-            console.log('song set', song);
+        .then((set) => {
+            console.log('song set', song,);
+            setSavedSong(song)
+            setLoading(false);
         })
     }
-    function toggleEdit() {
-        setEdit(!edit);
-    }
-
-
-    function setActive(track) {
-        let activeTrack = track;
-        let cleanTrack  = activeTrack.name.replace(/&/g, 'and');
-        let splitTrack  = cleanTrack.split('(');
-        let trackName = splitTrack[0];
-        let trackArtist = activeTrack.artists[0].name;
-        let trackFeature = splitTrack[1] ?  splitTrack[1] : '';
-
-        this.setState({
-            activeTrack  : activeTrack,
-            cleanTrack   : cleanTrack,
-            splitTrack   : splitTrack,
-            trackName    : trackName,
-            trackArtist  : trackArtist,
-            trackFeature : trackFeature,
-        })
-    }
+    
 
     function getLyrics (track) {
-
-        this.setActive(track);
-        
-        axios.get(`/api/musixmatch/track-lyrics?track=${this.state.trackName}&artist=${this.state.trackArtist}`)
+        console.log('lyrics triggered');
+        axios.get(`/api/musixmatch/track-lyrics?track=${track.trackName}&artist=${track.trackArtist}`)
         .then((res) => {
-            
-            this.setState({ loading : true });
 
             let lyrics = res.data.message.body.lyrics;
+            console.log('lryics found', lyrics);
 
             if(lyrics) {
-                this.setState({
-                    getLyrics : lyrics.lyrics_body,
-                    loading   : false
-                })
 
                 let songData = {
-                    title   : this.state.trackName,
-                    artist  : this.state.trackArtist,
-                    spotify : this.state.activeTrack.id,
-                    lyrics  : this.state.getlyrics
+                    title   : track.trackName,
+                    artist  : track.trackArtist,
+                    spotify : track.activeTrack.id,
+                    lyrics  : lyrics.lyrics_body
                 }
-        
-                this.findorCreate(track, songData, 'get');
+                updatedSong = songData;
 
+                saveSong(id, updatedSong)
             } else {
                 return 'lyrics not found';
             }
@@ -145,7 +153,7 @@ const Lyrics = () => {
                                 /> 
                             )}
 
-                            { edit  && (
+                            { edit && (
                                 <SunEditor
                                     onChange    = { handleChange }
                                     setContents = { savedSong.lyrics.replace(/\n/g, '<br />')}
@@ -164,9 +172,6 @@ const Lyrics = () => {
         return show;
     }
 
-    function loading() {
-        return  <div>loading data</div>;
-    }
     function handleChange(updatedContent) {
         console.log('handle update', updatedContent );
         savedSong.lyrics = updatedContent;
@@ -175,7 +180,7 @@ const Lyrics = () => {
     }
     return (
         <div className="lyrics">
-            { savedSong ? displayLyrics() : loading() }
+            { loading ?  <div>loading data</div> : displayLyrics()  }
         </div>
     );
 }
