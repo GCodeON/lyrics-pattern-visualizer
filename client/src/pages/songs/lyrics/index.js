@@ -70,14 +70,15 @@ const Lyrics = () => {
 
         } else {
             setLoading(true);
-            if(location.state.song) {
-                console.log('firebase: song not found', location.state.song);
+            console.log('firebase: song not found', location.state);
+            if(location.state !== null) {
                 setActive(location.state.song);
                 getLyrics(songInfo);
             } else {
                 axios.get(`/api/spotify/track/${id}`)
                 .then((res) => {
-                   console.log('spotify track fallback api', res);
+                   setActive(res.data);
+                   getLyrics(songInfo);
                 })
             }
         }
@@ -156,7 +157,7 @@ const Lyrics = () => {
                             { edit && (
                                 <SunEditor
                                     onChange    = { handleChange }
-                                    setContents = { savedSong.lyrics.replace(/\n/g, '<br />')}
+                                    setContents = { savedSong.lyrics.replace(/\n/g, '<br />') }
                                     setOptions  = {{
                                         height     : 200,
                                         buttonList : [['hiliteColor', 'fontColor']]
