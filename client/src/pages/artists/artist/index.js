@@ -19,6 +19,7 @@ const Artist = () => {
     }, []);
 
     useEffect(() => {
+        console.log('artist data', artist);
         axios.get(`/api/spotify/artist/albums/${id}`)
         .then((res) => {
             console.log('res albums', res.data);
@@ -49,11 +50,24 @@ const Artist = () => {
     }
 
 
+    const artistImage = () => {
+        let photo;
+
+        { artist.images && (
+            photo = <img className='photo' src={artist.images[1].url } /> 
+        )}
+
+        return photo;
+    }
+
+
+
     return (
         <>
             {  artist && (
             <div className='artist'>
                 <h1>{ artist.name }</h1>
+                { artistImage() }
                 <div className='albums'>
                     { albumList() }
                 </div>
