@@ -39,10 +39,17 @@ const Artist = () => {
         if (albums) { 
             list =
             <ul>
-                {albums.map((item,index) => (
-                    <li key={index}>
-                        <p>{ item.name }</p>
+                {albums.map((album,index) => (
+
+                    <Link 
+                    key={index}
+                    className="link"
+                    to={`/albums/${album.id}`} 
+                    >
+                    <li>
+                        <p>{ album.name }</p>
                     </li>
+                    </Link>
                 ))}
             </ul>
         }
@@ -65,10 +72,11 @@ const Artist = () => {
     return (
         <>
             {  artist && (
-            <div className='artist'>
+            <div className='artist-page'>
                 <h1>{ artist.name }</h1>
                 { artistImage() }
                 <div className='albums'>
+                    <h3>Albums</h3>
                     { albumList() }
                 </div>
             </div>
