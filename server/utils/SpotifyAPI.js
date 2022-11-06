@@ -1,3 +1,4 @@
+const querystring = require('querystring');
 const fetch = require('node-fetch');
 
 const basic          = Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
@@ -11,7 +12,7 @@ const getAccessToken = async () => {
       Authorization  : `Basic ${basic}`,
       'Content-Type' : 'application/x-www-form-urlencoded',
     },
-    body: URLSearchParams.stringify({
+    body: querystring.stringify({
       grant_type    : 'refresh_token',
       refresh_token : process.env.SPOTIFY_REFRESH_TOKEN
     }),

@@ -10,7 +10,6 @@ function Dashboard(props) {
         <div className={classes}>
             <Sidebar></Sidebar>
             <Outlet />
-            {/* <div className="page">{props.children}</div> */}
         </div>
     )
 }

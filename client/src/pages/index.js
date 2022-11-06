@@ -1,45 +1,94 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import axios from 'axios';
 
-import './index.scss';
+import './styles.scss';
 
-class Home extends React.Component {
+const Home = () => {
+    const [currentlyPlaying, setCurrentlyPlaying] = useState({});
+    const [currentArtist, setCurrentArtist] = useState([]);
+    const [recentlyPlayed, setRecentlyPlayed]   = useState({});
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            artists: null
-        }
-    }
-
-    classes=`${this.props.className ? this.props.className : ''}`;
-
-    componentDidMount() {
-        axios.get(`/api/spotify/top-artists`)
-        .then((res) => {
-            this.setState({
-                artists : res.data.items
-
-            })
-            console.log('saved artists to state', this.state.artists);
-        })
-    }
-
-    render() {
-        if (this.state.artists) {
-            return (<div className="user-top-artists"> {
-                this.state.artists.map((artist, index) => (
-                    <div className="artist" key={index} style={{ backgroundImage:`url(${artist.images[0].url})` }}>
-                        <h3>{artist.name}</h3>
-                    </div>
-                ))
+    useEffect(() => {
+        axios.get(`/api/spotify/currently-playing`)
+        .then((current) => {
+            console.log('current', current)
+            if(current.data.currently_playing_type !== "ad") {
+                axios.get(`/api/spotify/track/${current.data.item.id}`)
+                .then((track) => {
+                    setCurrentlyPlaying(track.data);
+                })  
             }
-            </div>)
+        })  
+    }, []);
+
+    useEffect(() => {
+        console.log('set artist pre')
+        if(currentlyPlaying.artists) {
+            let artist = currentlyPlaying.artists[0].name;
+            console.log('set artist post', artist);
+            setCurrentArtist(artist);
+        }  
+    }, [currentlyPlaying]);
+
+    useEffect(() => {
+        console.log('set artist pre')
+        if(currentArtist) {
+          console.log('name set');
+        }  
+    }, [currentArtist]);
+
+            // axios.get(`/api/spotify/recently-played`)
+        // .then((recent) => {
+        //     console.log('recent', recent)
+        //     if(recent.data.items) {
+        //         setRecentlyPlayed(recent.data.items);
+        //     }
+        // })
+
+
+    const trackList = () => {
+        let list;
+        if (recentlyPlayed) { 
+            list =
+            <ul>
+                {recentlyPlayed.map((track,index) => (
+
+                    <Link 
+                    key={index}
+                    className="link"
+                    to={`/song/${track.id}`} 
+                    >
+                    <li>
+                        <p>{ track.name }</p>
+                    </li>
+                    </Link>
+                ))}
+            </ul>
         }
-        else {
-            return <div>loading data</div>
-        }
+        return list;
     }
+
+
+    return (
+        <div className="home-page">
+            <h1>Currently Playing</h1>
+            { currentlyPlaying && (
+                <div className="current">
+                    <p className="track-name">
+                        { currentlyPlaying.name }
+                    </p>
+                    <p className="track-name">
+                        { currentArtist }
+                    </p>
+                </div>
+            )}
+            {/* <div className='tracks'>
+                <h3>Recently Played</h3>
+                { trackList() }
+            </div> */}
+        </ div>
+    );
 }
 
 export default Home;

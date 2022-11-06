@@ -29,6 +29,13 @@ exports.currentlyPlaying = (req, res, next) => {
     })
 }
 
+exports.recentlyPlayed = (req, res, next) => {
+    Spotify.api('/me/player/recently-played')
+    .then((data) => {
+        res.status(200).json(data); 
+    })
+}
+
 exports.BySongId = (req, res, next) => {
     Spotify.api(`/tracks/${req.params.id}`)
     .then((data) => {
