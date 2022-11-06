@@ -34,7 +34,7 @@ class Artists extends React.Component {
                     <Link 
                         key={index}
                         className="link"
-                        to={`/artist/${artist.id}`} 
+                        to={`/artists/${artist.id}`} 
                         state={{ artist: artist }} 
                         >
                         <div className="artist" key={index} style={{ backgroundImage:`url(${artist.images[0].url})` }}>

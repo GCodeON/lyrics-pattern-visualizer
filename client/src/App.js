@@ -9,15 +9,18 @@ import Artist from './pages/artists/artist/';
 import Songs from './pages/songs';
 import Lyrics from './pages/songs/lyrics/';
 
+import Album from './pages/albums/album/';
+
 function App() {
   return (
       <Routes>
         <Route path="/" element={<Dashboard />}>
           <Route index  element={<Home />} />
           <Route path="/artists" element={<Artists />} />
-          <Route exact  path="/artists/:id" element={<Artist />} />
+          <Route exact  path="/artist/:id" element={<Artist />} />
           <Route path="/songs" element={<Songs />} />
-          <Route exact path="/songs/:id" element={<Lyrics />} />
+          <Route exact path="/song/:id" element={<Lyrics />} />
+          <Route exact path="/album/:id" element={<Album />} />
         </Route>
       </Routes>
   );

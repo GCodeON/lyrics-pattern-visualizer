@@ -49,7 +49,7 @@ class Songs extends React.Component {
                         <Link 
                             key={index}
                             className="link"
-                            to={`/songs/${track.id}`} 
+                            to={`/song/${track.id}`} 
                             state={{ song: track }} 
                             >
                             <p 

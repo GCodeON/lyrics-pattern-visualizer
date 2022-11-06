@@ -10,5 +10,6 @@ router.get('/top-tracks', spotify.topTracks);
 router.get('/track/:id', spotify.BySongId);
 router.get('/artist/:id', spotify.ByArtistId);
 router.get('/artist/albums/:id', spotify.artistAlbums);
+router.get('/albums/:id', spotify.Album);
 
 module.exports = router

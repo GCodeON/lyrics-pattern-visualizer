@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from 'axios';
 
 import './styles.scss';
 
 const Artist = () => {
     const { id }   = useParams();
-    const location = useLocation();
     const [artist, setArtist] = useState({});
     const [albums, setAlbums] = useState([]);
-    // let albums = [];
 
     useEffect(() => {
         axios.get(`/api/spotify/artist/${id}`)
@@ -44,7 +42,7 @@ const Artist = () => {
                     <Link 
                     key={index}
                     className="link"
-                    to={`/albums/${album.id}`} 
+                    to={`/album/${album.id}`} 
                     >
                     <li>
                         <p>{ album.name }</p>
