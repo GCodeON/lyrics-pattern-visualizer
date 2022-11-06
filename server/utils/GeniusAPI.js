@@ -19,21 +19,18 @@ const connect = async (endpoint) => {
 };
 
 const scrapeLyrics = async (geniusUrl) => {
-  console.log('genius url', geniusUrl);
   const browser = await puppeteerExtra.launch();
-  const page = await browser.newPage();
+  const page    = await browser.newPage();
 
   await page.emulate(puppeteer.devices['iPhone 6']);
   await page.goto(geniusUrl);
 
   const content = await page.content();
-  const $ = cheerio.load(content);
-  const lyrics = $('.lyrics').text();
+  const $       = cheerio.load(content);
+  const lyrics  = $('.lyrics').text();
 
-  console.log('scrape content', content, lyrics);
   return lyrics;
 }
-
 
 exports.api = async (endpoint)  => {
   const response = await connect(endpoint);
