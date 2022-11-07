@@ -1,4 +1,10 @@
-
+.page {
+    text-align      : center;
+    display         : flex;
+    flex-direction  : column;
+    justify-content : center;
+    height          : 100vh;
+}
 
 a {
     text-decoration : none;

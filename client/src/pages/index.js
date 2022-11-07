@@ -10,6 +10,7 @@ const Home = () => {
     const [recentlyPlayed, setRecentlyPlayed]   = useState({});
 
     useEffect(() => {
+
         axios.get(`/api/spotify/currently-playing`)
         .then((current) => {
             console.log('current', current)
@@ -20,31 +21,32 @@ const Home = () => {
                 })  
             }
         })  
-    }, []);
 
-    useEffect(() => {
-        console.log('set artist pre')
-        if(currentlyPlaying.artists) {
-            let artist = currentlyPlaying.artists[0].name;
-            console.log('set artist post', artist);
-            setCurrentArtist(artist);
-        }  
-    }, [currentlyPlaying]);
-
-    useEffect(() => {
-        console.log('set artist pre')
-        if(currentArtist) {
-          console.log('name set');
-        }  
-    }, [currentArtist]);
-
-            // axios.get(`/api/spotify/recently-played`)
+        // axios.get(`/api/spotify/recently-played`)
         // .then((recent) => {
         //     console.log('recent', recent)
         //     if(recent.data.items) {
         //         setRecentlyPlayed(recent.data.items);
         //     }
         // })
+    }, []);
+
+    useEffect(() => {
+        if(currentlyPlaying.artists) {
+            let artist = currentlyPlaying.artists[0].name;
+            setCurrentArtist(artist);
+        }  
+    }, [currentlyPlaying]);
+
+    useEffect(() => {
+        axios.get(`/api/spotify/recently-played`)
+        .then((recent) => {
+            console.log('recent', recent)
+            if(recent.data.items) {
+                setRecentlyPlayed(recent.data.items);
+            }
+        })
+    }, [currentArtist]);
 
 
     const trackList = () => {
@@ -71,18 +73,23 @@ const Home = () => {
 
 
     return (
-        <div className="home-page">
-            <h1>Currently Playing</h1>
+        <div className="home page">
+            <h3>Currently Playing</h3>
             { currentlyPlaying && (
                 <div className="current">
-                    <p className="track-name">
-                        { currentlyPlaying.name }
-                    </p>
-                    <p className="track-name">
-                        { currentArtist }
-                    </p>
+                    <Link 
+                    className="link"
+                    to={`/song/${currentlyPlaying.id}`} 
+                    >
+                        <h1 className="track-name">
+                            { currentlyPlaying.name }
+                        </h1>
+                        <h1 className="track-name">
+                            { currentArtist }
+                        </h1>
+                    </Link>
                 </div>
-            )}
+            )} 
             {/* <div className='tracks'>
                 <h3>Recently Played</h3>
                 { trackList() }
