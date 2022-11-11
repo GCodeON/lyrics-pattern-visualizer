@@ -3,12 +3,12 @@ import { Routes, Route } from 'react-router-dom';
 import Dashboard from './layouts/dashboard';
 import './App.scss';
 
+import Search from './pages/search/';
 import Home from './pages/index';
 import Artists from './pages/artists';
 import Artist from './pages/artists/artist/';
 import Songs from './pages/songs';
 import Lyrics from './pages/songs/lyrics/';
-
 import Album from './pages/albums/album/';
 
 function App() {
@@ -16,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />}>
           <Route index  element={<Home />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/artists" element={<Artists />} />
           <Route exact  path="/artist/:id" element={<Artist />} />
           <Route path="/songs" element={<Songs />} />

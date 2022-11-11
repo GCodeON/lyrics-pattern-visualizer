@@ -1,4 +1,4 @@
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -10,18 +10,18 @@ import { Link } from 'react-router-dom'
 
 
 const Sidebar = () => {
-
+    const navigate = useNavigate();
     const [search, setSearch] = useState({});
-    const [searchQuery, setQuery] = useState({});
+    const [searchQuery, setQuery] = useState('');
+
     
     const searchHandler = () => {
-        axios.get(`/api/spotify/search?q=${this.state.searchQuery}`)
+        axios.get(`/api/spotify/search?q=${searchQuery}`)
         .then((res) => {
             if(res.data) {
                 console.log("get search", res.data);
-                // this.setState({
-                //     searchResults: res.data.artists.items[0]
-                // })
+                setSearch(res.data);
+                searchRedirect(search);
             }
         })
     }
@@ -29,6 +29,11 @@ const Sidebar = () => {
     const changeHandler = (evt) => {
         setQuery(evt.target.value)
     }
+
+    function searchRedirect() {
+        navigate(`/search?q=${searchQuery}`, { state: search });
+    }
+    
 
     return (
         <div className="sidebar">
