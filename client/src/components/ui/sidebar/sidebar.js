@@ -19,19 +19,15 @@ const Sidebar = () => {
         axios.get(`/api/spotify/search?q=${searchQuery}`)
         .then((res) => {
             if(res.data) {
-                console.log("get search", res.data);
                 setSearch(res.data);
-                searchRedirect(search);
+                navigate(`/search?q=${searchQuery}`, { state: res.data });
             }
         })
     }
 
+
     const changeHandler = (evt) => {
         setQuery(evt.target.value)
-    }
-
-    function searchRedirect() {
-        navigate(`/search?q=${searchQuery}`, { state: search });
     }
     
 

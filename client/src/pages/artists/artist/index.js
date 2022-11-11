@@ -44,9 +44,9 @@ const Artist = () => {
                     className="link"
                     to={`/album/${album.id}`} 
                     >
-                    <li>
-                        <p>{ album.name }</p>
-                    </li>
+                        <li>
+                            <p>{ album.name }</p>
+                        </li>
                     </Link>
                 ))}
             </ul>
