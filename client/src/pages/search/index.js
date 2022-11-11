@@ -22,6 +22,30 @@ const Search = () => {
        console.log('state set', albums, tracks, artists);
     }, [albums, tracks, artists]);
 
+
+    let artistList = () => {
+        let list;
+        { artists.items && (
+            list =
+            <ul>
+                {artists.items.map((item,index) => (
+
+                    <Link 
+                    key={index}
+                    className='link'
+                    to={`/artist/${item.id}`} 
+                    >
+                        <li>
+                            <p>{ item.name }</p>
+                        </li>
+                    </Link>
+                ))}
+            </ul>
+        )}
+
+        return list;
+    }
+
     let albumList = () => {
         let list;
         { albums.items && (
@@ -45,11 +69,46 @@ const Search = () => {
         return list;
     }
 
+
+    let trackList = () => {
+        let list;
+        { tracks.items && (
+            list =
+            <ul>
+                {tracks.items.map((item,index) => (
+
+                    <Link 
+                    key={index}
+                    className='link'
+                    to={`/songs/${item.id}`} 
+                    >
+                        <li>
+                            <p>{ item.name }</p>
+                        </li>
+                    </Link>
+                ))}
+            </ul>
+        )}
+
+        return list;
+    }
+
     return (
         <div className='search-page'>
-            <div className='albums'>
-                <h2>Albums</h2>
-                { albumList() }
+            <h1>Search</h1>
+            <div className='results'>
+                <div className='albums'>
+                    <h2>Albums</h2>
+                    { albumList() }
+                </div>
+                <div className='artists'>
+                    <h2>Artists</h2>
+                    { artistList() }
+                </div>
+                <div className='tracks'>
+                    <h2>Tracks</h2>
+                    { trackList() }
+                </div>
             </div>
         </div>
     )
