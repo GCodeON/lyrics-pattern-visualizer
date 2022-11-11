@@ -5,6 +5,7 @@ const { spotify } = require('../controllers/index');
 
 router.get('/search', spotify.search);
 router.get('/search-artist', spotify.searchArtist);
+router.get('/player', spotify.playerState);
 router.get('/currently-playing', spotify.currentlyPlaying);
 router.get('/recently-played', spotify.recentlyPlayed);
 router.get('/top-artists', spotify.topArtists);

@@ -2,7 +2,7 @@ const Spotify = require('../utils/SpotifyAPI');
 const Utils = require('../utils/');
 
 exports.search = (req, res, next) => {
-    Spotify.api(`/search?q=${req.query.q}`)
+    Spotify.api(`/search?q=${req.query.q}&type=artist,album,track`)
     .then((data) => {
         res.status(200).json(data); 
     })
@@ -10,6 +10,13 @@ exports.search = (req, res, next) => {
 
 exports.searchArtist = (req, res, next) => {
     Spotify.api(`/search?q=${req.query.q}&type=artist`)
+    .then((data) => {
+        res.status(200).json(data); 
+    })
+}
+
+exports.playerState = (req, res, next) => {
+    Spotify.api(`/me/player`)
     .then((data) => {
         res.status(200).json(data); 
     })

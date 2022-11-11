@@ -11,16 +11,21 @@ const Home = () => {
 
     useEffect(() => {
 
-        axios.get(`/api/spotify/currently-playing`)
-        .then((current) => {
-            console.log('current', current)
-            if(current.data.currently_playing_type !== "ad") {
-                axios.get(`/api/spotify/track/${current.data.item.id}`)
-                .then((track) => {
-                    setCurrentlyPlaying(track.data);
-                })  
-            }
-        })  
+        // axios.get(`/api/spotify/player`)
+        // .then((player) => {
+        //     console.log('player state', player)
+        // })  
+
+        // axios.get(`/api/spotify/currently-playing`)
+        // .then((current) => {
+        //     console.log('current', current)
+        //     if(current.data.currently_playing_type !== "ad") {
+        //         axios.get(`/api/spotify/track/${current.data.item.id}`)
+        //         .then((track) => {
+        //             setCurrentlyPlaying(track.data);
+        //         })  
+        //     }
+        // })  
 
         // axios.get(`/api/spotify/recently-played`)
         // .then((recent) => {
@@ -31,22 +36,22 @@ const Home = () => {
         // })
     }, []);
 
-    useEffect(() => {
-        if(currentlyPlaying.artists) {
-            let artist = currentlyPlaying.artists[0].name;
-            setCurrentArtist(artist);
-        }  
-    }, [currentlyPlaying]);
+    // useEffect(() => {
+    //     if(currentlyPlaying.artists) {
+    //         let artist = currentlyPlaying.artists[0].name;
+    //         setCurrentArtist(artist);
+    //     }  
+    // }, [currentlyPlaying]);
 
-    useEffect(() => {
-        axios.get(`/api/spotify/recently-played`)
-        .then((recent) => {
-            console.log('recent', recent)
-            if(recent.data.items) {
-                setRecentlyPlayed(recent.data.items);
-            }
-        })
-    }, [currentArtist]);
+    // useEffect(() => {
+    //     axios.get(`/api/spotify/recently-played`)
+    //     .then((recent) => {
+    //         console.log('recent', recent)
+    //         if(recent.data.items) {
+    //             setRecentlyPlayed(recent.data.items);
+    //         }
+    //     })
+    // }, [currentArtist]);
 
 
     const trackList = () => {
