@@ -80,7 +80,7 @@ const Search = () => {
                     <Link 
                     key={index}
                     className='link'
-                    to={`/songs/${item.id}`} 
+                    to={`/song/${item.id}`} 
                     >
                         <li>
                             <p>{ item.name }</p>
@@ -95,15 +95,15 @@ const Search = () => {
 
     return (
         <div className='search-page'>
-            <h1>Search</h1>
+            <h1>Search Results</h1>
             <div className='results'>
-                <div className='albums'>
-                    <h2>Albums</h2>
-                    { albumList() }
-                </div>
                 <div className='artists'>
                     <h2>Artists</h2>
                     { artistList() }
+                </div>
+                <div className='albums'>
+                    <h2>Albums</h2>
+                    { albumList() }
                 </div>
                 <div className='tracks'>
                     <h2>Tracks</h2>
