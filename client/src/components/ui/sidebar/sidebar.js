@@ -46,7 +46,7 @@ const Sidebar = () => {
             </div>
             <div className="search">
                 <input value={searchQuery} onChange={changeHandler}  onKeyUp={handleKeyPress} ></input>
-                <FaSearch onClick={searchHandler} />
+                <FaSearch className="icon" onClick={searchHandler} />
             </div>
             <nav className="links">
                 <li>
