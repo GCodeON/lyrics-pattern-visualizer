@@ -14,8 +14,12 @@ const Sidebar = () => {
     const [search, setSearch] = useState({});
     const [searchQuery, setQuery] = useState('');
 
+    useEffect(() => {
+     }, [searchQuery]);
+
     
     const searchHandler = () => {
+
         axios.get(`/api/spotify/search?q=${searchQuery}`)
         .then((res) => {
             if(res.data) {
@@ -24,7 +28,6 @@ const Sidebar = () => {
             }
         })
     }
-
 
     const changeHandler = (evt) => {
         setQuery(evt.target.value)

@@ -1,5 +1,6 @@
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useSearchParams  } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import './styles.scss';
 
@@ -8,20 +9,41 @@ const Search = () => {
     const [albums, setAlbums] = useState({});
     const [artists, setArtists] = useState({});
     const [tracks, setTracks] = useState({});
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [loaded, setLoaded] = useState(false);
+
+
+    const params = searchParams.get('q');
+
 
     useEffect(() => {
-        if(location.state !== null) {
+        if(location.state) {
             console.log('search page', location.state);
-            setAlbums(location.state.albums);
-            setArtists(location.state.artists);
-            setTracks(location.state.tracks);
+            setResults(location.state);
+        } else {
+            console.log('search no query');
+            setLoaded(false);
         }
     }, []);
 
     useEffect(() => {
-       console.log('state set', albums, tracks, artists);
-    }, [albums, tracks, artists]);
+        if(params) {
+            axios.get(`/api/spotify/search?q=${params}`)
+            .then((res) => {
+                if(res.data) {
+                    setResults(res.data);
+                }
+            })
+        }
+    }, [params]);
 
+
+    const setResults = (results) => {
+        setLoaded(true);
+        setAlbums(results.albums);
+        setArtists(results.artists);
+        setTracks(results.tracks);
+    }
 
     let artistList = () => {
         let list;
@@ -95,21 +117,31 @@ const Search = () => {
 
     return (
         <div className='search-page'>
-            <h1>Search Results</h1>
-            <div className='results'>
-                <div className='artists'>
-                    <h2>Artists</h2>
-                    { artistList() }
+
+            { loaded && (
+                <div className='search-loaded'>
+                    <h1>Search Results</h1>
+                    <div className='results'>
+                        <div className='artists'>
+                            <h2>Artists</h2>
+                            { artistList() }
+                        </div>
+                        <div className='albums'>
+                            <h2>Albums</h2>
+                            { albumList() }
+                        </div>
+                        <div className='tracks'>
+                            <h2>Tracks</h2>
+                            { trackList() }
+                        </div>
+                    </div>
                 </div>
-                <div className='albums'>
-                    <h2>Albums</h2>
-                    { albumList() }
-                </div>
-                <div className='tracks'>
-                    <h2>Tracks</h2>
-                    { trackList() }
-                </div>
-            </div>
+            )}
+
+            { !loaded && (
+                <p>no search results</p>
+            )}
+            
         </div>
     )
 }
