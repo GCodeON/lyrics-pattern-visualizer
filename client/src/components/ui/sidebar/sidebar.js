@@ -26,7 +26,7 @@ const Sidebar = () => {
             if(res.data) {
                 setSearch(res.data);
                 setQuery('');
-                navigate(`/search${queryString}`, { state: res.data });
+                navigate(`/search${queryString}`, { state: search });
             }
         })
     }
@@ -48,13 +48,21 @@ const Sidebar = () => {
                 <h4>DECODED</h4>
             </div>
             <div className="search">
-                <input value={searchQuery} onChange={changeHandler}  onKeyUp={handleKeyPress} ></input>
-                <FaSearch className="icon" onClick={searchHandler} />
+                <input 
+                    value={searchQuery} 
+                    onChange={changeHandler}  
+                    onKeyUp={handleKeyPress}
+                >
+                </input>
+                <FaSearch 
+                    className="icon" 
+                    onClick={searchHandler} 
+                />
             </div>
             <nav className="links">
                 <li>
                     <FaHome/>
-                        <Link to="/">Home</Link>
+                    <Link to="/">Home</Link>
                 </li>
                 <li>
                     <FaUserCircle />
