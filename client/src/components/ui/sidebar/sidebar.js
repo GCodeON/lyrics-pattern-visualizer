@@ -19,7 +19,6 @@ const Sidebar = () => {
 
     
     const searchHandler = () => {
-
         axios.get(`/api/spotify/search?q=${searchQuery}`)
         .then((res) => {
             if(res.data) {
@@ -32,6 +31,12 @@ const Sidebar = () => {
     const changeHandler = (evt) => {
         setQuery(evt.target.value)
     }
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            searchHandler();
+        }
+    }
     
 
     return (
@@ -40,7 +45,7 @@ const Sidebar = () => {
                 <h4>DECODED</h4>
             </div>
             <div className="search">
-                <input value={searchQuery} onChange={changeHandler}></input>
+                <input value={searchQuery} onChange={changeHandler}  onKeyUp={handleKeyPress} ></input>
                 <FaSearch onClick={searchHandler} />
             </div>
             <nav className="links">
