@@ -3,7 +3,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from  "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey            : process.env. REACT_APP_FIREBASE_API_KEY,
+    apiKey            : process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain        : "lyrics-decoded.firebaseapp.com",
     databaseURL       : "https://lyrics-decoded-default-rtdb.firebaseio.com",
     projectId         : "lyrics-decoded",

@@ -26,7 +26,7 @@ const Sidebar = () => {
             if(res.data) {
                 setSearch(res.data);
                 setQuery('');
-                navigate(`/search${queryString}`, { state: search });
+                navigate(`/search${queryString}`, { state: res.data });
             }
         })
     }

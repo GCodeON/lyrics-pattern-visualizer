@@ -29,6 +29,15 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
     <script type="text/javascript" src="https://tracking.musixmatch.com/t1.0/AMa6hJCIEzn1v8RuOP"></script>
   </body>
 </html>
+
+<script>
+  window.onSpotifyWebPlaybackSDKReady = () => {
+    console.log("The Web Playback SDK is ready. We have access to Spotify.Player");
+    console.log(window.Spotify.Player);
+  };
+  </script>
+  
