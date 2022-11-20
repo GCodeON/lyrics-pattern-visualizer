@@ -39,7 +39,7 @@ const Dashboard = (props) => {
         const sdk = new Player({
           name: "Web Playback SDK",
           volume: 1.0,
-          getOAuthToken: callback => { callback('BQDSy3ox6HiPMIUeSPIxZfPljoF6hjzeWgS9GDew0nJCLGUrK8OegXRgNawp6oWfrfZxMGVeAcCdPphKJmD9P0p7Ft28NoStg3rga7HFPIUd1fwaynXAHX6qZDWx_gojLOIPo-2kHFlNWxeYuUAJjWiXybl_3zPiK7c8A_K9Tk0ePcZbknQKDq7ZFoZ2S-D7WD0'); }
+          getOAuthToken: callback => { callback(process.env.SPOTIFY_TOKEN); }
         });
 
         console.log('sdk', sdk);
@@ -57,7 +57,7 @@ const Dashboard = (props) => {
 
           await sdk.resume();
           await sdk.setVolume(0.5);
-          
+
           let {
             id,
             uri: track_uri,
