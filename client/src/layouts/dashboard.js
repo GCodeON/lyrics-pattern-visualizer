@@ -39,7 +39,7 @@ const Dashboard = (props) => {
         const sdk = new Player({
           name: "Web Playback SDK",
           volume: 1.0,
-          getOAuthToken: callback => { callback(process.env.SPOTIFY_TOKEN); }
+          getOAuthToken: callback => { callback(process.env.REACT_APP_SPOTIFY_TOKEN); }
         });
 
         console.log('sdk', sdk);
