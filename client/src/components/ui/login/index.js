@@ -22,7 +22,7 @@ const Login = () => {
 
     return (
         <div className="login">
-            <a href={loginUri} id="sign-in" target="_blank">
+            <a href={loginUri} id="sign-in">
                 <FaUser className="icon"/>
             </a>
         </div>
