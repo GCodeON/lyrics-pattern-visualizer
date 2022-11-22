@@ -7,9 +7,13 @@ import './styles.scss';
 const Callback = () => {
 
     useEffect(() => {
-        const spotify_token = getTokenFromUrl().access_token;
-        localStorage.setItem('spotify_token', spotify_token );
-        console.log('spotify_token', spotify_token)
+        if (localStorage.getItem('spotify_token')) { 
+            window.location.replace("/songs");
+        } else {
+            const spotify_token = getTokenFromUrl().access_token;
+            localStorage.setItem('spotify_token', spotify_token );
+            window.location.replace("/songs");
+        }
     }, []);
 
     const getTokenFromUrl = () => {

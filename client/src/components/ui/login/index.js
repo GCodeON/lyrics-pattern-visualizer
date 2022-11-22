@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaPowerOff } from "react-icons/fa";
 
 import  './styles.scss';
 
@@ -20,11 +20,29 @@ const Login = () => {
     
     const loginUri = `${AuthEndPoint}?client_id=${process.env.REACT_APP_SPOTIFY_CLIENT_ID}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`;
 
+    const onLogout = () => {
+        localStorage.clear();
+        window.location.href = "/";
+    }
+
+    const Spotify_User = () => {
+        let icon;
+        if (localStorage.getItem('spotify_token')) { 
+            icon =
+            <FaUser className="icon" onClick={onLogout}/>
+        } else {
+            icon =
+            <a href={loginUri} id="sign-in">
+                <FaPowerOff className="icon"/>
+            </a>
+        }
+
+        return icon;
+    }
+
     return (
         <div className="login">
-            <a href={loginUri} id="sign-in">
-                <FaUser className="icon"/>
-            </a>
+           { Spotify_User() }
         </div>
     )
 
