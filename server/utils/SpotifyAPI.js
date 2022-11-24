@@ -21,17 +21,17 @@ const getAccessToken = async () => {
   return response.json();
 };
 
-const connect = async (endpoint) => {
+const connect = async (endpoint, token) => {
   const { access_token } = await getAccessToken();
 
   return fetch(`${spotifyAPI}${endpoint}`, {
     headers: {
-      Authorization : `Bearer ${access_token}`,
+      Authorization : `Bearer ${ token ? token : access_token }`,
     },
   });
 };
 
-exports.api = async (endpoint)  => {
-  const response = await connect(endpoint);
+exports.api = async (endpoint, token)  => {
+  const response = await connect(endpoint, token);
   return response.json();
 }
