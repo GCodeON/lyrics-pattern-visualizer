@@ -55,6 +55,7 @@ const Lyrics = () => {
         }
 
         songInfo = {...activeSong}
+        console.log('song info', songInfo);
     }
 
     async function findorCreate(id) {

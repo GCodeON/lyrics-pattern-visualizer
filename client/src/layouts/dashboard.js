@@ -1,97 +1,34 @@
 import { Outlet } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
+import SpotifyPlayer from 'react-spotify-web-playback';
 
 import Sidebar from '../components/ui/sidebar/sidebar';
 import './dashboard.scss';
 
 const Dashboard = (props) => {
-    const classes =`dashboard ${props.className ? props.className : ''}`;
-    window.onSpotifyWebPlaybackSDKReady = () => {};
+  const classes =`${props.className ? props.className : ''}`;
 
-    async function waitForSpotifyWebPlaybackSDKToLoad () {
-        return new Promise(resolve => {
-            if (window.Spotify) {
-            resolve(window.Spotify);
-            } else {
-            window.onSpotifyWebPlaybackSDKReady = () => {
-                resolve(window.Spotify);
-            };
-            }
-        });
-    };
-
-    async function waitUntilUserHasSelectedPlayer (sdk) {
-        return new Promise(resolve => {
-          let interval = setInterval(async () => {
-            let state = await sdk.getCurrentState();
-            if (state !== null) {
-              resolve(state);
-              clearInterval(interval);
-            }
-          });
-        });
-      };
-      (async () => {
-        const { Player } = await waitForSpotifyWebPlaybackSDKToLoad();
-        const spotify_token = localStorage.getItem('spotify_token');
-        
-        if(spotify_token) {
-          console.log('spotify token used');
-          const sdk = new Player({
-            name: "Web Playback SDK",
-            volume: 1.0,
-            getOAuthToken: callback => { callback(spotify_token); }
-          });
-  
-          console.log('sdk', sdk);
-  
-          sdk.on("player_state_changed", state => {
-              console.log('state', state);
-            // Update UI with playback state changes
-          });
-          let connected = await sdk.connect();
-          if (connected) {
-              console.log('connected', connected);
-            let state = await waitUntilUserHasSelectedPlayer(sdk);
-  
-            console.log('state', state);
-  
-            await sdk.resume();
-            await sdk.setVolume(0.5);
-  
-            let {
-              id,
-              uri: track_uri,
-              name: track_name,
-              duration_ms,
-              artists,
-              album: {
-                name: album_name,
-                uri: album_uri,
-                images: album_images
-              }
-            } = state.track_window.current_track;
-            console.log(`You're listening to ${track_name} by ${artists[0].name}!`);
-          }
-        }
-        
-      })();
-
-
-
-    useEffect(() => {
-
-       waitForSpotifyWebPlaybackSDKToLoad();
-
-       console.log('player', window.Spotify);
-
-          
-    }, []);
 
     return (
         <div className={classes}>
+          <div className="dashboard">
             <Sidebar></Sidebar>
-            <Outlet />
+            <div>
+              <Outlet />
+              <div className='spotify-web-player'>
+                <SpotifyPlayer
+                    token="BQBKriZtmJlGerTUiJaEKehf4jvKM0cz58FW3aeoz_aoqJ0PhjG7E7uHoHcoDBeSoKJrxZ56x2PTcwrAfBaW9WUJpDvEVWAQRElXNkX4SiOB29eGfhml9QairI1-bekjU0c1xuHRoPWBw4uHDRjeh92MlYAGLU0Tz6wz1nUKnZ5-L7t1bF4X1F1aU9ABmjrimkcru1Qk8RqPfYXfZs_oFHv8v09NXw"
+                    syncExternalDevice={true}
+                />
+              </div>
+            </div>
+          </div>
+          {/* <div className='spotify-web-player'>
+            <SpotifyPlayer
+                token="BQBKriZtmJlGerTUiJaEKehf4jvKM0cz58FW3aeoz_aoqJ0PhjG7E7uHoHcoDBeSoKJrxZ56x2PTcwrAfBaW9WUJpDvEVWAQRElXNkX4SiOB29eGfhml9QairI1-bekjU0c1xuHRoPWBw4uHDRjeh92MlYAGLU0Tz6wz1nUKnZ5-L7t1bF4X1F1aU9ABmjrimkcru1Qk8RqPfYXfZs_oFHv8v09NXw"
+                syncExternalDevice={true}
+            />
+          </div> */}
         </div>
     )
 }

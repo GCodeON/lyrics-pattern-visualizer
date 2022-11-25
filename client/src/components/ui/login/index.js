@@ -12,10 +12,13 @@ const Login = () => {
     const redirectUri = 'http://localhost:3000/callback/';
     
     const scopes = [
-    "user-read-currently-playing",
-    "user-read-recently-played",
-    "user-read-playback-state",
-    "user-modify-playback-state"
+        "streaming",
+        "user-read-currently-playing",
+        "user-read-recently-played",
+        "user-read-playback-state",
+        "user-modify-playback-state",
+        "user-read-playback-position",
+        "user-top-read"
     ];
     
     const loginUri = `${AuthEndPoint}?client_id=${process.env.REACT_APP_SPOTIFY_CLIENT_ID}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`;
@@ -23,6 +26,9 @@ const Login = () => {
     const onLogout = () => {
         localStorage.clear();
         window.location.href = "/";
+    }
+    const onLogin = () => {
+        window.location.href = loginUri;
     }
 
     const Spotify_User = () => {
@@ -32,9 +38,7 @@ const Login = () => {
             <FaUser className="icon" onClick={onLogout}/>
         } else {
             icon =
-            <a href={loginUri} id="sign-in">
-                <FaPowerOff className="icon"/>
-            </a>
+            <FaUser className="icon" onClick={onLogin}/>
         }
 
         return icon;

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
+import SpotifyPlayer from 'react-spotify-web-playback';
+
 import './styles.scss';
 
 const Home = () => {
@@ -11,10 +13,14 @@ const Home = () => {
 
     useEffect(() => {
 
-        axios.get(`/api/spotify/player`)
-        .then((player) => {
-            console.log('player state', player)
-        })  
+        // axios.get(`/api/spotify/player`, localStorage.getItem('spotify_token'))
+        // .then((player) => {
+        //     console.log('player state', player)
+
+        //     if(player.data.is_playing && player.data.currently_playing_type === 'track') {
+        //         setCurrentlyPlaying(player.data.item);
+        //     }
+        // })  
 
         axios.get(`/api/spotify/currently-playing`)
         .then((current) => {
@@ -27,13 +33,13 @@ const Home = () => {
             }
         })  
 
-        axios.get(`/api/spotify/recently-played`)
-        .then((recent) => {
-            console.log('recent', recent)
-            if(recent.data.items) {
-                setRecentlyPlayed(recent.data.items);
-            }
-        })
+        // axios.get(`/api/spotify/recently-played`)
+        // .then((recent) => {
+        //     console.log('recent', recent)
+        //     if(recent.data.items) {
+        //         setRecentlyPlayed(recent.data.items);
+        //     }
+        // })
     }, []);
 
     useEffect(() => {
@@ -43,15 +49,15 @@ const Home = () => {
         }  
     }, [currentlyPlaying]);
 
-    useEffect(() => {
-        axios.get(`/api/spotify/recently-played`)
-        .then((recent) => {
-            console.log('recent', recent)
-            if(recent.data.items) {
-                setRecentlyPlayed(recent.data.items);
-            }
-        })
-    }, [currentArtist]);
+    // useEffect(() => {
+    //     axios.get(`/api/spotify/recently-played`)
+    //     .then((recent) => {
+    //         console.log('recent', recent)
+    //         if(recent.data.items) {
+    //             setRecentlyPlayed(recent.data.items);
+    //         }
+    //     })
+    // }, [currentArtist]);
 
 
     const trackList = () => {
@@ -80,7 +86,7 @@ const Home = () => {
     return (
         <div className="home page">
             <h3>Currently Playing</h3>
-            { currentlyPlaying && (
+            {/* { currentlyPlaying && (
                 <div className="current">
                     <Link 
                     className="link"
@@ -94,7 +100,7 @@ const Home = () => {
                         </h1>
                     </Link>
                 </div>
-            )} 
+            )}  */}
             {/* <div className='tracks'>
                 <h3>Recently Played</h3>
                 { trackList() }
