@@ -3,6 +3,8 @@ const router      = express.Router();
 const { spotify } = require('../controllers/index');
 
 
+router.get('/login', spotify.login);
+
 router.get('/search', spotify.search);
 router.get('/search-artist', spotify.searchArtist);
 router.get('/player', spotify.playerState);

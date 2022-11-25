@@ -1,6 +1,14 @@
 const Spotify = require('../utils/SpotifyAPI');
 const Utils = require('../utils/');
 
+exports.login = (req, res, next) => {
+    Spotify.login()
+    .then((data) => {
+        console.log('status', data)
+        res.status(200).json(data); 
+    })
+}
+
 exports.search = (req, res, next) => {
     Spotify.api(`/search?q=${req.query.q}&type=artist,album,track`)
     .then((data) => {
