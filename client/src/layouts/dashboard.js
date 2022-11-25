@@ -7,30 +7,40 @@ import './dashboard.scss';
 
 const Dashboard = (props) => {
   const classes =`${props.className ? props.className : ''}`;
+  const [spotifyToken, setSpotifyToken] = useState('');
 
-
-    return (
-        <div className={classes}>
-          <div className="dashboard">
-            <Sidebar></Sidebar>
-            <div>
-              <Outlet />
-              <div className='spotify-web-player'>
-                <SpotifyPlayer
-                    token="BQBKriZtmJlGerTUiJaEKehf4jvKM0cz58FW3aeoz_aoqJ0PhjG7E7uHoHcoDBeSoKJrxZ56x2PTcwrAfBaW9WUJpDvEVWAQRElXNkX4SiOB29eGfhml9QairI1-bekjU0c1xuHRoPWBw4uHDRjeh92MlYAGLU0Tz6wz1nUKnZ5-L7t1bF4X1F1aU9ABmjrimkcru1Qk8RqPfYXfZs_oFHv8v09NXw"
-                    syncExternalDevice={true}
-                />
-              </div>
-            </div>
-          </div>
-          {/* <div className='spotify-web-player'>
-            <SpotifyPlayer
-                token="BQBKriZtmJlGerTUiJaEKehf4jvKM0cz58FW3aeoz_aoqJ0PhjG7E7uHoHcoDBeSoKJrxZ56x2PTcwrAfBaW9WUJpDvEVWAQRElXNkX4SiOB29eGfhml9QairI1-bekjU0c1xuHRoPWBw4uHDRjeh92MlYAGLU0Tz6wz1nUKnZ5-L7t1bF4X1F1aU9ABmjrimkcru1Qk8RqPfYXfZs_oFHv8v09NXw"
-                syncExternalDevice={true}
-            />
-          </div> */}
-        </div>
+  useEffect(() => {
+    setSpotifyToken(
+      localStorage.getItem('spotify_token') 
+      ? localStorage.getItem('spotify_token') 
+      : process.env.REACT_APP_SPOTIFY_TOKEN
     )
+  },[]);
+
+  function spotifyCallback(state) {
+    console.log('callback state', state);
+  }
+
+  return (
+    <div className={classes}>
+      <div className="dashboard">
+        <Sidebar></Sidebar>
+        <div>
+          <Outlet />
+          <div className="spotify-web-player">
+            <SpotifyPlayer
+              token={spotifyToken}
+              syncExternalDevice={true}
+              syncExternalDeviceInterval={10}
+              play={true}
+              callback={(state) => spotifyCallback(state)}
+
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default Dashboard;
