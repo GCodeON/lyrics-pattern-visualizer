@@ -18,7 +18,8 @@ const Dashboard = (props) => {
   },[]);
 
   function spotifyCallback(state) {
-    console.log('callback state', state);
+    console.log('track', state);
+    window.spotify_active_song = state;
   }
 
   return (
@@ -29,12 +30,23 @@ const Dashboard = (props) => {
           <Outlet />
           <div className="spotify-web-player">
             <SpotifyPlayer
-              token={spotifyToken}
-              syncExternalDevice={true}
-              syncExternalDeviceInterval={10}
-              play={true}
+              name={'DECODED Web Player'}
               callback={(state) => spotifyCallback(state)}
+              syncExternalDeviceInterval={5}
+              persistDeviceSelection={true}
+              syncExternalDevice={true}
+              token={spotifyToken}
+              play={true}
+              styles={{
+                activeColor       : '#fff',
+                bgColor           : '#000',
+                color             : '#fff',
+                loaderColor       : '#fff',
+                trackArtistColor  : '#ccc',
+                trackNameColor    : '#fff',
+                sliderHandleColor : '#fff'
 
+              }}
             />
           </div>
         </div>

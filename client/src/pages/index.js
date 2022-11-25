@@ -12,52 +12,18 @@ const Home = () => {
     const [recentlyPlayed, setRecentlyPlayed]   = useState({});
 
     useEffect(() => {
-
-        // axios.get(`/api/spotify/player`, localStorage.getItem('spotify_token'))
-        // .then((player) => {
-        //     console.log('player state', player)
-
-        //     if(player.data.is_playing && player.data.currently_playing_type === 'track') {
-        //         setCurrentlyPlaying(player.data.item);
-        //     }
-        // })  
-
-        // axios.get(`/api/spotify/currently-playing`)
-        // .then((current) => {
-        //     console.log('current', current)
-        //     if(current.data.currently_playing_type !== "ad") {
-        //         axios.get(`/api/spotify/track/${current.data.item.id}`)
-        //         .then((track) => {
-        //             setCurrentlyPlaying(track.data);
-        //         })  
-        //     }
-        // })  
-
-        // axios.get(`/api/spotify/recently-played`)
-        // .then((recent) => {
-        //     console.log('recent', recent)
-        //     if(recent.data.items) {
-        //         setRecentlyPlayed(recent.data.items);
-        //     }
-        // })
+        let active_song = window.spotify_active_song;
+        if(active_song) {
+            setCurrentlyPlaying(active_song.track)
+        }
     }, []);
 
-    // useEffect(() => {
-    //     if(currentlyPlaying.artists) {
-    //         let artist = currentlyPlaying.artists[0].name;
-    //         setCurrentArtist(artist);
-    //     }  
-    // }, [currentlyPlaying]);
-
-    // useEffect(() => {
-    //     axios.get(`/api/spotify/recently-played`)
-    //     .then((recent) => {
-    //         console.log('recent', recent)
-    //         if(recent.data.items) {
-    //             setRecentlyPlayed(recent.data.items);
-    //         }
-    //     })
-    // }, [currentArtist]);
+    useEffect(() => {
+        if(currentlyPlaying.artists) {
+            let artist = currentlyPlaying.artists[0].name;
+            setCurrentArtist(artist);
+        }  
+    }, [currentlyPlaying]);
 
 
     const trackList = () => {
@@ -82,25 +48,31 @@ const Home = () => {
         return list;
     }
 
+    const currentTrack = () => {
+        let list;
+        if (currentlyPlaying) { 
+            <div className="current">
+                <Link 
+                className="link"
+                to={`/song/${currentlyPlaying.id}`} 
+                >
+                    <h1 className="track-name">
+                        { currentlyPlaying.name }
+                    </h1>
+                    <h1 className="track-name">
+                        { currentArtist }
+                    </h1>
+                </Link>
+            </div>
+        }
+        return list;
+    }
+
 
     return (
         <div className="home page">
             <h3>Currently Playing</h3>
-            {/* { currentlyPlaying && (
-                <div className="current">
-                    <Link 
-                    className="link"
-                    to={`/song/${currentlyPlaying.id}`} 
-                    >
-                        <h1 className="track-name">
-                            { currentlyPlaying.name }
-                        </h1>
-                        <h1 className="track-name">
-                            { currentArtist }
-                        </h1>
-                    </Link>
-                </div>
-            )}  */}
+            { currentTrack }
             {/* <div className='tracks'>
                 <h3>Recently Played</h3>
                 { trackList() }
