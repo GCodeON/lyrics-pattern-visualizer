@@ -38,7 +38,7 @@ const Login = () => {
             <FaUser className="icon" onClick={onLogout}/>
         } else {
             icon =
-            <FaUser className="icon" onClick={onLogin}/>
+            <FaPowerOff className="icon" onClick={onLogin}/>
         }
 
         return icon;

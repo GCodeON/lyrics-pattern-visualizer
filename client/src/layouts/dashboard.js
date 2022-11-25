@@ -8,7 +8,7 @@ import './dashboard.scss';
 const Dashboard = (props) => {
   const classes =`${props.className ? props.className : ''}`;
   const [spotifyToken, setSpotifyToken] = useState('');
-  const [ playerState, setPlayerState] = useState({});
+  const [ playerState, setPlayerState] = useState(true);
 
   useEffect(() => {
     setSpotifyToken(
@@ -18,16 +18,15 @@ const Dashboard = (props) => {
     )
   },[]);
 
-  function spotifyCallback(state) {
+  const spotifyCallback = (state) => {
     console.log('track', state);
     window.spotify_active_song = state;
 
-    if(state.track.id == '') {
-      setPlayerState(false)
-    } else {
+    if(state.track.id !== '') {
       setPlayerState(true)
+    } else {
+      setPlayerState(false)
     }
-    
   }
 
   return (
@@ -36,29 +35,27 @@ const Dashboard = (props) => {
         <Sidebar></Sidebar>
         <div>
           <Outlet />
-            { playerState && (
-              <div className="spotify-web-player">
-                <SpotifyPlayer
-                  name={'DECODED Web Player'}
-                  callback={(state) => spotifyCallback(state)}
-                  syncExternalDeviceInterval={5}
-                  persistDeviceSelection={true}
-                  syncExternalDevice={true}
-                  token={spotifyToken}
-                  play={true}
-                  styles={{
-                    activeColor       : '#fff',
-                    bgColor           : '#000',
-                    color             : '#fff',
-                    loaderColor       : '#fff',
-                    trackArtistColor  : '#ccc',
-                    trackNameColor    : '#fff',
-                    sliderHandleColor : '#fff'
-    
-                  }}
-                />
-              </div>
-            )}
+          <div className="spotify-web-player">
+            <SpotifyPlayer
+              name={'DECODED Web Player'}
+              callback={(state) => spotifyCallback(state)}
+              syncExternalDeviceInterval={5}
+              persistDeviceSelection={true}
+              syncExternalDevice={true}
+              token={spotifyToken}
+              play={true}
+              styles={{
+                activeColor       : '#fff',
+                bgColor           : '#000',
+                color             : '#fff',
+                loaderColor       : '#fff',
+                trackArtistColor  : '#ccc',
+                trackNameColor    : '#fff',
+                sliderHandleColor : '#fff'
+
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
