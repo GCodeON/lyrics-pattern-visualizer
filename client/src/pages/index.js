@@ -18,12 +18,12 @@ const Home = () => {
         }
     }, []);
 
-    useEffect(() => {
-        if(currentlyPlaying.artists) {
-            let artist = currentlyPlaying.artists[0].name;
-            setCurrentArtist(artist);
-        }  
-    }, [currentlyPlaying]);
+    // useEffect(() => {
+    //     if(currentlyPlaying.artists) {
+    //         let artist = currentlyPlaying.artists[0].name;
+    //         setCurrentArtist(artist);
+    //     }  
+    // }, [currentlyPlaying]);
 
 
     const trackList = () => {
