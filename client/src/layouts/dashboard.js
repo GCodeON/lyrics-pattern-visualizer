@@ -21,6 +21,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     console.log('active track set', activeTrack);
+    window.localStorage.setItem('active', JSON.stringify(activeTrack));
   },[playerState]);
 
   // useEffect(() => {
@@ -40,8 +41,8 @@ const Dashboard = (props) => {
     <div className={classes}>
       <div className="dashboard">
         <Sidebar></Sidebar>
-        <div>
-          <Outlet context={[activeTrack, setActiveTrack]}  />
+        <div class="container">
+          <Outlet context={activeTrack}  />
         </div>
       </div>
       <div className="fixed-footer">
