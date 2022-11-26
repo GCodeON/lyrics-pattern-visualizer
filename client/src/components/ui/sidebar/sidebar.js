@@ -40,6 +40,7 @@ const Sidebar = () => {
 
     return (
         <div className="sidebar">
+            <Login></Login>
             <div className="title">
                 <h4>DECODED</h4>
             </div>
