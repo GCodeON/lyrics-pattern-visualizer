@@ -35,29 +35,31 @@ const Dashboard = (props) => {
         <Sidebar></Sidebar>
         <div>
           <Outlet />
-          <div className="spotify-web-player">
-            <SpotifyPlayer
-              name={'DECODED Web Player'}
-              callback={(state) => spotifyCallback(state)}
-              syncExternalDeviceInterval={5}
-              persistDeviceSelection={true}
-              syncExternalDevice={true}
-              token={spotifyToken}
-              play={true}
-              styles={{
-                activeColor       : '#fff',
-                bgColor           : '#000',
-                color             : '#fff',
-                loaderColor       : '#fff',
-                trackArtistColor  : '#ccc',
-                trackNameColor    : '#fff',
-                sliderHandleColor : '#fff'
-
-              }}
-            />
-          </div>
         </div>
       </div>
+      <div className="fixed-footer">
+            <div className="spotify-web-player">
+              <SpotifyPlayer
+                name={'DECODED Web Player'}
+                callback={(state) => spotifyCallback(state)}
+                syncExternalDeviceInterval={5}
+                persistDeviceSelection={true}
+                syncExternalDevice={true}
+                token={spotifyToken}
+                play={true}
+                styles={{
+                  activeColor       : '#fff',
+                  bgColor           : '#000',
+                  color             : '#fff',
+                  loaderColor       : '#fff',
+                  trackArtistColor  : '#ccc',
+                  trackNameColor    : '#fff',
+                  sliderHandleColor : '#fff'
+
+                }}
+              />
+            </div>
+          </div>
     </div>
   )
 }

@@ -28,9 +28,19 @@ ul {
     overflow-y : scroll;
 }
 
+.fixed-footer {
+    position         : fixed;
+    bottom           : 0;
+    width            : 100%;
+    background-color : black;
+}
+
 .spotify-web-player {
-    padding : 2em 0;
-    display : flex;
-    width   : 98%;
-    margin  : 0 auto;
+    margin     : 0 auto;
+    position   : relative;
+    bottom     : 0;
+    width      : 100%;
+    color      : white;
+    max-width  : 75em;
+    text-align : center;
 }
