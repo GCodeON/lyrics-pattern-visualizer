@@ -182,7 +182,7 @@ const Lyrics = () => {
     }
     return (
         <div className="lyrics">
-            { loading ?  <div>loading data</div> : displayLyrics()  }
+            { loading ?  <div class="page">loading data</div> : displayLyrics()  }
         </div>
     );
 }

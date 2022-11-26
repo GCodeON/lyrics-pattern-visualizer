@@ -8,13 +8,15 @@ ReactJS, Node.JS
 APIs:
 Spotify, Genius, Musixmatch 
 
-NODE_VERSION >= 12.10
+nvm use 14.15.0
 
 Client/
 
     npm install
 
       npm run start
+
+NODE_VERSION >= 12.10
 
 Server/
 

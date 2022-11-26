@@ -16,7 +16,7 @@ const Home = () => {
         if(active) {
             setCurrentlyPlaying(active);
         } else {
-            
+            setCurrentlyPlaying({});
         }
     }, []);
 
@@ -52,10 +52,9 @@ const Home = () => {
 
     return (
         <div className="home page">
-            <h3>Currently Playing</h3>
-
-            { currentlyPlaying && (
+            { currentArtist && (
                 <div className="current">
+                    <h3>Currently Playing</h3>
                     <Link 
                     className="link"
                     to={`/song/${currentlyPlaying.id}`} 
