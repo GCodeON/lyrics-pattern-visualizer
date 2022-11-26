@@ -10,13 +10,9 @@ const Dashboard = (props) => {
   const [spotifyToken, setSpotifyToken] = useState('');
   const [ playerState, setPlayerState] = useState(true);
   const [ activeTrack, setActiveTrack] = useState({});
-
+  const [ songChanged, setSongChange] = useState(false);
   useEffect(() => {
-    setSpotifyToken(
-      localStorage.getItem('spotify_token') 
-      ? localStorage.getItem('spotify_token') 
-      : process.env.REACT_APP_SPOTIFY_TOKEN
-    )
+    setSpotifyToken(localStorage.getItem('spotify_token'));
   },[]);
 
   useEffect(() => {
@@ -24,14 +20,45 @@ const Dashboard = (props) => {
     window.localStorage.setItem('active', JSON.stringify(activeTrack));
   },[playerState]);
 
-  // useEffect(() => {
-  //   console.log('active track set', activeTrack);
-  // },[activeTrack]);
+  useEffect(() => {
+    console.log('song changed');
+    if(songChanged) {
+      console.log('song chnaged twice');
+      let previousTrack = JSON.parse(window.localStorage.getItem('active'));
+      // window.location.reload();
+      compareTrack(previousTrack, activeTrack)
+    }
+  },[songChanged]);
+
+  function compareTrack(old, updated) {
+    if(updated.name !== old.name) {
+      console.log('different');
+      setSongChange(true);
+    } else {
+      console.log('same');
+      setSongChange(false);
+    }
+  }
 
   const spotifyCallback = (state) => {
+    console.log('state callback interval', state);
     if(state.track.id !== '') {
       setPlayerState(true)
-      setActiveTrack(state.track);
+      if(state.track.name.length) {
+        window.localStorage.setItem('active', JSON.stringify(activeTrack));
+        setActiveTrack(state.track);
+
+        let previousTrack = JSON.parse(window.localStorage.getItem('active'));
+        if(previousTrack.name == state.track.name) {
+
+          setActiveTrack(state.track);
+          compareTrack(previousTrack, state);
+          setPlayerState(false)
+        }
+        // if(state.track.name !== previousTrack.name) {
+        //   setSongChange(true);
+        // }
+      }
     } else {
       setPlayerState(false)
     }
@@ -41,33 +68,35 @@ const Dashboard = (props) => {
     <div className={classes}>
       <div className="dashboard">
         <Sidebar></Sidebar>
-        <div class="container">
-          <Outlet context={activeTrack}  />
+        <div className="container">
+          <Outlet />
         </div>
       </div>
       <div className="fixed-footer">
-            <div className="spotify-web-player">
-              <SpotifyPlayer
-                name={'DECODED Web Player'}
-                callback={(state) => spotifyCallback(state)}
-                syncExternalDeviceInterval={5}
-                persistDeviceSelection={true}
-                syncExternalDevice={true}
-                token={spotifyToken}
-                play={true}
-                styles={{
-                  activeColor       : '#fff',
-                  bgColor           : '#000',
-                  color             : '#fff',
-                  loaderColor       : '#fff',
-                  trackArtistColor  : '#ccc',
-                  trackNameColor    : '#fff',
-                  sliderHandleColor : '#fff'
+        {spotifyToken && activeTrack && (
+          <div className="spotify-web-player">
+            <SpotifyPlayer
+              name={'DECODED Web Player'}
+              callback={(state) => spotifyCallback(state)}
+              syncExternalDeviceInterval={5}
+              persistDeviceSelection={true}
+              syncExternalDevice={true}
+              token={localStorage.getItem('spotify_token')}
+              play={true}
+              styles={{
+                activeColor       : '#fff',
+                bgColor           : '#000',
+                color             : '#fff',
+                loaderColor       : '#fff',
+                trackArtistColor  : '#ccc',
+                trackNameColor    : '#fff',
+                sliderHandleColor : '#fff'
 
-                }}
-              />
-            </div>
+              }}
+            />
           </div>
+        )}
+      </div>
     </div>
   )
 }

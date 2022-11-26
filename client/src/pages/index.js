@@ -13,7 +13,7 @@ const Home = () => {
 
     useEffect(() => {
         let active = JSON.parse(window.localStorage.getItem('active'));
-        if(active.name) {
+        if(active) {
             setCurrentlyPlaying(active);
         } else {
             
@@ -60,6 +60,7 @@ const Home = () => {
                     className="link"
                     to={`/song/${currentlyPlaying.id}`} 
                     >
+                        <img className="track-image" src={currentlyPlaying.image}/>
                         <h1 className="track-name">
                             { currentlyPlaying.name }
                         </h1>

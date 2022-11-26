@@ -1,5 +1,7 @@
 .songs {
-    margin : 1em 2em;
+    margin    : 1em auto;
+    max-width : 65em;
+    padding: 0 1em;
     .tracks {
         min-height          : 300px;
         background-size     : cover;
