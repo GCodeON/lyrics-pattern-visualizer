@@ -138,13 +138,13 @@ const Lyrics = () => {
             show = <div className="track">
                         <div className="editor-wrapper">  
                             <div className="info">
-                                <h1 className="title">
-                                    { savedSong.title }
-                                </h1>
                                 <h3 className="artist">
                                     { savedSong.artist }
                                 </h3>
-                                <button onClick={() => toggleEdit() }>  <FaEdit/></button>
+                                <h1 className="title">
+                                    { savedSong.title }
+                                </h1>
+                                <FaEdit className="edit" onClick={() => toggleEdit() }/>
                             </div>
 
                             { !edit  && (
@@ -165,9 +165,9 @@ const Lyrics = () => {
                                     }} />
                             )}
                         </div>
-                        <div className="analysis-type">
+                        {/* <div className="analysis-type">
                             <RhymeScheme />
-                        </div>
+                        </div> */}
                         <div className="analysis-options"></div>
                     </div>
         }

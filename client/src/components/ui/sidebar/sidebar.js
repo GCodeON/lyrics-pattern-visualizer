@@ -69,7 +69,6 @@ const Sidebar = () => {
                     <Link to="/songs">Songs</Link> 
                 </li>
             </nav>
-            <Login></Login>
         </div>
     );
     
