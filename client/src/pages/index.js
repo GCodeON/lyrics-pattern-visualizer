@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import axios from 'axios';
 
 import SpotifyPlayer from 'react-spotify-web-playback';
@@ -7,23 +7,28 @@ import SpotifyPlayer from 'react-spotify-web-playback';
 import './styles.scss';
 
 const Home = () => {
+    const [activeTrack, setActiveTrack] = useOutletContext();
     const [currentlyPlaying, setCurrentlyPlaying] = useState({});
     const [currentArtist, setCurrentArtist] = useState([]);
     const [recentlyPlayed, setRecentlyPlayed]   = useState({});
 
+
     useEffect(() => {
-        let active_song = window.spotify_active_song;
-        if(active_song) {
-            setCurrentlyPlaying(active_song.track)
+        if(activeTrack) { 
+            setCurrentlyPlaying(activeTrack)
         }
+        // let active_song = window.spotify_active_song;
+        // if(active_song) {
+        //     setCurrentlyPlaying(active_song.track)
+        // }
     }, []);
 
-    // useEffect(() => {
-    //     if(currentlyPlaying.artists) {
-    //         let artist = currentlyPlaying.artists[0].name;
-    //         setCurrentArtist(artist);
-    //     }  
-    // }, [currentlyPlaying]);
+    useEffect(() => {
+        if(currentlyPlaying.artists) {
+            let artist = currentlyPlaying.artists[0].name;
+            setCurrentArtist(artist);
+        }  
+    }, [currentlyPlaying]);
 
 
     const trackList = () => {

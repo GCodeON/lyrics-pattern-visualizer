@@ -9,6 +9,7 @@ const Dashboard = (props) => {
   const classes =`${props.className ? props.className : ''}`;
   const [spotifyToken, setSpotifyToken] = useState('');
   const [ playerState, setPlayerState] = useState(true);
+  const [ activeTrack, setActiveTrack] = useState({});
 
   useEffect(() => {
     setSpotifyToken(
@@ -18,12 +19,18 @@ const Dashboard = (props) => {
     )
   },[]);
 
-  const spotifyCallback = (state) => {
-    console.log('track', state);
-    window.spotify_active_song = state;
+  useEffect(() => {
+    console.log('active track set', activeTrack);
+  },[playerState]);
 
+  // useEffect(() => {
+  //   console.log('active track set', activeTrack);
+  // },[activeTrack]);
+
+  const spotifyCallback = (state) => {
     if(state.track.id !== '') {
       setPlayerState(true)
+      setActiveTrack(state.track);
     } else {
       setPlayerState(false)
     }
@@ -34,7 +41,7 @@ const Dashboard = (props) => {
       <div className="dashboard">
         <Sidebar></Sidebar>
         <div>
-          <Outlet />
+          <Outlet context={[activeTrack, setActiveTrack]}  />
         </div>
       </div>
       <div className="fixed-footer">
