@@ -138,9 +138,9 @@ const Lyrics = () => {
             show = <div className="track">
                         <div className="editor-wrapper">  
                             <div className="info">
-                                <h3 className="artist">
+                                <h2 className="artist">
                                     { savedSong.artist }
-                                </h3>
+                                </h2>
                                 <h1 className="title">
                                     { savedSong.title }
                                 </h1>
