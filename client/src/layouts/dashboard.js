@@ -21,7 +21,7 @@ const Dashboard = (props) => {
     if(songChanged) {
       window.localStorage.setItem('active', JSON.stringify(activeTrack));
       // window.location.reload();
-      // navigate(0);
+      navigate(0);
     }
   },[songChanged]);
 

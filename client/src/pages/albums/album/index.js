@@ -48,7 +48,7 @@ const Artist = () => {
     return (
         <>
             {  album && (
-            <div className='album-page'>
+            <div className='album page'>
                 <h1>{ album.name }</h1>
                 <div className='tracks'>
                     <h3>Tracks</h3>

@@ -46,7 +46,7 @@ class Artists extends React.Component {
             </div>)
         }
         else {
-            return <div>loading data</div>
+            return <div class="page">loading data</div>
         }
     }
 }
