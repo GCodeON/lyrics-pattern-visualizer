@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import SpotifyPlayer from 'react-spotify-web-playback';
 
@@ -11,14 +11,17 @@ const Dashboard = (props) => {
   const [ playerState, setPlayerState] = useState(true);
   const [ activeTrack, setActiveTrack] = useState({});
   const [ songChanged, setSongChange] = useState(false);
+  const navigate = useNavigate();
+  
   useEffect(() => {
     setSpotifyToken(localStorage.getItem('spotify_token'));
   },[]);
-  
+
   useEffect(() => {
     if(songChanged) {
       window.localStorage.setItem('active', JSON.stringify(activeTrack));
-      window.location.reload();
+      // window.location.reload();
+      // navigate(0);
     }
   },[songChanged]);
 
@@ -43,7 +46,7 @@ const Dashboard = (props) => {
     } else if(state.type == "track_update") {
       console.log('track');
       let previousTrack = JSON.parse(window.localStorage.getItem('active'));
-      compareTrack(previousTrack, state.track);
+      compareTrack(previousTrack ? previousTrack : {}, state.track);
     }
   }
 

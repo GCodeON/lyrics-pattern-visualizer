@@ -9,15 +9,16 @@ const Home = () => {
     const [currentArtist, setCurrentArtist] = useState([]);
     const [recentlyPlayed, setRecentlyPlayed]   = useState({});
 
-    const context = useOutletContext();
-
     useEffect(() => {
         let active = JSON.parse(window.localStorage.getItem('active'));
         if(active) {
             setCurrentlyPlaying(active);
-        } else {
-            setCurrentlyPlaying({});
         }
+        window.onstorage = () => {
+            console.log(JSON.parse(window.localStorage.getItem('active')));
+            let active = JSON.parse(window.localStorage.getItem('active'));
+            setCurrentlyPlaying(active);
+        };
     }, []);
 
     useEffect(() => {
