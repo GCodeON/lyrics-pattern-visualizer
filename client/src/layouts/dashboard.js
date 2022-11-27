@@ -14,25 +14,18 @@ const Dashboard = (props) => {
   useEffect(() => {
     setSpotifyToken(localStorage.getItem('spotify_token'));
   },[]);
-
+  
   useEffect(() => {
-    console.log('active track set', activeTrack);
-    window.localStorage.setItem('active', JSON.stringify(activeTrack));
-  },[playerState]);
-
-  useEffect(() => {
-    console.log('song changed');
     if(songChanged) {
-      console.log('song chnaged twice');
-      let previousTrack = JSON.parse(window.localStorage.getItem('active'));
-      // window.location.reload();
-      compareTrack(previousTrack, activeTrack)
+      window.localStorage.setItem('active', JSON.stringify(activeTrack));
+      window.location.reload();
     }
   },[songChanged]);
 
   function compareTrack(old, updated) {
     if(updated.name !== old.name) {
       console.log('different');
+      setActiveTrack(updated);
       setSongChange(true);
     } else {
       console.log('same');
@@ -41,31 +34,21 @@ const Dashboard = (props) => {
   }
 
   const spotifyCallback = (state) => {
-    console.log('state callback interval', state);
-    if(state.track.id !== '') {
-      setPlayerState(true)
-      if(state.track.name.length) {
-        window.localStorage.setItem('active', JSON.stringify(activeTrack));
-        setActiveTrack(state.track);
-
-        let previousTrack = JSON.parse(window.localStorage.getItem('active'));
-        if(previousTrack.name == state.track.name) {
-
-          setActiveTrack(state.track);
-          compareTrack(previousTrack, state);
-          setPlayerState(false)
-        }
-        // if(state.track.name !== previousTrack.name) {
-        //   setSongChange(true);
-        // }
-      }
-    } else {
-      setPlayerState(false)
+    if(state.type == "status_update" && state.status !== "ERROR" && state.status == "READY" ) {
+      console.log("ready");
+    } else if(state.type == "player_update") {
+      // console.log('player');
+    } else if(state.type == "device_update") {
+      // console.log('device');
+    } else if(state.type == "track_update") {
+      console.log('track');
+      let previousTrack = JSON.parse(window.localStorage.getItem('active'));
+      compareTrack(previousTrack, state.track);
     }
   }
 
   return (
-    <div className={classes}>
+    <div className="root-route">
       <div className="dashboard">
         <Sidebar></Sidebar>
         <div className="container">
@@ -82,7 +65,6 @@ const Dashboard = (props) => {
               persistDeviceSelection={true}
               syncExternalDevice={true}
               token={localStorage.getItem('spotify_token')}
-              play={true}
               styles={{
                 activeColor       : '#fff',
                 bgColor           : '#000',
