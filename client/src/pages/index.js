@@ -6,7 +6,7 @@ import './styles.scss';
 
 const Home = () => {
     const [currentlyPlaying, setCurrentlyPlaying] = useState({});
-    const [currentArtist, setCurrentArtist] = useState([]);
+    const [currentlyPlayingArtist, setCurrentlyPlayingArtist] = useState(null);
     const [recentlyPlayed, setRecentlyPlayed]   = useState({});
 
     useEffect(() => {
@@ -14,17 +14,12 @@ const Home = () => {
         if(active) {
             setCurrentlyPlaying(active);
         }
-        window.onstorage = () => {
-            console.log(JSON.parse(window.localStorage.getItem('active')));
-            let active = JSON.parse(window.localStorage.getItem('active'));
-            setCurrentlyPlaying(active);
-        };
     }, []);
 
     useEffect(() => {
         if(currentlyPlaying.artists) {
-            let artist = currentlyPlaying.artists[0].name;
-            setCurrentArtist(artist);
+            let artist = currentlyPlaying.artists[0];
+            setCurrentlyPlayingArtist(artist)
         }  
     }, [currentlyPlaying]);
 
@@ -53,7 +48,7 @@ const Home = () => {
 
     return (
         <div className="home page">
-            { currentArtist && (
+            { currentlyPlayingArtist && (
                 <div className="current">
                     <h3>Currently Playing</h3>
                     <Link 
@@ -64,8 +59,13 @@ const Home = () => {
                         <h1 className="track-name">
                             { currentlyPlaying.name }
                         </h1>
+                    </Link>
+                    <Link 
+                    className="link"
+                    to={`/artist/${currentlyPlayingArtist.id}`} 
+                    >
                         <h1 className="track-name">
-                            { currentArtist }
+                            { currentlyPlayingArtist.name }
                         </h1>
                     </Link>
                 </div>
