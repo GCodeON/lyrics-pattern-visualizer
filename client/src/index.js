@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom'
 axios.defaults.baseURL = 'http://localhost:3001';
 
 ReactDOM.render(
-  <BrowserRouter>
+  <BrowserRouter forceRefresh={true}>
     <App />
   </BrowserRouter>,
   document.getElementById('root')

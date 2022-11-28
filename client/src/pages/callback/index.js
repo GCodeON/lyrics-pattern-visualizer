@@ -1,18 +1,20 @@
-import { useLocation, Link, useSearchParams  } from 'react-router-dom';
+import { useLocation, Link, useSearchParams, useNavigate  } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import './styles.scss';
 
 const Callback = () => {
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (localStorage.getItem('spotify_token')) { 
-            window.location.replace("/songs");
+            // window.location.replace("/");
+              navigate('/');
         } else {
             const spotify_token = getTokenFromUrl().access_token;
             localStorage.setItem('spotify_token', spotify_token );
-            window.location.replace("/songs");
+            window.location.reload("/");
         }
     }, []);
 

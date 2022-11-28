@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useHistory } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import SpotifyPlayer from 'react-spotify-web-playback';
 
@@ -25,7 +25,7 @@ const Dashboard = (props) => {
       window.localStorage.setItem('active', JSON.stringify(activeTrack));
      if(currentPage.pathname == '/') {
       // navigate(0);
-      window.location.reload('/');
+      window.location.reload(false);
      }
     }
   },[songChanged]);

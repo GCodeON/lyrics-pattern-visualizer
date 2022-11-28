@@ -7,7 +7,9 @@
     justify-content: space-evenly;
 
     .title {
-        font-size: 36px;
+        // font-size: 36px;
+        font-size: 20px;
+        height: 75px;
     }
 
     li {
@@ -36,7 +38,7 @@
         justify-content : space-evenly;
         width           : 100%;
         align-items     : center;
-        max-width: 50em;
+        max-width       : 50em;
     }
 
 }
