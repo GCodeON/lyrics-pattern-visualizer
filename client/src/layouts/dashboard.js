@@ -24,7 +24,8 @@ const Dashboard = (props) => {
     if(songChanged) {
       window.localStorage.setItem('active', JSON.stringify(activeTrack));
      if(currentPage.pathname == '/') {
-      navigate(0);
+      // navigate(0);
+      window.location.reload('/');
      }
     }
   },[songChanged]);

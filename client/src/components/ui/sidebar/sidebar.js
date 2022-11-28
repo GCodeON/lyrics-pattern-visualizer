@@ -42,7 +42,9 @@ const Sidebar = () => {
         <div className="sidebar">
             <Login></Login>
             <div className="title">
-                <h4>DECODED</h4>
+                <Link to="/">
+                    <h1>DECODED</h1>
+                </Link> 
             </div>
             <div className="search">
                 <input 
