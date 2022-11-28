@@ -13,7 +13,7 @@ import { db } from '../../../utils/firebase-config';
 
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPlayCircle } from "react-icons/fa";
 
 import RhymeScheme from '../../../components/rhymeScheme'
 import './styles.scss';
@@ -95,6 +95,7 @@ const Lyrics = () => {
             console.log('Updated unsucessful');
         }
     }
+
     function saveSong (spotifyID, song) {
         console.log('song data', song);
         setDoc(doc(db, 'songs', spotifyID), song)
@@ -104,7 +105,6 @@ const Lyrics = () => {
             setLoading(false);
         })
     }
-    
 
     function getLyrics (track) {
         console.log('lyrics triggered');
@@ -143,7 +143,8 @@ const Lyrics = () => {
                                 </h2>
                                 <h1 className="title">
                                     { savedSong.title }
-                                </h1>
+                                </h1>       
+                                <FaPlayCircle className="play" onClick={() => togglePlay() }/>
                                 <FaEdit className="edit" onClick={() => toggleEdit() }/>
                             </div>
 
@@ -180,6 +181,12 @@ const Lyrics = () => {
 
         updateTrack(savedSong);
     }
+
+
+    function togglePlay() {
+        console.log('player play by song id');
+    }
+    
     return (
         <div className="lyrics">
             { loading ?  <div className="page">loading data</div> : displayLyrics()  }
