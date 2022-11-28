@@ -45,7 +45,7 @@ const Dashboard = (props) => {
     if(state.type == "status_update" && state.status !== "ERROR" && state.status == "READY" ) {
       console.log("ready");
     } else if(state.type == "player_update") {
-      // console.log('player');
+      console.log('player');
     } else if(state.type == "device_update") {
       // console.log('device');
     } else if(state.type == "track_update") {
