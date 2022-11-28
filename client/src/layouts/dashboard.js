@@ -18,10 +18,14 @@ const Dashboard = (props) => {
   },[]);
 
   useEffect(() => {
+    var currentPage = window.location;
+    console.log('page path', currentPage);
+
     if(songChanged) {
       window.localStorage.setItem('active', JSON.stringify(activeTrack));
-      // window.location.reload();
+     if(currentPage.pathname == '/') {
       navigate(0);
+     }
     }
   },[songChanged]);
 
