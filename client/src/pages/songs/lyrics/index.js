@@ -184,8 +184,14 @@ const Lyrics = () => {
 
 
     function togglePlay() {
-        console.log('player play by song id', songInfo, localStorage.getItem('spotify_token'));
-        axios.post(`/api/spotify/play`, songInfo )
+
+        let play = { 
+            song  : savedSong,
+            token : localStorage.getItem('spotify_token')
+        }
+        console.log('player play by song id',
+     );
+        axios.post(`/api/spotify/play`, play)
         .then((res) => {
             console.log('song playing');
         })
