@@ -13,7 +13,7 @@ const Artist = () => {
         axios.get(`/api/spotify/artist/${id}`)
         .then((spotifyArtist) => {
             setArtist(spotifyArtist.data);
-        })  
+        })
     }, []);
 
     useEffect(() => {
@@ -28,7 +28,9 @@ const Artist = () => {
 
     useEffect(() => {
       console.log('albums', albums)
+      setCenter();
     }, [albums]);
+
 
 
 
@@ -36,7 +38,7 @@ const Artist = () => {
         let list;
         if (albums) { 
             list =
-            <ul>
+            <ul id="albums">
                 {albums.map((album,index) => (
 
                     <Link 
@@ -66,7 +68,13 @@ const Artist = () => {
     }
 
 
-
+    function setCenter() {
+        // setTimeout(() => {
+        //     console.log('set center');
+        //     document.body.scrollLeft = (document.body.scrollWidth - document.body.clientWidth) / 2;
+        // }, 1000)
+        document.getElementById('albums').scrollIntoView({ inline: 'center' });
+    }
     return (
         <>
             {  artist && (
