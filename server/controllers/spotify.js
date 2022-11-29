@@ -9,6 +9,14 @@ exports.login = (req, res, next) => {
     })
 }
 
+exports.play = (req, res, next) => {
+    console.log('api play post', req.body);
+    Spotify.api(`/me/player/play`, req.body.play.token)
+    .then((data) => {
+        res.status(200).json(data); 
+    })
+}
+
 exports.search = (req, res, next) => {
     Spotify.api(`/search?q=${req.query.q}&type=artist,album,track`)
     .then((data) => {
