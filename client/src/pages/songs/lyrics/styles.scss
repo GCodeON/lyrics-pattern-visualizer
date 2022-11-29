@@ -57,6 +57,10 @@
         }
     }
     .sun-editor {
+        transition: all 1s;
+        @media screen and (min-width: 1024px) {   
+            min-width: 55em;
+         }
         .se-toolbar, .se-wrapper-wysiwyg  {
             background-color : black;
         }
