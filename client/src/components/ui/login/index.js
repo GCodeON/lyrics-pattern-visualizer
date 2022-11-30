@@ -35,10 +35,16 @@ const Login = () => {
         let icon;
         if (localStorage.getItem('spotify_token')) { 
             icon =
-            <FaUser className="icon" onClick={onLogout}/>
+            <div className='logout' onClick={onLogout}>
+                {/* <p className=''>Logout</p> */}
+                <FaUser className="icon"/>
+            </div>
         } else {
             icon =
-            <FaPowerOff className="icon" onClick={onLogin}/>
+            <div className='login' onClick={onLogin}>
+                {/* <p className=''>Login</p> */}
+                <FaPowerOff className="icon"/>
+            </div>
         }
 
         return icon;
