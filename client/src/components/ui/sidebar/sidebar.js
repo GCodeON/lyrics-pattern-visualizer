@@ -42,21 +42,10 @@ const Sidebar = () => {
         <div className="sidebar">
             <Login></Login>
             <div className="title">
-                <Link to="/">
+                <h1>DECODED</h1>
+                {/* <Link to="/">
                     <h1>DECODED</h1>
-                </Link> 
-            </div>
-            <div className="search">
-                <input 
-                    value={searchQuery} 
-                    onChange={changeHandler}  
-                    onKeyUp={handleKeyPress}
-                >
-                </input>
-                <FaSearch 
-                    className="icon" 
-                    onClick={searchHandler} 
-                />
+                </Link>  */}
             </div>
             <nav className="links">
                 <li>
@@ -72,6 +61,18 @@ const Sidebar = () => {
                     <Link to="/songs">Songs</Link> 
                 </li>
             </nav>
+            <div className="search">
+                <input 
+                    value={searchQuery} 
+                    onChange={changeHandler}  
+                    onKeyUp={handleKeyPress}
+                >
+                </input>
+                <FaSearch 
+                    className="icon" 
+                    onClick={searchHandler} 
+                />
+            </div>
         </div>
     );
     
