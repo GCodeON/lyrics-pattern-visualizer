@@ -7,4 +7,7 @@
     margin          : 1em;
     cursor          : pointer;
     top             : 20px;
+    @media screen and (min-width: 1024px) {   
+        right: 7em;
+    }
 }
