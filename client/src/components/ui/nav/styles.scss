@@ -1,0 +1,15 @@
+
+.links {
+    display         : flex;
+    justify-content : space-evenly;
+    width           : 100%;
+    align-items     : center;
+    max-width       : 50em;
+
+    @media screen and (min-width: 1024px) {   
+        flex-direction  : column;
+        // text-align      : left;
+        // align-items     : flex-start;
+        justify-content : space-around;
+    }
+}
