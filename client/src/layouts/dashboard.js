@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 
 import Sidebar from '../components/ui/sidebar/sidebar';
 import SpotifyWebPlayer from '../components/ui/spotify-player';
-import './dashboard.scss';
+import './styles.scss';
 
 const Dashboard = (props) => {
-  const classes =`${props.className ? props.className : ''}`;
+  // const classes =`${props.className ? props.className : ''}`;
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   
   useEffect(() => {
    

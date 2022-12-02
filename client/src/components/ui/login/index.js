@@ -51,9 +51,9 @@ const Login = () => {
     }
 
     return (
-        <div className="login">
+        <div className="settings">
+            { Spotify_User() }
             <Search></Search>
-           { Spotify_User() }
         </div>
     )
 

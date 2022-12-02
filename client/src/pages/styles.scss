@@ -5,7 +5,9 @@
     justify-content : center;
 }
 .home {
-    height: 50vh;
+    height          : 50vh;
+    justify-content : flex-end;
+    align-items     : center;
 }
 a {
     text-decoration : none;

@@ -9,21 +9,28 @@ const Search = () => {
     const navigate = useNavigate();
     const [search, setSearch] = useState({});
     const [searchQuery, setQuery] = useState('');
+    const [showInput, setShowInput] = useState(false);
 
     useEffect(() => {
     }, [searchQuery]);
 
     const searchHandler = () => {
-        let queryString = searchQuery.length > 1 ? `?q=${searchQuery}` :  '';
+        let queryString = searchQuery.length >= 1 ? `?q=${searchQuery}` :  '';
 
-        axios.get(`/api/spotify/search?q=${searchQuery}`)
-        .then((res) => {
-            if(res.data) {
-                setSearch(res.data);
-                setQuery('');
-                navigate(`/search${queryString}`, { state: res.data });
-            }
-        })
+        if(queryString) {
+            axios.get(`/api/spotify/search?q=${searchQuery}`)
+            .then((res) => {
+                if(res.data) {
+                    setSearch(res.data);
+                    setQuery('');
+                    navigate(`/search${queryString}`, { state: res.data });
+                }
+            })
+        }
+    }
+
+    function showOnClick() {
+        setShowInput(true);
     }
 
     const changeHandler = (evt) => {
@@ -35,18 +42,20 @@ const Search = () => {
             searchHandler();
         }
     }
+    
 
     return (
         <div className="search">
-            <input 
-                value={searchQuery} 
-                onChange={changeHandler}  
-                onKeyUp={handleKeyPress}
-            >
-            </input>
+            { showInput && (
+                <input 
+                    value={searchQuery} 
+                    onChange={changeHandler}  
+                    onKeyUp={handleKeyPress}
+                />
+            )}
             <FaSearch 
                 className="icon" 
-                onClick={searchHandler} 
+                onClick={showOnClick} 
             />
         </div>
     );
