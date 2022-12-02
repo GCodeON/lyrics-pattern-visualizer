@@ -138,13 +138,17 @@ const Lyrics = () => {
             show = <div className="track">
                         <div className="editor-wrapper">  
                             <div className="info">
-                                <h2 className="artist">
-                                    { savedSong.artist }
-                                </h2>
-                                <h1 className="title">
-                                    { savedSong.title }
-                                </h1>       
-                                <FaPlayCircle className="play" onClick={() => togglePlay() }/>
+                                <div className="header">
+                                    <div className='meta'>
+                                        <h2 className="artist">
+                                            { savedSong.artist }
+                                        </h2>
+                                        <h1 className="title">
+                                            { savedSong.title }
+                                        </h1>  
+                                    </div>     
+                                    <FaPlayCircle className="play" onClick={() => togglePlay() }/>
+                                </div>
                                 <FaEdit className="edit" onClick={() => toggleEdit() }/>
                             </div>
 

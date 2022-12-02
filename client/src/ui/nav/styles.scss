@@ -8,8 +8,11 @@
 
     @media screen and (min-width: 1024px) {   
         flex-direction  : column;
-        // text-align      : left;
-        // align-items     : flex-start;
         justify-content : space-around;
     }
+
+    svg {
+        padding: 0 10px;
+    }
+
 }

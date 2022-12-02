@@ -19,11 +19,12 @@ p {
 
 a, li {
     cursor: pointer;
-    transition: all 1s ease-out;
+    transition: all 0.5s ease-in-out;
 }
 
 ul {
     padding: 0;
+    list-style : none;
 }
 
 .page {
@@ -36,4 +37,10 @@ ul {
     bottom           : 0;
     width            : 100%;
     background-color : black;
+}
+
+
+a {
+    text-decoration : none;
+    color           : white;
 }
