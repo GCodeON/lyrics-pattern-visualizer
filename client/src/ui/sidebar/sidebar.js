@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import { FaHome, FaMusic, FaUserCircle, FaSearch } from "react-icons/fa";
-import Login from '../login/';
-import Nav from '../nav/';
+import Login from '../login';
+import Nav from '../nav';
 
 import './sidebar.scss';
 

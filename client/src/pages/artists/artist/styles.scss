@@ -5,6 +5,12 @@
     align-items     : center;
     height          : 65vh;
     justify-content : space-evenly;
+
+    @media screen and (min-width: 1024px) {   
+        height : 95vh;
+    }
+    
+
     .photo {
         border-radius : 100px;
         height        : 200px;

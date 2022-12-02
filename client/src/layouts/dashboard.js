@@ -1,8 +1,8 @@
 import { Outlet, useNavigate, useHistory } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 
-import Sidebar from '../components/ui/sidebar/sidebar';
-import SpotifyWebPlayer from '../components/ui/spotify-player';
+import Sidebar from '../ui/sidebar/sidebar';
+import SpotifyWebPlayer from '../ui/spotify-player';
 import './styles.scss';
 
 const Dashboard = (props) => {

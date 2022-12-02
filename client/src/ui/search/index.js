@@ -46,6 +46,10 @@ const Search = () => {
 
     return (
         <div className="search">
+            <FaSearch 
+                className="icon" 
+                onClick={showOnClick} 
+            />
             { showInput && (
                 <input 
                     value={searchQuery} 
@@ -53,10 +57,6 @@ const Search = () => {
                     onKeyUp={handleKeyPress}
                 />
             )}
-            <FaSearch 
-                className="icon" 
-                onClick={showOnClick} 
-            />
         </div>
     );
     
