@@ -9,11 +9,17 @@ const Dashboard = (props) => {
   // const classes =`${props.className ? props.className : ''}`;
 
   // const navigate = useNavigate();
-  
-  useEffect(() => {
-   
-  },[]);
+  const [ activeTrack, setActiveTrack] = useState({});
 
+  useEffect(() => {
+    console.log('dashboard updated track:', activeTrack);
+  },[activeTrack]);
+
+
+const getActive = (track) => {
+  // console.log('get active track on dashboard', track);
+  setActiveTrack(track);
+}
 
 
   return (
@@ -25,7 +31,7 @@ const Dashboard = (props) => {
         </div>
       </div>
       <div className="fixed-footer">
-        <SpotifyWebPlayer />
+        <SpotifyWebPlayer update={getActive} />
       </div>
     </div>
   )

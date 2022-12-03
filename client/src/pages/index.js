@@ -8,13 +8,23 @@ const Home = () => {
     const [currentlyPlaying, setCurrentlyPlaying] = useState({});
     const [currentlyPlayingArtist, setCurrentlyPlayingArtist] = useState(null);
     const [recentlyPlayed, setRecentlyPlayed]   = useState({});
+    const [activeTrack, setActiveTrack]  = useState({});
+    useEffect(() => {
+        setActiveTrack(JSON.parse(window.localStorage.getItem('active')));
+    }, []);
 
     useEffect(() => {
-        let active = JSON.parse(window.localStorage.getItem('active'));
-        if(active) {
-            setCurrentlyPlaying(active);
-        }
-    }, []);
+        setCurrentlyPlaying(activeTrack);
+        // if(activeTrack) {
+        //     setCurrentlyPlaying(activeTrack);
+        // } else {
+        //     axios.get(`/api/spotify/player`)
+        //     .then((res) => {
+        //         console.log('player state from post backend', res);
+        //         setActiveTrack(res.data.item);
+        //     })
+        // }
+    }, [activeTrack]);
 
     useEffect(() => {
         if(currentlyPlaying.artists) {

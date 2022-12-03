@@ -32,6 +32,7 @@ exports.searchArtist = (req, res, next) => {
 }
 
 exports.playerState = (req, res, next) => {
+    console.log('api play post', req.body);
     Spotify.api(`/me/player`)
     .then((data) => {
         res.status(200).json(data); 

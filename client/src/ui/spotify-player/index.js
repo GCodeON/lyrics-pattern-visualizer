@@ -14,6 +14,7 @@ const SpotifyWebPlayer = (props) => {
   
   useEffect(() => {
     setSpotifyToken(localStorage.getItem('spotify_token'));
+    console.log('get props', props);
   },[]);
 
   useEffect(() => {
@@ -22,10 +23,11 @@ const SpotifyWebPlayer = (props) => {
 
     if(songChanged) {
       window.localStorage.setItem('active', JSON.stringify(activeTrack));
-     if(currentPage.pathname == '/') {
-      navigate(0);
-      // window.location.reload();
-     }
+    //  if(currentPage.pathname == '/') {
+    //   navigate(0);
+    //   // window.location.reload();
+    //  }
+      props.update(activeTrack);
     }
   },[songChanged]);
 
@@ -41,10 +43,12 @@ const SpotifyWebPlayer = (props) => {
   }
 
   const spotifyCallback = (state) => {
+    console.log('state', state);
     if(state.type == "status_update" && state.status !== "ERROR" && state.status == "READY" ) {
       console.log("ready");
     } else if(state.type == "player_update") {
-      console.log('player');
+      console.log('player', state);
+      // props.update()
     } else if(state.type == "device_update") {
       // console.log('device');
     } else if(state.type == "track_update") {
@@ -60,7 +64,7 @@ const SpotifyWebPlayer = (props) => {
           <SpotifyPlayer
             name={'DECODED Web Player'}
             callback={(state) => spotifyCallback(state)}
-            syncExternalDeviceInterval={5}
+            syncExternalDeviceInterval={10}
             persistDeviceSelection={true}
             syncExternalDevice={true}
             token={localStorage.getItem('spotify_token')}

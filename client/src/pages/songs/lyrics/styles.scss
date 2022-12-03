@@ -1,6 +1,11 @@
 .lyrics {
     margin    : 1em auto;
-    max-width : 70em;
+    max-width : fit-content;
+    @media screen and (min-width: 1024px) {   
+        max-width : 85em;
+        margin-bottom: 20px;
+    }
+
     .tracks {
         min-height          : 300px;
         background-size     : cover;
