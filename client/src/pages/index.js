@@ -27,7 +27,7 @@ const Home = () => {
     }, [activeTrack]);
 
     useEffect(() => {
-        if(currentlyPlaying.artists) {
+        if(currentlyPlaying && currentlyPlaying.artists) {
             let artist = currentlyPlaying.artists[0];
             setCurrentlyPlayingArtist(artist)
         }  
