@@ -11,7 +11,7 @@ exports.login = (req, res, next) => {
 
 exports.play = (req, res, next) => {
     console.log('api play post', req.body);
-    Spotify.api(`/me/player/play`, req.body.play.token)
+    Spotify.api(`/me/player/play`, req.body.token)
     .then((data) => {
         res.status(200).json(data); 
     })

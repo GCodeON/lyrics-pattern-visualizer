@@ -23,10 +23,10 @@ const SpotifyWebPlayer = (props) => {
 
     if(songChanged) {
       window.localStorage.setItem('active', JSON.stringify(activeTrack));
-    //  if(currentPage.pathname == '/') {
-    //   navigate(0);
-    //   // window.location.reload();
-    //  }
+     if(currentPage.pathname == '/') {
+      navigate(0);
+      // window.location.reload();
+     }
       props.update(activeTrack);
     }
   },[songChanged]);
@@ -67,7 +67,7 @@ const SpotifyWebPlayer = (props) => {
             syncExternalDeviceInterval={10}
             persistDeviceSelection={true}
             syncExternalDevice={true}
-            token={localStorage.getItem('spotify_token')}
+            token={spotifyToken}
             styles={{
               activeColor       : '#fff',
               bgColor           : '#000',

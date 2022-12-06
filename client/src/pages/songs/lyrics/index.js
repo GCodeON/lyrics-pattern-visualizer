@@ -190,14 +190,12 @@ const Lyrics = () => {
     function togglePlay() {
 
         let play = { 
-            song  : savedSong,
-            token : localStorage.getItem('spotify_token')
+           uris  : [`spotify:track:${savedSong.spotify}`]
         }
-        console.log('player play by song id',
-     );
-        axios.post(`/api/spotify/play`, play)
+
+        axios.put(`https://api.spotify.com/v1/me/player/play`, play)
         .then((res) => {
-            console.log('song playing');
+            console.log('song playing', res);
         })
     }
     
