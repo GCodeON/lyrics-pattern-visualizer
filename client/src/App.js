@@ -6,6 +6,7 @@ import './App.scss';
 import Callback from './pages/callback/';
 import Search from './pages/search/';
 import Home from './pages/index';
+import Auth from './pages/auth';
 import Artists from './pages/artists';
 import Artist from './pages/artists/artist/';
 import Songs from './pages/songs';
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />}>
           <Route index  element={<Home />} />
+          <Route path="/login" element={<Auth />} />
           <Route path="/callback" element={<Callback />} />
           <Route path="/search" element={<Search />} />
           <Route path="/artists" element={<Artists />} />

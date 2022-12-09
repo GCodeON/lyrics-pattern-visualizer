@@ -2,7 +2,6 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaPowerOff } from "react-icons/fa";
 
-import Search from '../search';
 import  './styles.scss';
 
 const Login = () => {
@@ -53,7 +52,6 @@ const Login = () => {
     return (
         <div className="settings">
             { Spotify_User() }
-            <Search></Search>
         </div>
     )
 

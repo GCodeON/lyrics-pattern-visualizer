@@ -8,10 +8,10 @@ const Nav = () => {
 
     return (
         <nav className="links">
-            <li>
+            {/* <li>
                 <FaHome/>
                 <Link to="/">Home</Link>
-            </li>
+            </li> */}
             <li>
                 <FaUserCircle />
                 <Link to="/artists">Artists</Link> 
