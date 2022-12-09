@@ -16,6 +16,7 @@ const Callback = () => {
             localStorage.setItem('spotify_token', spotify_token );
             window.location.reload("/");
         }
+        localStorage.setItem('authorized', { logged: true});
     }, []);
 
     const getTokenFromUrl = () => {

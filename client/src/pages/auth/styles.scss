@@ -1,12 +1,5 @@
-.search-page {
-    flex-direction  : column;
-    align-items     : normal;
+.auth {
+    min-height      : 50vh;
+    justify-content : center;
     display         : flex;
-    text-align      : center;
-    .results {
-        display         : flex;
-        justify-content : space-evenly;
-        text-align      : left;
-        min-height      : 100vh;
-    }
 }

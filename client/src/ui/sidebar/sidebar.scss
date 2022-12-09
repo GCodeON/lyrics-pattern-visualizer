@@ -3,12 +3,12 @@
     display         : flex;
     flex-direction  : column;
     align-items     : center;
-    height          : 125px;
+    // height          : 125px;
     justify-content: space-evenly;
 
-    @media screen and (min-width: 1024px) {   
-        height : 150px;
-    }
+    // @media screen and (min-width: 1024px) {   
+    //     height : 150px;
+    // }
 
     .title {
         @media screen and (min-width: 1024px) {   

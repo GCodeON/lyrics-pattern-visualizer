@@ -36,7 +36,7 @@ const getActive = (track) => {
             <Link to="/">
               <h1 className="title">DECODED</h1>
             </Link>
-            <Hamburger toggled={isOpen} toggle={setOpen}  />
+            <Hamburger toggled={isOpen} toggle={setOpen} rounded />
         </div>
         { isOpen && (
           <Sidebar></Sidebar>
