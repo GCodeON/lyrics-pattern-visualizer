@@ -18,6 +18,7 @@ class Artists extends React.Component {
     componentDidMount() {
         axios.get(`/api/spotify/top-artists`)
         .then((res) => {
+            console.log('response', res)
             this.setState({
                 artists : res.data.items
 
@@ -46,7 +47,7 @@ class Artists extends React.Component {
             </div>)
         }
         else {
-            return <div class="page">loading data</div>
+            return <div className="page">loading data</div>
         }
     }
 }

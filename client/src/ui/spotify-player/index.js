@@ -34,7 +34,6 @@ const SpotifyWebPlayer = (props) => {
   function compareTrack(old, updated) {
     if(updated.name !== old.name) {
       console.log('different');
-      setActiveTrack(updated);
       setSongChange(true);
     } else {
       console.log('same');
