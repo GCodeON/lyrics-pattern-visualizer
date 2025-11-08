@@ -42,6 +42,7 @@ exports.playerState = (req, res, next) => {
 exports.topArtists = (req, res, next) => {
     Spotify.api(`/me/top/artists`)
     .then((data) => {
+        console.log('top artists', data);
         res.status(200).json(data); 
     })
 }

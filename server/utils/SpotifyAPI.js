@@ -42,7 +42,7 @@ const getAccessToken = async () => {
     },
     body: querystring.stringify({
       grant_type    : 'refresh_token',
-      refresh_token : process.env.SPOTIFY_REFRESH_TOKEN
+      // refresh_token : process.env.SPOTIFY_REFRESH_TOKEN
     }),
   });
 
@@ -50,11 +50,11 @@ const getAccessToken = async () => {
 };
 
 const connect = async (endpoint, token) => {
-  const { access_token } = await getAccessToken();
+  // const { access_token } = await getAccessToken();
 
   return fetch(`${spotifyAPI}${endpoint}`, {
     headers: {
-      Authorization : `Bearer ${ token ? token : access_token }`,
+      Authorization : `Bearer ${process.env.SPOTIFY_ACCESS_TOKEN}`,
     },
   });
 };

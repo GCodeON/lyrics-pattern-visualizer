@@ -12,10 +12,10 @@ const db = require("./database/mongodb");
 const routes = require('./routes/index');
 
 app.use('/api/spotify', routes.spotify);
-app.use('/api/genius', routes.genius);
+// app.use('/api/genius', routes.genius);
 app.use('/api/musixmatch', routes.musixmatch);
 
-app.use('/api/songs', routes.songs);
+// app.use('/api/songs', routes.songs);
 
 app.listen(PORT, () => {
     db.connectToServer((err) => {

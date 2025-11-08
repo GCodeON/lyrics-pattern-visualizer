@@ -16,9 +16,9 @@ exports.trackLyrics = (req, res, next) => {
     console.log("lyrics query", req.query.track);
     Musixmatch.api(`track.search?q_track=${encodeURI(req.query.track)}&q_artist=${encodeURI(req.query.artist)}`)
     .then((data) => {
-        console.log('tracks', data.message.body.track_list);
+
         let tracks = data.message.body.track_list;
-        if(tracks.length > 0) {
+        if(tracks && tracks.length > 0) {
             let track = tracks[0].track;
             console.log('searched track', track);
             if(track.has_lyrics) {
@@ -31,6 +31,8 @@ exports.trackLyrics = (req, res, next) => {
                     res.status(400).json(error); 
                 })  
             }
+        } else {
+            res.status(400).json('lyrics not found'); 
         }
     })
 }
